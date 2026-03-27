@@ -1,0 +1,314 @@
+lot_id,lot_number,auction_id,auction_title,auction_date,auction_location,sale_type,artist_name,artist_birth_year,artist_death_year,title,medium_raw,medium_category,height_cm,width_cm,year_created,is_signed,is_dated,provenance_text,provenance_count,literature_text,literature_count,exhibited_text,exhibition_count,estimate_low_usd,estimate_high_usd,estimate_currency,hammer_price_usd,hammer_currency,is_sold,is_withdrawn,image_url,lot_url
+-462614697,22,,Modern American Art ,2026-04-16T14:00Z,New York,live,MILTON AVERY,1885.0,1965.0,Green Chair,,unknown,,,,False,False,,0,,0,,0,500000.0,700000.0,USD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578764
+-781207217,60,,Modern American Art ,2026-04-16T14:00Z,New York,live,HANS HOFMANN,1880.0,1966.0,Atelier (Still Life: Table with White Vase),,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578802
+1236362297,106,,20th Century Day Sale,2026-03-28T05:30Z,Hong Kong,live,CLAUDE MONET,1840.0,1926.0,La Seine à Port-Villez,,unknown,,,,False,False,,0,,0,,0,192000.0,320000.0,HKD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578222
+7954762391,114,,20th Century Day Sale,2026-03-28T05:30Z,Hong Kong,live,"ZAO WOU-KI (ZHAO WUJI, 1920-2013)",,,18.03.63 ,,unknown,,,,False,False,,0,,0,,0,1408000.0,2304000.0,HKD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578230
+-412038211,116,,20th Century Day Sale,2026-03-28T05:30Z,Hong Kong,live,"CHU TEH-CHUN (ZHU DEQUN, 1920-2014)",,,No. 223,,unknown,,,,False,False,,0,,0,,0,256000.0,512000.0,HKD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578232
+-238650460,10,,20th/21st Century Evening Sale,2026-03-27T11:00Z,Hong Kong,live,JEAN-MICHEL BASQUIAT,1960.0,1988.0,Untitled,,unknown,,,,False,False,,0,,0,,0,2304000.0,3584000.0,HKD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578129
+-111683512,32,,20th/21st Century Evening Sale,2026-03-27T11:00Z,Hong Kong,live,LEE UFAN (B. 1936),,,From Line,,unknown,,,,False,False,,0,,0,,0,1024000.0,1536000.0,HKD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6578151
+-790381401,823,,Important Chinese Art,2026-03-26T13:00Z,New York,live,A VERY RARE AND IMPORTANT GILT-BRONZE FIGURE OF A STRIDING DRAGON,,,TANG DYNASTY (AD 618-907),,unknown,,,,False,False,,0,,0,,0,150000.0,250000.0,USD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6575762
+-178454833,829,,Important Chinese Art,2026-03-26T13:00Z,New York,live,A GILT-BRONZE FIGURE OF MAITREYA,,,YONGLE SIX-CHARACTER NIANSHI MARK INCISED IN A LINE AND OF THE PERIOD (1403-1425),,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,0.0,USD,True,False,,https://www.christies.com/en/lot/lot-6575768
+-785132897,325,,South Asian Modern + Contemporary Art,2026-03-25T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Flowers,,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,215900.0,USD,True,False,,https://www.christies.com/en/lot/lot-6575887
+5325468300,327,,South Asian Modern + Contemporary Art,2026-03-25T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Landscape,,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,127000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6575889
+-848595643,366,,South Asian Modern + Contemporary Art,2026-03-25T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Reclining Nude),,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,393700.0,USD,True,False,,https://www.christies.com/en/lot/lot-6575928
+8113403628,701,,South Asian Modern + Contemporary Art ,2025-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Seated Nude),,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,107950.0,USD,True,False,,https://www.christies.com/en/lot/lot-6547991
+-840999222,752,,South Asian Modern + Contemporary Art ,2025-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Girl in a Dressing-Gown,,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,520700.0,USD,True,False,,https://www.christies.com/en/lot/lot-6548042
+-441633567,773,,South Asian Modern + Contemporary Art ,2025-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Landscape),,unknown,,,,False,False,,0,,0,,0,40000.0,60000.0,USD,107950.0,USD,True,False,,https://www.christies.com/en/lot/lot-6548063
+-581521841,748,,South Asian Modern + Contemporary Art ,2025-03-19T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (After Head of a Man with a Pipe),,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,378000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6525339
+-184220137,753,,South Asian Modern + Contemporary Art ,2025-03-19T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Woman and Mirror),,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,529200.0,USD,True,False,,https://www.christies.com/en/lot/lot-6525354
+-274747119,781,,South Asian Modern + Contemporary Art ,2025-03-19T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Beauty Queen doing the Kicks,,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,81900.0,USD,True,False,,https://www.christies.com/en/lot/lot-6525412
+-332801920,601,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Church),,unknown,,,,False,False,,0,,0,,0,20000.0,30000.0,USD,163800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495126
+9389753662,603,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Standing Nude),,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,100800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495128
+3398340688,604,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Figures),,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,138600.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495129
+7587521646,606,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Bearded Man),,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,176400.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495131
+-740200008,634,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Still Life with Relics,,unknown,,,,False,False,,0,,0,,0,180000.0,250000.0,USD,478800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495159
+7006091265,646,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Landscape in Red,,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,277200.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495171
+3795809455,687,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Landscape),,unknown,,,,False,False,,0,,0,,0,150000.0,250000.0,USD,189000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495212
+4030451211,705,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Man in Tunic),,unknown,,,,False,False,,0,,0,,0,70000.0,100000.0,USD,151200.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495230
+1353479488,707,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Heads),,unknown,,,,False,False,,0,,0,,0,20000.0,30000.0,USD,107100.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495232
+2358778667,708,,South Asian Modern + Contemporary Art,2024-09-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Self Portrait),,unknown,,,,False,False,,0,,0,,0,25000.0,35000.0,USD,163800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6495233
+8529092963,604,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Head of a Man,,unknown,,,,False,False,,0,,0,,0,150000.0,250000.0,USD,504000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471580
+2602439727,605,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,The Lovers,,unknown,,,,False,False,,0,,0,,0,700000.0,1000000.0,USD,4890000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471581
+4378233999,606,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Head of a Cardinal),,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,630000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471582
+5310006366,607,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Girl in a Cardigan,,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,485100.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471583
+-768908824,642,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Landscape of Hampstead, London",,unknown,,,,False,False,,0,,0,,0,70000.0,100000.0,USD,302400.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471618
+-163206723,656,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Girl with Two Men; Untitled (Study for Girl with Two Men),,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,352800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471632
+-756168480,678,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Priest with Chalice,,unknown,,,,False,False,,0,,0,,0,500000.0,700000.0,USD,3922000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471654
+-411517596,683,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Men in Boats,,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,693000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471659
+-689967175,684,,South Asian Modern + Contemporary Art Including Works from the Collection of Umesh and Sunanda Gaur,2024-03-20T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,The Naked Family (Bombay Beggars),,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,201600.0,USD,True,False,,https://www.christies.com/en/lot/lot-6471660
+-752123447,709,,South Asian Modern + Contemporary Art,2023-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Townscape),,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,504000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6441509
+-119115784,717,,South Asian Modern + Contemporary Art,2023-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,St. Stephen (Homage to Stephen Spender),,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,327600.0,USD,True,False,,https://www.christies.com/en/lot/lot-6441517
+2055769271,719,,South Asian Modern + Contemporary Art,2023-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Church on a Hill),,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,945000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6441519
+-827787840,737,,South Asian Modern + Contemporary Art,2023-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Landscape with Church),,unknown,,,,False,False,,0,,0,,0,20000.0,30000.0,USD,119700.0,USD,True,False,,https://www.christies.com/en/lot/lot-6441537
+-694052981,740,,South Asian Modern + Contemporary Art,2023-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Landscape,,unknown,,,,False,False,,0,,0,,0,80000.0,120000.0,USD,239400.0,USD,True,False,,https://www.christies.com/en/lot/lot-6441540
+-760926031,505,,South Asian Modern + Contemporary Art,2023-03-22T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Figures in a Landscape, Freeport, Bahamas",,unknown,,,,False,False,,0,,0,,0,50000.0,70000.0,USD,94500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6416574
+-744250039,506,,South Asian Modern + Contemporary Art,2023-03-22T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"View from Crawford Market, Bombay",,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,1740000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6416575
+-910522667,525,,South Asian Modern + Contemporary Art,2023-03-22T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Head),,unknown,,,,False,False,,0,,0,,0,50000.0,70000.0,USD,220500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6416594
+-841134083,633,,South Asian Modern + Contemporary Art,2022-09-21T16:30Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Head of King,,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,327600.0,USD,True,False,,https://www.christies.com/en/lot/lot-6388471
+2489613121,644,,South Asian Modern + Contemporary Art,2022-09-21T16:30Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,The Apocalypse,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,567000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6388482
+8715240836,652,,South Asian Modern + Contemporary Art,2022-09-21T16:30Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Hillside Landscape),,unknown,,,,False,False,,0,,0,,0,80000.0,120000.0,USD,302400.0,USD,True,False,,https://www.christies.com/en/lot/lot-6388490
+8748190783,638,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Nude with Garters),,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,214200.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359096
+-535164066,642,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Mad Prophet in New York,,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,1033200.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359100
+-418291748,645,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Cityscape),,unknown,,,,False,False,,0,,0,,0,40000.0,60000.0,USD,88200.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359103
+9153196507,646,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Landscape with Houses),,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,239400.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359104
+-336110252,647,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Roman Landscape),,unknown,,,,False,False,,0,,0,,0,180000.0,250000.0,USD,428400.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359105
+5640308274,648,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Sitting Nude),,unknown,,,,False,False,,0,,0,,0,150000.0,250000.0,USD,226800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359106
+7597172892,650,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Reclining Nude),,unknown,,,,False,False,,0,,0,,0,70000.0,90000.0,USD,541800.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359108
+4391726546,658,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Still Life,,unknown,,,,False,False,,0,,0,,0,400000.0,600000.0,USD,2160000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359116
+-903502854,659,,South Asian Modern + Contemporary Art Including Works from the Collection of Mahinder and Sharad Tak,2022-03-23T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Head),,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,189000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6359117
+-362584990,630,,South Asian Modern + Contemporary Art,2021-09-22T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Head of a Woman,,unknown,,,,False,False,,0,,0,,0,150000.0,250000.0,USD,212500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6334236
+-523947589,1011,,South Asian Modern + Contemporary Art Including Works by Benodebehari Mukherjee from the Mrinalini Mukherjee Foundation,2021-03-17T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Man in Blue Tunic),,unknown,,,,False,False,,0,,0,,0,150000.0,250000.0,USD,187500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6307699
+-196784222,1012,,South Asian Modern + Contemporary Art Including Works by Benodebehari Mukherjee from the Mrinalini Mukherjee Foundation,2021-03-17T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Family,,unknown,,,,False,False,,0,,0,,0,450000.0,600000.0,USD,822000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6307700
+-470070868,1028,,South Asian Modern + Contemporary Art Including Works by Benodebehari Mukherjee from the Mrinalini Mukherjee Foundation,2021-03-17T15:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Landscape),,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,150000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6307716
+3904717668,520,,South Asian Modern + Contemporary Art ,2020-09-23T15:30Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Standing Nude with Folded Arms,,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,150000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6277046
+-752363620,439,,A Lasting Engagement: The Jane and Kito de Boer Collection,2020-09-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Seated Woman),,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,237500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6254918
+-427870904,477,,A Lasting Engagement: The Jane and Kito de Boer Collection,2020-09-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Woman in Garters),,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,118750.0,USD,True,False,,https://www.christies.com/en/lot/lot-6254956
+6191776264,168,,South Asian Modern + Contemporary Art ,2019-09-11T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Nude,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,175000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6222358
+-646162319,176,,South Asian Modern + Contemporary Art ,2019-09-11T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Head in Landscape,,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,471000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6222366
+1245294802,195,,South Asian Modern + Contemporary Art ,2019-09-11T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Head of a Woman,,unknown,,,,False,False,,0,,0,,0,180000.0,250000.0,USD,350000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6222384
+-857953387,222,,South Asian Modern + Contemporary Art ,2019-09-11T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Townscape,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,237500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6222410
+-731712654,21,,South Asian Modern + Contemporary Art,2019-06-11T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Landscape in Red,,unknown,,,,False,False,,0,,0,,0,192000.0,256000.0,GBP,208000.0,GBP,True,False,,https://www.christies.com/en/lot/lot-6212728
+4243600247,52,,South Asian Modern + Contemporary Art,2019-06-11T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (The Prophet),,unknown,,,,False,False,,0,,0,,0,384000.0,640000.0,GBP,398400.0,GBP,True,False,,https://www.christies.com/en/lot/lot-6212759
+9027503798,411,,South Asian Modern + Contemporary Art,2019-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Nude,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,156250.0,USD,True,False,,https://www.christies.com/en/lot/lot-6192206
+3348227377,412,,South Asian Modern + Contemporary Art,2019-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,The Promise 2,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,162500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6192207
+-436553329,426,,South Asian Modern + Contemporary Art,2019-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Black Landscape,,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,112500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6192220
+-375583869,439,,South Asian Modern + Contemporary Art,2019-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Still Life with Chalice and Host,,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,156250.0,USD,True,False,,https://www.christies.com/en/lot/lot-6192233
+8829848192,216,,South Asian Modern + Contemporary Art,2018-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Mountain Landscape,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,212500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6158237
+-349884973,233,,South Asian Modern + Contemporary Art,2018-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Jesting Pilate,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,612500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6158253
+5686102792,255,,South Asian Modern + Contemporary Art,2018-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,The Jealous Lover,,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,444500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6158274
+-823044112,284,,South Asian Modern + Contemporary Art,2018-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Winter Landscape,,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,218750.0,USD,True,False,,https://www.christies.com/en/lot/lot-6158303
+8618458139,285,,South Asian Modern + Contemporary Art,2018-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Still Life with Fish),,unknown,,,,False,False,,0,,0,,0,180000.0,250000.0,USD,250000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6158304
+-685230862,287,,South Asian Modern + Contemporary Art,2018-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Still Life with Flowers),,unknown,,,,False,False,,0,,0,,0,180000.0,220000.0,USD,200000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6158306
+2457265606,14,,South Asian Modern + Contemporary Art,2018-06-12T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Artist's Studio, Hampstead)",,unknown,,,,False,False,,0,,0,,0,159600.0,239400.0,GBP,362757.5,GBP,True,False,,https://www.christies.com/en/lot/lot-6142242
+-703422043,64,,South Asian Modern + Contemporary Art,2018-06-12T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Oklahoma City,,unknown,,,,False,False,,0,,0,,0,93100.0,119700.0,GBP,216125.0,GBP,True,False,,https://www.christies.com/en/lot/lot-6142292
+7622829888,210,,South Asian Modern + Contemporary Art,2018-03-21T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Standing Nude in City Background,,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,150000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6129225
+2169243705,229,,South Asian Modern + Contemporary Art,2018-03-21T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Head in a Landscape,,unknown,,,,False,False,,0,,0,,0,220000.0,280000.0,USD,324500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6129244
+6096650956,243,,South Asian Modern + Contemporary Art,2018-03-21T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Young Ladies from Belsize Park,,unknown,,,,False,False,,0,,0,,0,180000.0,250000.0,USD,250000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6129258
+-779749179,264,,South Asian Modern + Contemporary Art,2018-03-21T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,The Politicians,,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,444500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6129279
+5039902192,430,,South Asian Modern + Contemporary Art,2017-09-13T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Supper at Emmaus,,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,87500.0,USD,True,False,,https://www.christies.com/en/lot/lot-6095536
+5903510712,14,,South Asian Modern + Contemporary Art,2017-05-25T13:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Lady in Tunic),,unknown,,,,False,False,,0,,0,,0,103200.0,154800.0,GBP,137062.5,GBP,True,False,,https://www.christies.com/en/lot/lot-6072689
+8604555307,31,,South Asian Modern + Contemporary Art,2017-05-25T13:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Nude Standing in Front of Brocade),,unknown,,,,False,False,,0,,0,,0,90300.0,116100.0,GBP,112875.0,GBP,True,False,,https://www.christies.com/en/lot/lot-6072706
+3489472237,121,,The India Sale - South Asian Modern + Contemporary Art,2016-12-18T13:30Z,Mumbai,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Head),,unknown,,,,False,False,,0,,0,,0,89400.0,119200.0,INR,219402.5,INR,True,False,,https://www.christies.com/en/lot/lot-6053268
+2436151675,641,,South Asian Modern + Contemporary Art,2016-09-14T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Man and Woman ,,unknown,,,,False,False,,0,,0,,0,300000.0,400000.0,USD,317000.0,USD,True,False,,https://www.christies.com/en/lot/lot-6019282
+-869460627,62,,South Asian Modern + Contemporary Art,2016-05-26T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Untitled (Hampstead) ,,unknown,,,,False,False,,0,,0,,0,108800.0,163200.0,GBP,215560.0,GBP,True,False,,https://www.christies.com/en/lot/lot-5995279
+1827040928,12,,The India Sale,2015-12-15T12:30Z,Mumbai,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Head of a Woman 
+",,unknown,,,,False,False,,0,,0,,0,94800.0,126400.0,INR,117315.0,INR,True,False,,https://www.christies.com/en/lot/lot-5959017
+6934778561,709,,South Asian Modern + Contemporary Art ,2015-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Birth,,unknown,,,,False,False,,0,,0,,0,2200000.0,2800000.0,USD,4085000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5927309
+-120907498,744,,South Asian Modern + Contemporary Art ,2015-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Barbara in the Bahamas,,unknown,,,,False,False,,0,,0,,0,40000.0,60000.0,USD,87500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5927344
+-398917968,745,,South Asian Modern + Contemporary Art ,2015-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Indian Girl ,,unknown,,,,False,False,,0,,0,,0,220000.0,300000.0,USD,221000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5927345
+-443831402,772,,South Asian Modern + Contemporary Art ,2015-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,Still Life with Bread and Fish,,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,233000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5927372
+-830204320,75,,South Asian Modern + Contemporary Art,2015-06-10T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape)
+",,unknown,,,,False,False,,0,,0,,0,45900.0,76500.0,GBP,86062.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5895318
+7335984063,76,,South Asian Modern + Contemporary Art,2015-06-10T13:30Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Still Life)
+",,unknown,,,,False,False,,0,,0,,0,45900.0,76500.0,GBP,178245.0,GBP,True,False,,https://www.christies.com/en/lot/lot-5906628
+5327112460,22,,The India Sale,2014-12-11T13:30Z,Mumbai,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,96000.0,144000.0,INR,139500.0,INR,True,False,,https://www.christies.com/en/lot/lot-5850615
+-752630072,44,,The India Sale,2014-12-11T13:30Z,Mumbai,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Indian Family) 
+",,unknown,,,,False,False,,0,,0,,0,552000.0,744000.0,INR,1082700.0,INR,True,False,,https://www.christies.com/en/lot/lot-5850637
+4330961484,7,,The India Sale,2014-12-11T13:30Z,Mumbai,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Front-Back Nude 
+",,unknown,,,,False,False,,0,,0,,0,180000.0,300000.0,INR,189900.0,INR,True,False,,https://www.christies.com/en/lot/lot-5850600
+6415843037,416,,A Pioneering Vision: Works from the Collection of Shumita and Arani Bose,2014-09-17T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"The Butcher
+",,unknown,,,,False,False,,0,,0,,0,1500000.0,2000000.0,USD,1685000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5823602
+-148302046,46,,South Asian Modern + Contemporary Art,2014-06-11T13:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"View From The Studio
+",,unknown,,,,False,False,,0,,0,,0,127000.0,190500.0,GBP,155575.0,GBP,True,False,,https://www.christies.com/en/lot/lot-5807428
+-571551590,53,,South Asian Modern + Contemporary Art,2014-06-11T13:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Flowers in a Blue Vase
+",,unknown,,,,False,False,,0,,0,,0,31750.0,44450.0,GBP,66675.0,GBP,True,False,,https://www.christies.com/en/lot/lot-5807435
+-410886471,147,,"Francis Newton and Maria Souza: A Life Partnership in Art, The Shelley Souza Collection",2014-03-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Flowers 
+",,unknown,,,,False,False,,0,,0,,0,25000.0,35000.0,USD,87500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5776584
+5737383879,73,,"Francis Newton and Maria Souza: A Life Partnership in Art, The Shelley Souza Collection",2014-03-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Head) 
+",,unknown,,,,False,False,,0,,0,,0,80000.0,120000.0,USD,167000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5776510
+-610212526,79,,"Francis Newton and Maria Souza: A Life Partnership in Art, The Shelley Souza Collection",2014-03-18T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,149000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5776516
+4805614356,113,,South Asian Modern + Contemporary Art,2013-09-17T18:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Landscape with Turret 
+",,unknown,,,,False,False,,0,,0,,0,50000.0,70000.0,USD,85000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5717621
+7370143233,131,,South Asian Modern + Contemporary Art,2013-09-17T18:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Pietà 
+",,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,327750.0,USD,True,False,,https://www.christies.com/en/lot/lot-5717639
+1709015249,180,,South Asian Modern + Contemporary Art,2013-09-17T18:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (St. Sebastian) 
+",,unknown,,,,False,False,,0,,0,,0,220000.0,280000.0,USD,255750.0,USD,True,False,,https://www.christies.com/en/lot/lot-5717688
+-262864855,25,,South Asian Modern + Contemporary Art,2013-06-11T10:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Rome 
+",,unknown,,,,False,False,,0,,0,,0,50800.0,76200.0,GBP,147161.25,GBP,True,False,,https://www.christies.com/en/lot/lot-5693654
+-314130042,27,,South Asian Modern + Contemporary Art,2013-06-11T10:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,76200.0,101600.0,GBP,154781.25,GBP,True,False,,https://www.christies.com/en/lot/lot-5693656
+8883913664,31,,South Asian Modern + Contemporary Art,2013-06-11T10:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Red Houses 
+",,unknown,,,,False,False,,0,,0,,0,114300.0,152400.0,GBP,215741.25,GBP,True,False,,https://www.christies.com/en/lot/lot-5693659
+-819303724,7,,South Asian Modern + Contemporary Art,2013-06-11T10:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape with Black Moon) 
+",,unknown,,,,False,False,,0,,0,,0,63500.0,88900.0,GBP,170021.25,GBP,True,False,,https://www.christies.com/en/lot/lot-5693636
+2674250412,14,,South Asian Modern + Contemporary Art,2013-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Houses on a Green Hill 
+",,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,339750.0,USD,True,False,,https://www.christies.com/en/lot/lot-5661031
+3569749376,97,,South Asian Modern + Contemporary Art,2013-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Mother & Child 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,111750.0,USD,True,False,,https://www.christies.com/en/lot/lot-5661112
+-777116158,391,,South Asian Modern & Contemporary,2012-09-12T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Christ & the Adulteress 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,92500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5594685
+4238395071,534,,South Asian Modern and Contemporary Art,2012-03-21T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Chance 
+",,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,290500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5539919
+-146677634,590,,South Asian Modern and Contemporary Art,2012-03-21T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (King) 
+",,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,104500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5539975
+-483595668,20,,South Asian Modern + Contemporary  Art,2011-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Landscape with Buildings 
+",,unknown,,,,False,False,,0,,0,,0,88900.0,114300.0,GBP,108267.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5452414
+-599939624,24,,South Asian Modern + Contemporary  Art,2011-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (French Doors) 
+",,unknown,,,,False,False,,0,,0,,0,101600.0,152400.0,GBP,123507.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5452418
+4340142035,38,,South Asian Modern + Contemporary  Art,2011-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Flagellation of Christ) 
+",,unknown,,,,False,False,,0,,0,,0,76200.0,101600.0,GBP,100647.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5452432
+6681206998,9,,South Asian Modern + Contemporary  Art,2011-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Nude Metamorphosed Into Insect - 1957 
+",,unknown,,,,False,False,,0,,0,,0,101600.0,152400.0,GBP,108267.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5452403
+4734190888,516,,South Asian Modern & Contemporary Art,2011-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Townscape) 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,170500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5416942
+9119352410,553,,South Asian Modern & Contemporary Art,2011-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Still Life with Fish 
+",,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,206500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5416979
+1070603525,611,,South Asian Modern & Contemporary Art,2011-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Paysage - 1954) 
+",,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,284500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5417035
+-672844954,622,,South Asian Modern & Contemporary Art,2011-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Deposition) 
+",,unknown,,,,False,False,,0,,0,,0,120000.0,150000.0,USD,140500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5417046
+-176530168,328,,South Asian Modern + Contemporary Art,2010-09-15T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Seated Nude) 
+",,unknown,,,,False,False,,0,,0,,0,70000.0,90000.0,USD,182500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5346260
+1796048928,334,,South Asian Modern + Contemporary Art,2010-09-15T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Large Head) 
+",,unknown,,,,False,False,,0,,0,,0,1200000.0,1800000.0,USD,1426500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5346266
+7371989561,397,,South Asian Modern + Contemporary Art,2010-09-15T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Transfiguration 
+",,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,146500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5346328
+9031914267,107,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Lovers) 
+",,unknown,,,,False,False,,0,,0,,0,50800.0,76200.0,GBP,306387.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328676
+-685517707,11,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Christ 
+",,unknown,,,,False,False,,0,,0,,0,63500.0,101600.0,GBP,367347.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328580
+-699491843,114,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"White Man Black Woman 
+",,unknown,,,,False,False,,0,,0,,0,50800.0,76200.0,GBP,306387.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328683
+-743949858,124,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Head of a Man 
+",,unknown,,,,False,False,,0,,0,,0,25400.0,38100.0,GBP,85407.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328693
+-866287852,132,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,25400.0,38100.0,GBP,93027.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328701
+-215555475,22,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Krishna & the Gopis 
+",,unknown,,,,False,False,,0,,0,,0,19050.0,25400.0,GBP,77787.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328591
+-440272193,23,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,FRANCIS NEWTON SOUZA (1924-2002) ,,unknown,,,,False,False,,0,,0,,0,19050.0,25400.0,GBP,93027.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328592
+-160699129,29,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Self Portrait), recto; Untitled (Self Portrait with Muse) verso 
+Lot 29 also includes Untitled (Harbour) signed and dated 'Souza 1949'
+",,unknown,,,,False,False,,0,,0,,0,15240.0,22860.0,GBP,77787.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328598
+-366763121,35,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Black Landscape 
+",,unknown,,,,False,False,,0,,0,,0,38100.0,63500.0,GBP,74739.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328604
+6627557947,40,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Indian Girl 
+",,unknown,,,,False,False,,0,,0,,0,57150.0,76200.0,GBP,214947.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328609
+5164071587,42,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Portrait of John Russell 
+",,unknown,,,,False,False,,0,,0,,0,31750.0,44450.0,GBP,108267.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328611
+2994230316,46,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Vasco Da Gama 
+",,unknown,,,,False,False,,0,,0,,0,44450.0,57150.0,GBP,230187.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328615
+7817949689,47,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Preparatory drawings for Inner Circle 
+",,unknown,,,,False,False,,0,,0,,0,44450.0,57150.0,GBP,115887.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328616
+5666048520,48,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Red Curse 
+",,unknown,,,,False,False,,0,,0,,0,190500.0,317500.0,GBP,1119187.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328617
+2133264265,61,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Red Mansion 
+",,unknown,,,,False,False,,0,,0,,0,25400.0,38100.0,GBP,131127.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328630
+-647803591,68,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Portrait of a Man 
+",,unknown,,,,False,False,,0,,0,,0,50800.0,76200.0,GBP,336867.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328637
+7901052239,74,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Reclining Nude) 
+",,unknown,,,,False,False,,0,,0,,0,38100.0,63500.0,GBP,85407.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328643
+1441663184,83,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Nude with Garters) 
+",,unknown,,,,False,False,,0,,0,,0,63500.0,101600.0,GBP,161607.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328652
+-100978522,90,,The Art of Souza: Property from the Estate of Francis Newton Souza,2010-06-09T13:00Z,London (South Kensington),live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Man) 
+",,unknown,,,,False,False,,0,,0,,0,57150.0,76200.0,GBP,123507.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5328659
+-198429516,16,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Golly - Wog 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,206500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295530
+8286115934,28,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Male Nude 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,122500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295542
+-467686598,45,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Houses at Night 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,146500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295559
+4651045982,46,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Beasts of Prey 
+",,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,458500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295560
+-249089763,60,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,70000.0,90000.0,USD,140500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295574
+-332291778,61,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,158500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295575
+-943309331,66,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Durgadevi 
+",,unknown,,,,False,False,,0,,0,,0,30000.0,50000.0,USD,98500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295579
+4021155556,7,,South Asian Modern + Contemporary Art ,2010-03-23T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,80000.0,120000.0,USD,170500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5295521
+-767602484,9,,South Asian Modern & Contemporary Art,2009-06-10T13:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Untitled (The Church) 
+",,unknown,,,,False,False,,0,,0,,0,50800.0,76200.0,GBP,108267.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5215812
+5303340420,1064,,South Asian Modern and Contemporary Art ,2009-03-19T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,140500.0,USD,True,False,,https://www.christies.com/en/lot/lot-5182540
+-805974737,117,,South Asian Modern + Contemporary Art,2008-09-16T14:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Black Pope 
+",,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,240100.0,USD,True,False,,https://www.christies.com/en/lot/lot-5111995
+7973690075,38,,South Asian Modern + Contemporary Art,2008-06-11T13:00Z,London,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Townscape) 
+",,unknown,,,,False,False,,0,,0,,0,63500.0,95250.0,GBP,85407.5,GBP,True,False,,https://www.christies.com/en/lot/lot-5079711
+8307312549,70,,South Asian Modern + Contemporary Art ,2008-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,350000.0,500000.0,USD,385000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5049229
+7833540424,85,,South Asian Modern + Contemporary Art ,2008-03-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,97000.0,USD,True,False,,https://www.christies.com/en/lot/lot-5049244
+8597770993,34,,South Asian Modern + Contemporary Art,2007-09-20T14:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Nude with Fruit 
+",,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,657000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4960120
+4761358533,39,,South Asian Modern + Contemporary Art,2007-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Nude) 
+",,unknown,,,,False,False,,0,,0,,0,350000.0,500000.0,USD,457000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4960125
+-399760436,45,,South Asian Modern + Contemporary Art,2007-09-20T14:00Z,New York,live,FRANCIS NEWTON SOUZA,1925.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,180000.0,200000.0,USD,181000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4960131
+-858481358,99,,South Asian Modern + Contemporary Art,2007-09-20T14:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Vase of Flowers 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,85000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4960185
+-149165231,121,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,90000.0,120000.0,USD,240000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677762
+6909517558,38,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Blue landscape with houses) 
+",,unknown,,,,False,False,,0,,0,,0,25000.0,35000.0,USD,132000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677679
+8600644555,44,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Houses and Church in Landscape with Tree) 
+",,unknown,,,,False,False,,0,,0,,0,80000.0,100000.0,USD,352000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677685
+-493165113,52,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,307200.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677693
+1397374707,63,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Blue cityscape) 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,150000.0,USD,374400.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677704
+8945006253,69,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,329600.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677710
+7029565750,80,,MODERN AND CONTEMPORARY INDIAN ART,2006-03-30T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Night landscape with flowering trees) 
+",,unknown,,,,False,False,,0,,0,,0,150000.0,200000.0,USD,486400.0,USD,True,False,,https://www.christies.com/en/lot/lot-4677721
+1723799165,278,,Indian and Southeast Asian Art including Modern and         ,2005-09-21T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Zechariah 
+",,unknown,,,,False,False,,0,,0,,0,50000.0,70000.0,USD,114000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4569097
+-138830090,288,,Indian and Southeast Asian Art including Modern and         ,2005-09-21T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,30000.0,40000.0,USD,114000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4569107
+-452675253,291,,Indian and Southeast Asian Art including Modern and         ,2005-09-21T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Still life) 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,262400.0,USD,True,False,,https://www.christies.com/en/lot/lot-4569110
+3454760485,119,,"Southeast Asian and Modern Indian Paintings,                ",2005-05-29T00:00Z,Hong Kong,live,FRANCIS NEWTON SOUZA (India 1924-2002),,,"Self Portrait with Female Friend 
+",,unknown,,,,False,False,,0,,0,,0,35840.0,48640.0,HKD,92160.0,HKD,True,False,,https://www.christies.com/en/lot/lot-4508933
+1039873817,120,,"Southeast Asian and Modern Indian Paintings,                ",2005-05-29T00:00Z,Hong Kong,live,FRANCIS NEWTON SOUZA (India 1924-2002),,,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,51200.0,64000.0,HKD,84480.0,HKD,True,False,,https://www.christies.com/en/lot/lot-4508934
+4956036333,515,,INDIAN AND ISLAMIC WORKS OF ART,2004-10-15T00:00Z,London (South Kensington),live,"FRANCIS NEWTON SOUZA (INDIA 1924 - 2002)
+THE TWO ELDERS",,,,,unknown,,,,False,False,,0,,0,,0,25400.0,38100.0,GBP,88023.7,GBP,True,False,,https://www.christies.com/en/lot/lot-4363502
+8705263451,271,,Modern British and Continental Pictures,1992-09-24T00:00Z,London (South Kensington),live,F.N. Souza,,,,,unknown,,,,False,False,,0,,0,,0,127.0,254.0,GBP,111.76,GBP,True,False,,https://www.christies.com/en/lot/lot-3545836
+7472262403,101,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Seated Nude) 
+",,unknown,,,,False,False,,0,,0,,0,200000.0,300000.0,USD,284800.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777643
+4253959061,114,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Homer 
+",,unknown,,,,False,False,,0,,0,,0,120000.0,180000.0,USD,180000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777655
+7954533072,13,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Black Nude) 
+",,unknown,,,,False,False,,0,,0,,0,350000.0,500000.0,USD,420000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4876299
+5667323604,136,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Cityscape 
+",,unknown,,,,False,False,,0,,0,,0,60000.0,80000.0,USD,114000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777677
+-110450628,16,,Modern and Contemporary Indian Art Including Art from Pakistan and Sri Lanka,0001-01-01T00:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Man with Collar) 
+",,unknown,,,,False,False,,0,,0,,0,127000.0,190500.0,GBP,137160.0,GBP,True,False,,https://www.christies.com/en/lot/lot-4915152
+1407520795,20,,Modern and Contemporary Indian Art Including Art from Pakistan and Sri Lanka,0001-01-01T00:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Abstract Portrait) 
+",,unknown,,,,False,False,,0,,0,,0,50800.0,76200.0,GBP,57912.0,GBP,True,False,,https://www.christies.com/en/lot/lot-4915156
+-417742067,22,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,688000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777566
+4120020827,23,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Man and Woman 
+",,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,1360000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777567
+-900037831,24,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled 
+",,unknown,,,,False,False,,0,,0,,0,10000.0,15000.0,USD,96000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777568
+-845093780,25,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Nyasa Negress with Flowers of Thorns 
+",,unknown,,,,False,False,,0,,0,,0,400000.0,600000.0,USD,856000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777569
+-580766602,26,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Row of Red Houses with Trees 
+",,unknown,,,,False,False,,0,,0,,0,250000.0,350000.0,USD,374400.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777570
+1515136634,27,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Red Tower with Trees 
+",,unknown,,,,False,False,,0,,0,,0,300000.0,500000.0,USD,464000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777571
+5036610975,333,,International Modern and Contemporary Art,0001-01-01T00:00Z,Dubai,live,"FRANCIS NEWTON SOUZA (INDIA, 1924-2002)",,,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,120000.0,150000.0,USD,144000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4859690
+5990555973,372,,International Modern and Contemporary Art,0001-01-01T00:00Z,Dubai,live,"FRANCIS NEWTON SOUZA (INDIA, 1924-2002)",,,"Untitled (Alpine Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,70000.0,90000.0,USD,114000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4859726
+-788691946,40,,Modern and Contemporary Indian Art Including Art from Pakistan and Sri Lanka,0001-01-01T00:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Nude Female) 
+",,unknown,,,,False,False,,0,,0,,0,44450.0,63500.0,GBP,60960.0,GBP,True,False,,https://www.christies.com/en/lot/lot-4915176
+-352022132,44,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,Francis Newton Souza,1924.0,2002.0,"Landscape 
+",,unknown,,,,False,False,,0,,0,,0,80000.0,120000.0,USD,114000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4876329
+3673317391,53,,Modern and Contemporary Indian Art Including Art from Pakistan and Sri Lanka,0001-01-01T00:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Portrait of a Girl 
+",,unknown,,,,False,False,,0,,0,,0,114300.0,152400.0,GBP,121920.0,GBP,True,False,,https://www.christies.com/en/lot/lot-4915189
+-505246139,58,,"International Modern & Contemporary Art at the Jumeirah Emirates Towers Hotel, Dubai",0001-01-01T00:00Z,Dubai,live,"Francis Newton Souza (India, 1924-2002)",,,"Green Landscape 
+",,unknown,,,,False,False,,0,,0,,0,120000.0,150000.0,USD,216000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4713976
+-512170175,60,,"International Modern & Contemporary Art at the Jumeirah Emirates Towers Hotel, Dubai",0001-01-01T00:00Z,Dubai,live,"Francis Newton Souza (India, 1924-2002)",,,"Untitled (Head) 
+",,unknown,,,,False,False,,0,,0,,0,100000.0,120000.0,USD,168000.0,USD,True,False,,https://www.christies.com/en/lot/lot-4713978
+2307351702,65,,"International Modern & Contemporary Art at the Jumeirah Emirates Towers Hotel, Dubai",0001-01-01T00:00Z,Dubai,live,"Francis Newton Souza (India, 1924-2002)",,,"Monsoon 
+",,unknown,,,,False,False,,0,,0,,0,180000.0,220000.0,USD,284800.0,USD,True,False,,https://www.christies.com/en/lot/lot-4713983
+-437454425,67,,Modern and Contemporary Indian Art Including Art from Pakistan and Sri Lanka,0001-01-01T00:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Untitled (Landscape) 
+",,unknown,,,,False,False,,0,,0,,0,139700.0,228600.0,GBP,152400.0,GBP,True,False,,https://www.christies.com/en/lot/lot-4915203
+6943113444,9,,Modern and Contemporary Indian Art Including Art from Pakistan and Sri Lanka,0001-01-01T00:00Z,London,live,Francis Newton Souza,1924.0,2002.0,"Landscape with Planet 
+",,unknown,,,,False,False,,0,,0,,0,254000.0,381000.0,GBP,395224.0,GBP,True,False,,https://www.christies.com/en/lot/lot-4915145
+1662040280,94,,Modern and Contemporary Indian Art,0001-01-01T00:00Z,New York,live,FRANCIS NEWTON SOUZA,1924.0,2002.0,"Untitled (Man in Checked Shirt) 
+",,unknown,,,,False,False,,0,,0,,0,220000.0,300000.0,USD,262400.0,USD,True,False,,https://www.christies.com/en/lot/lot-4777636

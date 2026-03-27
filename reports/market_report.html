@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian Art Market — Analytics Report</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root {
+    --bg: #0f0f1a;
+    --card-bg: #1a1a2e;
+    --card-border: #2a2a45;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --text-dim: #8888aa;
+    --success: #2ecc71;
+    --warn: #f39c12;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+header {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 50%, #1a1a2e 100%);
+    padding: 48px 24px;
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+}
+header h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.5px; }
+header h1 span { color: var(--accent); }
+header p { color: var(--text-dim); margin-top: 8px; font-size: 1rem; }
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+}
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+    color: #fff;
+    border-left: 4px solid var(--accent);
+    padding-left: 14px;
+}
+.card .subtitle {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    margin-top: -10px;
+}
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 10px;
+}
+.kpi {
+    background: #16213e;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #253a5e;
+}
+.kpi .value { font-size: 1.8rem; font-weight: 700; color: #fff; }
+.kpi .label { font-size: 0.82rem; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #2a2a40;
+}
+th {
+    background: #16213e;
+    color: #8ea4cc;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+}
+tr:hover { background: #1e1e38; }
+.overall-row { background: #16213e !important; font-weight: 700; }
+.price { font-family: 'JetBrains Mono', 'Fira Code', monospace; color: var(--success); }
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.chart-box { background: #12122a; border-radius: 10px; padding: 16px; border: 1px solid #2a2a40; }
+.chart-full { background: #12122a; border-radius: 10px; padding: 16px; border: 1px solid #2a2a40; margin-bottom: 20px; }
+.star-artist-block { margin-bottom: 36px; }
+.table-scroll { overflow-x: auto; }
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+}
+.nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+.nav a:hover { background: #16213e; color: #fff; border-color: var(--accent); }
+footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--card-border);
+    margin-top: 40px;
+}
+@media (max-width: 768px) {
+    .chart-row { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    header h1 { font-size: 1.6rem; }
+    .card { padding: 18px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Indian Art Market <span>Analytics Report</span></h1>
+    <p>Comprehensive market analysis &nbsp;|&nbsp; Data range: Sep 1992 &mdash; Mar 2026 &nbsp;|&nbsp; Generated: 2026-03-27</p>
+</header>
+
+<div class="container">
+
+<nav class="nav">
+    <a href="#exec-summary">Executive Summary</a>
+    <a href="#market-overview">Market Overview</a>
+    <a href="#star-artists">Star Artists</a>
+    <a href="#price-dist">Price Distribution</a>
+    <a href="#model-perf">Model Performance</a>
+    <a href="#top-sales">Top Sales</a>
+    <a href="#source-comp">Source Comparison</a>
+    <a href="#core4-index">Core 4 Index</a>
+    <a href="#fullstar-index">Full Star Index</a>
+    <a href="#cagr-index">CAGR &amp; Price Index</a>
+</nav>
+
+<!-- 1. Executive Summary -->
+<div class="card" id="exec-summary">
+    <h2>1. Executive Summary</h2>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="value">5,933</div><div class="label">Total Lots</div></div>
+        <div class="kpi"><div class="value">5,307</div><div class="label">Sold Lots</div></div>
+        <div class="kpi"><div class="value">89.4%</div><div class="label">Sell-Through Rate</div></div>
+        <div class="kpi"><div class="value">$645,769,085</div><div class="label">Total Hammer Value</div></div>
+        <div class="kpi"><div class="value">4</div><div class="label">Data Sources</div></div>
+        <div class="kpi"><div class="value">0.8978</div><div class="label">Model R&sup2; (log)</div></div>
+        <div class="kpi"><div class="value">$9,428</div><div class="label">Median Abs Error</div></div>
+        <div class="kpi"><div class="value">35.9%</div><div class="label">MAPE</div></div>
+    </div>
+</div>
+
+<!-- 2. Market Overview -->
+<div class="card" id="market-overview">
+    <h2>2. Market Overview</h2>
+    <div class="chart-row">
+        <div class="chart-box"><canvas id="chart-yearly-lots"></canvas></div>
+        <div class="chart-box"><canvas id="chart-yearly-hammer"></canvas></div>
+    </div>
+</div>
+
+<!-- 3. Star Artists -->
+<div class="card" id="star-artists">
+    <h2>3. Star Artists Year-over-Year</h2>
+    <p class="subtitle">Median and mean hammer prices, volume, and sell-through rate for 7 key artists</p>
+    
+    <div class="star-artist-block" id="block-Tyeb-Mehta">
+        <h3 style="color:#e74c3c;border-bottom:2px solid #e74c3c;padding-bottom:8px;">Tyeb Mehta</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-Tyeb-Mehta"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-Tyeb-Mehta"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>1995</td>
+            <td>1</td>
+            <td>$1,022</td>
+            <td>$1,022</td>
+            <td>$1,022</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>1997</td>
+            <td>2</td>
+            <td>$14,459</td>
+            <td>$14,459</td>
+            <td>$14,605</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>1999</td>
+            <td>4</td>
+            <td>$10,589</td>
+            <td>$10,224</td>
+            <td>$13,144</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2000</td>
+            <td>1</td>
+            <td>$15,275</td>
+            <td>$15,275</td>
+            <td>$15,275</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2001</td>
+            <td>3</td>
+            <td>$10,575</td>
+            <td>$13,317</td>
+            <td>$21,150</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2002</td>
+            <td>3</td>
+            <td>$107,550</td>
+            <td>$144,671</td>
+            <td>$317,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2003</td>
+            <td>3</td>
+            <td>$119,500</td>
+            <td>$96,556</td>
+            <td>$122,368</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2004</td>
+            <td>3</td>
+            <td>$101,575</td>
+            <td>$90,172</td>
+            <td>$130,700</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2005</td>
+            <td>1</td>
+            <td>$1,584,000</td>
+            <td>$1,584,000</td>
+            <td>$1,584,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2006</td>
+            <td>1</td>
+            <td>$632,000</td>
+            <td>$632,000</td>
+            <td>$632,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2007</td>
+            <td>1</td>
+            <td>$1,105,000</td>
+            <td>$1,105,000</td>
+            <td>$1,105,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2008</td>
+            <td>2</td>
+            <td>$952,102</td>
+            <td>$952,102</td>
+            <td>$1,247,204</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2009</td>
+            <td>7</td>
+            <td>$123,508</td>
+            <td>$450,130</td>
+            <td>$1,280,900</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2010</td>
+            <td>3</td>
+            <td>$44,260</td>
+            <td>$471,436</td>
+            <td>$1,332,548</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2011</td>
+            <td>5</td>
+            <td>$602,500</td>
+            <td>$1,202,740</td>
+            <td>$2,826,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2012</td>
+            <td>8</td>
+            <td>$152,500</td>
+            <td>$575,221</td>
+            <td>$1,762,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2013</td>
+            <td>8</td>
+            <td>$179,625</td>
+            <td>$530,902</td>
+            <td>$2,373,900</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2014</td>
+            <td>5</td>
+            <td>$521,100</td>
+            <td>$1,032,047</td>
+            <td>$2,285,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2015</td>
+            <td>2</td>
+            <td>$1,466,635</td>
+            <td>$1,466,635</td>
+            <td>$1,886,915</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>3</td>
+            <td>$27,500</td>
+            <td>$526,548</td>
+            <td>$1,524,642</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>5</td>
+            <td>$1,632,500</td>
+            <td>$1,554,966</td>
+            <td>$3,535,890</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>8</td>
+            <td>$1,392,500</td>
+            <td>$1,451,480</td>
+            <td>$3,998,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>4</td>
+            <td>$29,875</td>
+            <td>$562,075</td>
+            <td>$2,164,800</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>2</td>
+            <td>$1,110,000</td>
+            <td>$1,110,000</td>
+            <td>$1,110,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>4</td>
+            <td>$575,000</td>
+            <td>$575,000</td>
+            <td>$750,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>5</td>
+            <td>$327,600</td>
+            <td>$1,263,218</td>
+            <td>$5,596,000</td>
+            <td>83.3%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>5</td>
+            <td>$20,328</td>
+            <td>$734,795</td>
+            <td>$3,600,007</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>6</td>
+            <td>$52,465</td>
+            <td>$103,742</td>
+            <td>$226,800</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>8</td>
+            <td>$104,784</td>
+            <td>$828,605</td>
+            <td>$2,265,600</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2026</td>
+            <td>2</td>
+            <td>$3,979,000</td>
+            <td>$3,979,000</td>
+            <td>$3,979,000</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div class="star-artist-block" id="block-FN-Souza">
+        <h3 style="color:#3498db;border-bottom:2px solid #3498db;padding-bottom:8px;">F.N. Souza</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-FN-Souza"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-FN-Souza"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>1992</td>
+            <td>1</td>
+            <td>$112</td>
+            <td>$112</td>
+            <td>$112</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2004</td>
+            <td>1</td>
+            <td>$88,024</td>
+            <td>$88,024</td>
+            <td>$88,024</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2005</td>
+            <td>5</td>
+            <td>$114,000</td>
+            <td>$133,408</td>
+            <td>$262,400</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2006</td>
+            <td>7</td>
+            <td>$329,600</td>
+            <td>$317,371</td>
+            <td>$486,400</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2007</td>
+            <td>4</td>
+            <td>$319,000</td>
+            <td>$345,000</td>
+            <td>$657,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2008</td>
+            <td>4</td>
+            <td>$168,550</td>
+            <td>$201,877</td>
+            <td>$385,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2009</td>
+            <td>2</td>
+            <td>$124,384</td>
+            <td>$124,384</td>
+            <td>$140,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2010</td>
+            <td>30</td>
+            <td>$146,500</td>
+            <td>$245,546</td>
+            <td>$1,426,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2011</td>
+            <td>8</td>
+            <td>$132,004</td>
+            <td>$155,336</td>
+            <td>$284,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2012</td>
+            <td>3</td>
+            <td>$104,500</td>
+            <td>$162,500</td>
+            <td>$290,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2013</td>
+            <td>9</td>
+            <td>$170,021</td>
+            <td>$200,856</td>
+            <td>$339,750</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2014</td>
+            <td>9</td>
+            <td>$155,575</td>
+            <td>$413,650</td>
+            <td>$1,685,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2015</td>
+            <td>27</td>
+            <td>$86,062</td>
+            <td>$383,156</td>
+            <td>$4,085,000</td>
+            <td>96.4%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>16</td>
+            <td>$36,317</td>
+            <td>$95,992</td>
+            <td>$317,000</td>
+            <td>84.2%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>16</td>
+            <td>$15,625</td>
+            <td>$80,285</td>
+            <td>$384,000</td>
+            <td>88.9%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>44</td>
+            <td>$123,000</td>
+            <td>$165,726</td>
+            <td>$612,500</td>
+            <td>97.8%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>54</td>
+            <td>$32,500</td>
+            <td>$113,786</td>
+            <td>$660,000</td>
+            <td>94.7%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>18</td>
+            <td>$34,266</td>
+            <td>$69,991</td>
+            <td>$237,500</td>
+            <td>85.7%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>46</td>
+            <td>$36,710</td>
+            <td>$145,113</td>
+            <td>$1,076,400</td>
+            <td>92.0%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>70</td>
+            <td>$48,827</td>
+            <td>$230,430</td>
+            <td>$2,160,000</td>
+            <td>92.1%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>57</td>
+            <td>$26,000</td>
+            <td>$172,893</td>
+            <td>$1,740,000</td>
+            <td>91.9%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>91</td>
+            <td>$48,260</td>
+            <td>$322,677</td>
+            <td>$4,890,000</td>
+            <td>95.8%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>51</td>
+            <td>$20,160</td>
+            <td>$327,492</td>
+            <td>$5,922,000</td>
+            <td>94.4%</td>
+        </tr><tr>
+            <td>2026</td>
+            <td>14</td>
+            <td>$57,150</td>
+            <td>$128,089</td>
+            <td>$393,700</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div class="star-artist-block" id="block-MF-Husain">
+        <h3 style="color:#2ecc71;border-bottom:2px solid #2ecc71;padding-bottom:8px;">M.F. Husain</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-MF-Husain"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-MF-Husain"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>2015</td>
+            <td>9</td>
+            <td>$93,750</td>
+            <td>$106,307</td>
+            <td>$293,000</td>
+            <td>75.0%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>17</td>
+            <td>$50,000</td>
+            <td>$70,631</td>
+            <td>$341,000</td>
+            <td>81.0%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>11</td>
+            <td>$34,003</td>
+            <td>$74,814</td>
+            <td>$250,000</td>
+            <td>78.6%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>19</td>
+            <td>$45,000</td>
+            <td>$65,684</td>
+            <td>$200,000</td>
+            <td>82.6%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>23</td>
+            <td>$72,203</td>
+            <td>$125,785</td>
+            <td>$1,035,000</td>
+            <td>69.7%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>11</td>
+            <td>$151,232</td>
+            <td>$370,212</td>
+            <td>$1,800,960</td>
+            <td>84.6%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>39</td>
+            <td>$50,000</td>
+            <td>$68,776</td>
+            <td>$375,000</td>
+            <td>90.7%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>50</td>
+            <td>$94,500</td>
+            <td>$118,478</td>
+            <td>$403,200</td>
+            <td>90.9%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>61</td>
+            <td>$63,000</td>
+            <td>$165,981</td>
+            <td>$2,300,000</td>
+            <td>95.3%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>56</td>
+            <td>$64,800</td>
+            <td>$171,802</td>
+            <td>$2,794,000</td>
+            <td>93.3%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>57</td>
+            <td>$141,600</td>
+            <td>$466,055</td>
+            <td>$13,750,000</td>
+            <td>96.6%</td>
+        </tr><tr>
+            <td>2026</td>
+            <td>9</td>
+            <td>$177,800</td>
+            <td>$353,483</td>
+            <td>$1,397,000</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div class="star-artist-block" id="block-Ram-Kumar">
+        <h3 style="color:#f39c12;border-bottom:2px solid #f39c12;padding-bottom:8px;">Ram Kumar</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-Ram-Kumar"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-Ram-Kumar"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>2015</td>
+            <td>4</td>
+            <td>$11,647</td>
+            <td>$11,032</td>
+            <td>$12,543</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>2</td>
+            <td>$26,287</td>
+            <td>$26,287</td>
+            <td>$41,846</td>
+            <td>40.0%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>4</td>
+            <td>$34,392</td>
+            <td>$60,328</td>
+            <td>$166,320</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>9</td>
+            <td>$36,000</td>
+            <td>$60,078</td>
+            <td>$225,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>14</td>
+            <td>$13,830</td>
+            <td>$33,868</td>
+            <td>$106,250</td>
+            <td>66.7%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>6</td>
+            <td>$50,652</td>
+            <td>$72,374</td>
+            <td>$228,000</td>
+            <td>85.7%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>18</td>
+            <td>$60,780</td>
+            <td>$85,468</td>
+            <td>$331,200</td>
+            <td>94.7%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>17</td>
+            <td>$66,528</td>
+            <td>$114,842</td>
+            <td>$567,000</td>
+            <td>70.8%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>26</td>
+            <td>$32,670</td>
+            <td>$102,620</td>
+            <td>$600,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>28</td>
+            <td>$31,500</td>
+            <td>$60,573</td>
+            <td>$201,600</td>
+            <td>96.6%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>15</td>
+            <td>$27,720</td>
+            <td>$129,705</td>
+            <td>$420,000</td>
+            <td>93.8%</td>
+        </tr><tr>
+            <td>2026</td>
+            <td>3</td>
+            <td>$228,600</td>
+            <td>$495,300</td>
+            <td>$1,143,000</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div class="star-artist-block" id="block-Akbar-Padamsee">
+        <h3 style="color:#9b59b6;border-bottom:2px solid #9b59b6;padding-bottom:8px;">Akbar Padamsee</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-Akbar-Padamsee"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-Akbar-Padamsee"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>2015</td>
+            <td>2</td>
+            <td>$236,000</td>
+            <td>$236,000</td>
+            <td>$239,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>2</td>
+            <td>$38,986</td>
+            <td>$38,986</td>
+            <td>$72,012</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>4</td>
+            <td>$82,549</td>
+            <td>$84,242</td>
+            <td>$166,326</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>4</td>
+            <td>$2,040</td>
+            <td>$64,530</td>
+            <td>$252,000</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>4</td>
+            <td>$96,668</td>
+            <td>$111,290</td>
+            <td>$246,675</td>
+            <td>57.1%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>3</td>
+            <td>$192,960</td>
+            <td>$192,940</td>
+            <td>$373,860</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>7</td>
+            <td>$132,000</td>
+            <td>$187,023</td>
+            <td>$800,000</td>
+            <td>77.8%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>8</td>
+            <td>$5,141</td>
+            <td>$12,910</td>
+            <td>$47,254</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>5</td>
+            <td>$24,684</td>
+            <td>$782,068</td>
+            <td>$3,120,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>12</td>
+            <td>$15,840</td>
+            <td>$76,055</td>
+            <td>$403,200</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>5</td>
+            <td>$70,000</td>
+            <td>$251,458</td>
+            <td>$819,000</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div class="star-artist-block" id="block-SH-Raza">
+        <h3 style="color:#1abc9c;border-bottom:2px solid #1abc9c;padding-bottom:8px;">S.H. Raza</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-SH-Raza"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-SH-Raza"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>1995</td>
+            <td>4</td>
+            <td>$10,224</td>
+            <td>$8,433</td>
+            <td>$13,144</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2011</td>
+            <td>1</td>
+            <td>$1,111</td>
+            <td>$1,111</td>
+            <td>$1,111</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2015</td>
+            <td>4</td>
+            <td>$46,500</td>
+            <td>$329,741</td>
+            <td>$1,225,339</td>
+            <td>57.1%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>5</td>
+            <td>$82,695</td>
+            <td>$83,330</td>
+            <td>$153,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>3</td>
+            <td>$33,270</td>
+            <td>$33,447</td>
+            <td>$37,800</td>
+            <td>60.0%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>7</td>
+            <td>$86,400</td>
+            <td>$138,596</td>
+            <td>$409,973</td>
+            <td>77.8%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>27</td>
+            <td>$198,000</td>
+            <td>$492,960</td>
+            <td>$3,015,000</td>
+            <td>87.1%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>15</td>
+            <td>$62,500</td>
+            <td>$145,191</td>
+            <td>$660,000</td>
+            <td>93.8%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>25</td>
+            <td>$97,200</td>
+            <td>$137,732</td>
+            <td>$780,000</td>
+            <td>96.2%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>32</td>
+            <td>$132,000</td>
+            <td>$253,365</td>
+            <td>$1,465,895</td>
+            <td>91.4%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>45</td>
+            <td>$176,400</td>
+            <td>$318,161</td>
+            <td>$1,597,200</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>46</td>
+            <td>$138,600</td>
+            <td>$359,492</td>
+            <td>$4,700,000</td>
+            <td>95.8%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>33</td>
+            <td>$94,500</td>
+            <td>$399,680</td>
+            <td>$2,349,000</td>
+            <td>97.1%</td>
+        </tr><tr>
+            <td>2026</td>
+            <td>12</td>
+            <td>$666,750</td>
+            <td>$716,492</td>
+            <td>$1,460,500</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div class="star-artist-block" id="block-VS-Gaitonde">
+        <h3 style="color:#e67e22;border-bottom:2px solid #e67e22;padding-bottom:8px;">V.S. Gaitonde</h3>
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="chart-median-VS-Gaitonde"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chart-mean-VS-Gaitonde"></canvas>
+            </div>
+        </div>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Mean</th><th>Max</th><th>STR</th></tr></thead>
+            <tbody><tr>
+            <td>2015</td>
+            <td>1</td>
+            <td>$197,000</td>
+            <td>$197,000</td>
+            <td>$197,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2016</td>
+            <td>1</td>
+            <td>$96,000</td>
+            <td>$96,000</td>
+            <td>$96,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2017</td>
+            <td>2</td>
+            <td>$2,102,500</td>
+            <td>$2,102,500</td>
+            <td>$4,092,500</td>
+            <td>66.7%</td>
+        </tr><tr>
+            <td>2018</td>
+            <td>2</td>
+            <td>$463,750</td>
+            <td>$463,750</td>
+            <td>$900,000</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2019</td>
+            <td>8</td>
+            <td>$64,161</td>
+            <td>$659,037</td>
+            <td>$3,609,320</td>
+            <td>88.9%</td>
+        </tr><tr>
+            <td>2020</td>
+            <td>2</td>
+            <td>$650,704</td>
+            <td>$650,704</td>
+            <td>$1,275,680</td>
+            <td>66.7%</td>
+        </tr><tr>
+            <td>2021</td>
+            <td>6</td>
+            <td>$940,000</td>
+            <td>$1,563,023</td>
+            <td>$5,397,300</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2022</td>
+            <td>4</td>
+            <td>$1,521,600</td>
+            <td>$1,357,140</td>
+            <td>$2,340,000</td>
+            <td>80.0%</td>
+        </tr><tr>
+            <td>2023</td>
+            <td>5</td>
+            <td>$24,000</td>
+            <td>$1,207,168</td>
+            <td>$5,747,500</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2024</td>
+            <td>4</td>
+            <td>$48,350</td>
+            <td>$56,275</td>
+            <td>$113,400</td>
+            <td>100.0%</td>
+        </tr><tr>
+            <td>2025</td>
+            <td>4</td>
+            <td>$1,101,600</td>
+            <td>$1,180,800</td>
+            <td>$2,393,000</td>
+            <td>100.0%</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Price Distribution -->
+<div class="card" id="price-dist">
+    <h2>4. Price Distribution</h2>
+    <p class="subtitle">Hammer price histogram on log&#8322;&#8321;&#8320; scale</p>
+    <div class="chart-full"><canvas id="chart-hist-all" height="100"></canvas></div>
+    <div class="chart-full"><canvas id="chart-hist-stars" height="120"></canvas></div>
+</div>
+
+<!-- 5. Model Performance -->
+
+    <div class="card">
+        <h2>5. Model Performance</h2>
+        <p class="subtitle">Ensemble: 5 CatBoost + 2 XGBoost models
+        &nbsp;|&nbsp; R&sup2; (log): 0.8978 &nbsp;|&nbsp; RMSE (log): 0.5088 &nbsp;|&nbsp; MAPE: 35.9%</p>
+        <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Artist</th>
+                    <th colspan="5" style="text-align:center;border-bottom:1px solid #444;">All Time</th>
+                    <th colspan="5" style="text-align:center;border-bottom:1px solid #444;">Last 12 Months</th>
+                </tr>
+                <tr>
+                    <th>N</th><th>&le;10%</th><th>&le;25%</th><th>&le;50%</th><th>Med AE</th>
+                    <th>N</th><th>&le;10%</th><th>&le;25%</th><th>&le;50%</th><th>Med AE</th>
+                </tr>
+            </thead>
+            <tbody><tr>
+            <td>Tyeb Mehta</td>
+            <td>115</td>
+            <td>24.3%</td>
+            <td>50.4%</td>
+            <td>84.3%</td>
+            <td>$31,625</td>
+            <td>8</td>
+            <td>12.5%</td>
+            <td>87.5%</td>
+            <td>87.5%</td>
+            <td>$220,660</td>
+        </tr><tr>
+            <td>F.N. Souza</td>
+            <td>587</td>
+            <td>19.1%</td>
+            <td>47.0%</td>
+            <td>80.6%</td>
+            <td>$13,905</td>
+            <td>42</td>
+            <td>14.3%</td>
+            <td>42.9%</td>
+            <td>76.2%</td>
+            <td>$14,148</td>
+        </tr><tr>
+            <td>M.F. Husain</td>
+            <td>358</td>
+            <td>19.6%</td>
+            <td>45.0%</td>
+            <td>84.4%</td>
+            <td>$16,475</td>
+            <td>39</td>
+            <td>15.4%</td>
+            <td>35.9%</td>
+            <td>84.6%</td>
+            <td>$37,924</td>
+        </tr><tr>
+            <td>Ram Kumar</td>
+            <td>145</td>
+            <td>24.1%</td>
+            <td>54.5%</td>
+            <td>83.4%</td>
+            <td>$6,658</td>
+            <td>14</td>
+            <td>35.7%</td>
+            <td>64.3%</td>
+            <td>78.6%</td>
+            <td>$12,481</td>
+        </tr><tr>
+            <td>Akbar Padamsee</td>
+            <td>56</td>
+            <td>28.6%</td>
+            <td>57.1%</td>
+            <td>89.3%</td>
+            <td>$4,368</td>
+            <td>1</td>
+            <td>0.0%</td>
+            <td>100.0%</td>
+            <td>100.0%</td>
+            <td>$2,514</td>
+        </tr><tr>
+            <td>S.H. Raza</td>
+            <td>259</td>
+            <td>19.7%</td>
+            <td>45.6%</td>
+            <td>82.2%</td>
+            <td>$24,525</td>
+            <td>33</td>
+            <td>18.2%</td>
+            <td>39.4%</td>
+            <td>87.9%</td>
+            <td>$49,124</td>
+        </tr><tr>
+            <td>V.S. Gaitonde</td>
+            <td>39</td>
+            <td>17.9%</td>
+            <td>59.0%</td>
+            <td>87.2%</td>
+            <td>$37,323</td>
+            <td>4</td>
+            <td>0.0%</td>
+            <td>50.0%</td>
+            <td>50.0%</td>
+            <td>$314,221</td>
+        </tr><tr class="overall-row">
+            <td>Overall</td>
+            <td>5267</td>
+            <td>19.7%</td>
+            <td>46.9%</td>
+            <td>80.5%</td>
+            <td>$5,024</td>
+            <td>497</td>
+            <td>15.5%</td>
+            <td>41.6%</td>
+            <td>74.4%</td>
+            <td>$9,740</td>
+        </tr></tbody>
+        </table>
+        </div>
+    </div>
+
+<!-- 6. Top Sales -->
+<div class="card" id="top-sales">
+    <h2>6. Top 25 Sales</h2>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>#</th><th>Artist</th><th>Title</th><th>Price (USD)</th><th>Date</th><th>Medium</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td>MAQBOOL FIDA HUSAIN</td>
+        <td>Untitled (Gram Yatra)</td>
+        <td class="price">$13,750,000</td>
+        <td>2025-03-19</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>2</td>
+        <td>Francis Newton Souza</td>
+        <td>Houses in Hampstead</td>
+        <td class="price">$5,922,000</td>
+        <td>2025-09-30</td>
+        <td>oil_other</td>
+    </tr><tr>
+        <td>3</td>
+        <td>V S GAITONDE</td>
+        <td>Untitled</td>
+        <td class="price">$5,747,500</td>
+        <td>2023-03-16</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>4</td>
+        <td>Francis Newton Souza</td>
+        <td>Emperor</td>
+        <td class="price">$5,670,000</td>
+        <td>2025-09-30</td>
+        <td>oil_on_board</td>
+    </tr><tr>
+        <td>5</td>
+        <td>TYEB MEHTA</td>
+        <td>Untitled (Bull on Rickshaw)</td>
+        <td class="price">$5,596,000</td>
+        <td>2022-04-06</td>
+        <td>acrylic_on_canvas</td>
+    </tr><tr>
+        <td>6</td>
+        <td>V S GAITONDE</td>
+        <td>Untitled</td>
+        <td class="price">$5,397,300</td>
+        <td>2021-03-11</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>7</td>
+        <td>AMRITA SHER-GIL</td>
+        <td>In the Ladies' Enclosure</td>
+        <td class="price">$5,103,000</td>
+        <td>2021-07-13</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>8</td>
+        <td>FRANCIS NEWTON SOUZA</td>
+        <td>The Lovers</td>
+        <td class="price">$4,890,000</td>
+        <td>2024-03-20</td>
+        <td>oil_on_board</td>
+    </tr><tr>
+        <td>9</td>
+        <td>FRANCIS NEWTON SOUZA</td>
+        <td>The Lovers</td>
+        <td class="price">$4,890,000</td>
+        <td>2024-03-20</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>10</td>
+        <td>Sayed Haider Raza</td>
+        <td>Kallisté</td>
+        <td class="price">$4,700,000</td>
+        <td>2024-03-18</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>11</td>
+        <td>SYED HAIDER RAZA</td>
+        <td>Tapovan</td>
+        <td class="price">$4,452,500</td>
+        <td>2018-03-21</td>
+        <td>acrylic_on_canvas</td>
+    </tr><tr>
+        <td>12</td>
+        <td>VASUDEO S. GAITONDE</td>
+        <td>Untitled</td>
+        <td class="price">$4,092,500</td>
+        <td>2017-09-13</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>13</td>
+        <td>FRANCIS NEWTON SOUZA</td>
+        <td>Birth</td>
+        <td class="price">$4,085,000</td>
+        <td>2015-09-17</td>
+        <td>oil_on_board</td>
+    </tr><tr>
+        <td>14</td>
+        <td>FRANCIS NEWTON SOUZA</td>
+        <td>Birth</td>
+        <td class="price">$4,085,000</td>
+        <td>2015-09-17</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>15</td>
+        <td>Jagdish Swaminathan</td>
+        <td>Homage to Solzhenitsyn (Triptych)</td>
+        <td class="price">$4,000,000</td>
+        <td>2025-03-17</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>16</td>
+        <td>TYEB MEHTA</td>
+        <td>Kali</td>
+        <td class="price">$3,998,000</td>
+        <td>2018-06-13</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>17</td>
+        <td>TYEB MEHTA</td>
+        <td>Gesture</td>
+        <td class="price">$3,979,000</td>
+        <td>2026-03-25</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>18</td>
+        <td>TYEB MEHTA</td>
+        <td>Gesture</td>
+        <td class="price">$3,979,000</td>
+        <td>2026-03-25</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>19</td>
+        <td>FRANCIS NEWTON SOUZA</td>
+        <td>Priest with Chalice</td>
+        <td class="price">$3,922,000</td>
+        <td>2024-03-20</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>20</td>
+        <td>FRANCIS NEWTON SOUZA</td>
+        <td>Priest with Chalice</td>
+        <td class="price">$3,922,000</td>
+        <td>2024-03-20</td>
+        <td>oil_on_board</td>
+    </tr><tr>
+        <td>21</td>
+        <td>V S GAITONDE</td>
+        <td>Untitled</td>
+        <td class="price">$3,609,320</td>
+        <td>2019-03-26</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>22</td>
+        <td>TYEB MEHTA</td>
+        <td>Bulls</td>
+        <td class="price">$3,600,007</td>
+        <td>2023-06-28</td>
+        <td>acrylic_on_canvas</td>
+    </tr><tr>
+        <td>23</td>
+        <td>TYEB MEHTA</td>
+        <td>Untitled (Woman on Rickshaw)</td>
+        <td class="price">$3,535,890</td>
+        <td>2017-05-25</td>
+        <td>oil_on_canvas</td>
+    </tr><tr>
+        <td>24</td>
+        <td>AKBAR PADAMSEE</td>
+        <td>Woman with Corn</td>
+        <td class="price">$3,120,000</td>
+        <td>2023-12-13</td>
+        <td>oil_on_board</td>
+    </tr><tr>
+        <td>25</td>
+        <td>SAYED HAIDER RAZA</td>
+        <td>La Terre</td>
+        <td class="price">$3,015,000</td>
+        <td>2019-09-11</td>
+        <td>acrylic_on_canvas</td>
+    </tr></tbody>
+    </table>
+    </div>
+</div>
+
+<!-- 7. Source Comparison -->
+<div class="card" id="source-comp">
+    <h2>7. Source Comparison</h2>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Source</th><th>Total Lots</th><th>Sold</th><th>STR</th><th>Median Price</th><th>Mean Price</th><th>Total Hammer</th></tr></thead>
+        <tbody><tr>
+        <td>artist_scrape</td>
+        <td>331</td>
+        <td>331</td>
+        <td>100.0%</td>
+        <td>$187,500</td>
+        <td>$428,093</td>
+        <td>$141,698,850</td>
+    </tr><tr>
+        <td>christies</td>
+        <td>1,880</td>
+        <td>1,825</td>
+        <td>97.1%</td>
+        <td>$27,500</td>
+        <td>$122,072</td>
+        <td>$217,899,162</td>
+    </tr><tr>
+        <td>saffronart</td>
+        <td>2,743</td>
+        <td>2,287</td>
+        <td>83.4%</td>
+        <td>$16,800</td>
+        <td>$79,553</td>
+        <td>$181,938,149</td>
+    </tr><tr>
+        <td>sothebys</td>
+        <td>979</td>
+        <td>864</td>
+        <td>88.3%</td>
+        <td>$19,000</td>
+        <td>$120,640</td>
+        <td>$104,232,924</td>
+    </tr></tbody>
+    </table>
+    </div>
+</div>
+
+<!-- 10. CAGR & Price Index -->
+<div class="card" id="cagr-index">
+    <h2>10. CAGR &amp; Quality-Adjusted Price Index</h2>
+    <p class="subtitle">Three ways to measure price growth: <strong>Simple</strong> (raw median, noisy), <strong>Top-Tier</strong> (75th percentile, tracks quality work), <strong>Hedonic</strong> (model quality-adjusted, purest signal)</p>
+
+    <div class="kpi-grid">
+        <div class="kpi"><div class="value" style="color:#e94560">+13.1%</div><div class="label">Core 4 Top-Tier CAGR</div></div>
+        <div class="kpi"><div class="value" style="color:#f39c12">+12.5%</div><div class="label">Full Star Top-Tier CAGR</div></div>
+        <div class="kpi"><div class="value" style="color:#aaa">+7.6%</div><div class="label">Full Market Top-Tier CAGR</div></div>
+        <div class="kpi"><div class="value" style="color:#00e5ff">+0.1%</div><div class="label">Core 4 Hedonic CAGR</div></div>
+        <div class="kpi"><div class="value" style="color:#00e5ff">+0.1%</div><div class="label">Full Star Hedonic CAGR</div></div>
+        <div class="kpi"><div class="value" style="color:#00e5ff">+0.3%</div><div class="label">Full Market Hedonic CAGR</div></div>
+    </div>
+
+    <div class="chart-row">
+        <div class="chart-box"><canvas id="chart-cagr-hedonic"></canvas></div>
+        <div class="chart-box"><canvas id="chart-cagr-simple"></canvas></div>
+    </div>
+
+    <h3 style="margin-top:24px;">CAGR by Artist</h3>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Artist / Index</th><th>Period</th><th># Lots</th><th>Simple CAGR</th><th>Top-Tier CAGR</th><th>Hedonic CAGR</th><th>R&sup2;</th></tr></thead>
+        <tbody>
+        <tr style="font-weight:bold;color:#e94560"><td>Core 4 Index</td><td>1992&ndash;2026</td><td>1319</td><td>+0.4%</td><td>+13.1%</td><td>+0.1%</td><td>0.422</td></tr>
+        <tr style="font-weight:bold;color:#f39c12"><td>Full Star Index</td><td>1992&ndash;2026</td><td>2164</td><td>+0.0%</td><td>+12.5%</td><td>+0.1%</td><td>0.392</td></tr>
+        <tr style="color:#888"><td>Full Market</td><td>1992&ndash;2026</td><td>5267</td><td>-1.1%</td><td>+7.6%</td><td>+0.3%</td><td>0.152</td></tr>
+        <tr><td style="color:#f39c12">Ram Kumar</td><td>2015&ndash;2026</td><td>145</td><td>+10.8%</td><td>+27.2%</td><td>+2.7%</td><td>0.753</td></tr><tr><td style="color:#1abc9c">S.H. Raza</td><td>1995&ndash;2026</td><td>259</td><td>+14.6%</td><td>+17.8%</td><td>+1.6%</td><td>0.509</td></tr><tr><td style="color:#e74c3c">Tyeb Mehta</td><td>1995&ndash;2026</td><td>115</td><td>+8.1%</td><td>+15.2%</td><td>+0.0%</td><td>0.401</td></tr><tr><td style="color:#2ecc71">M.F. Husain</td><td>2015&ndash;2026</td><td>358</td><td>+6.6%</td><td>+13.2%</td><td>+1.4%</td><td>0.575</td></tr><tr><td style="color:#3498db">F.N. Souza</td><td>1992&ndash;2026</td><td>587</td><td>-5.5%</td><td>+10.5%</td><td>-0.6%</td><td>0.265</td></tr><tr><td style="color:#e67e22">V.S. Gaitonde</td><td>2015&ndash;2025</td><td>39</td><td>+2.1%</td><td>+5.7%</td><td>+1.2%</td><td>0.019</td></tr><tr><td style="color:#9b59b6">Akbar Padamsee</td><td>2015&ndash;2025</td><td>56</td><td>-6.0%</td><td>+1.2%</td><td>-1.3%</td><td>0.001</td></tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+<!-- 8. Core 4 Index -->
+<div class="card" id="core4-index">
+    <h2>8. Core 4 Index</h2>
+    <p class="subtitle">Souza &bull; Raza &bull; Tyeb Mehta &bull; Husain &mdash; Year-over-year performance vs rest of market</p>
+    <div class="chart-row">
+        <div class="chart-box"><canvas id="chart-core4-median"></canvas></div>
+        <div class="chart-box"><canvas id="chart-core4-value"></canvas></div>
+    </div>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Fair Value (Med)</th><th>Mean</th><th>Total Value</th><th>Rest Median</th></tr></thead>
+        <tbody><tr><td>1992</td><td>1</td><td>$112</td><td>$301</td><td>$112</td><td>$112</td><td>$18,960</td></tr><tr><td>1995</td><td>5</td><td>$9,493</td><td>$7,404</td><td>$6,951</td><td>$34,756</td><td>$17,370</td></tr><tr><td>1997</td><td>2</td><td>$14,459</td><td>$14,821</td><td>$14,459</td><td>$28,918</td><td>$18,750</td></tr><tr><td>1999</td><td>4</td><td>$10,589</td><td>$12,770</td><td>$10,224</td><td>$40,894</td><td>$22,629</td></tr><tr><td>2000</td><td>1</td><td>$15,275</td><td>$20,070</td><td>$15,275</td><td>$15,275</td><td>$10,625</td></tr><tr><td>2001</td><td>3</td><td>$10,575</td><td>$14,611</td><td>$13,317</td><td>$39,950</td><td>$12,084</td></tr><tr><td>2002</td><td>3</td><td>$107,550</td><td>$68,265</td><td>$144,671</td><td>$434,012</td><td>$17,820</td></tr><tr><td>2003</td><td>3</td><td>$119,500</td><td>$117,956</td><td>$96,556</td><td>$289,668</td><td>$13,624</td></tr><tr><td>2004</td><td>4</td><td>$94,799</td><td>$77,400</td><td>$89,635</td><td>$358,539</td><td>$14,880</td></tr><tr><td>2005</td><td>6</td><td>$114,000</td><td>$98,097</td><td>$375,173</td><td>$2,251,040</td><td>$19,000</td></tr><tr><td>2006</td><td>8</td><td>$340,800</td><td>$217,537</td><td>$356,700</td><td>$2,853,600</td><td>$21,420</td></tr><tr><td>2007</td><td>5</td><td>$457,000</td><td>$544,492</td><td>$497,000</td><td>$2,485,000</td><td>$52,070</td></tr><tr><td>2008</td><td>6</td><td>$312,550</td><td>$501,498</td><td>$451,952</td><td>$2,711,711</td><td>N/A</td></tr><tr><td>2009</td><td>9</td><td>$123,508</td><td>$166,499</td><td>$377,742</td><td>$3,399,675</td><td>N/A</td></tr><tr><td>2010</td><td>33</td><td>$146,500</td><td>$144,490</td><td>$266,082</td><td>$8,780,702</td><td>N/A</td></tr><tr><td>2011</td><td>14</td><td>$132,004</td><td>$177,282</td><td>$518,393</td><td>$7,257,504</td><td>N/A</td></tr><tr><td>2012</td><td>11</td><td>$122,500</td><td>$169,513</td><td>$462,661</td><td>$5,089,268</td><td>N/A</td></tr><tr><td>2013</td><td>17</td><td>$175,500</td><td>$172,999</td><td>$356,172</td><td>$6,054,918</td><td>N/A</td></tr><tr><td>2014</td><td>14</td><td>$178,450</td><td>$192,461</td><td>$634,506</td><td>$8,883,085</td><td>N/A</td></tr><tr><td>2015</td><td>42</td><td>$86,781</td><td>$82,646</td><td>$370,338</td><td>$15,554,210</td><td>N/A</td></tr><tr><td>2016</td><td>41</td><td>$41,660</td><td>$53,034</td><td>$115,436</td><td>$4,732,893</td><td>N/A</td></tr><tr><td>2017</td><td>35</td><td>$37,800</td><td>$37,511</td><td>$285,220</td><td>$9,982,696</td><td>N/A</td></tr><tr><td>2018</td><td>78</td><td>$85,700</td><td>$93,718</td><td>$270,794</td><td>$21,121,962</td><td>N/A</td></tr><tr><td>2019</td><td>108</td><td>$68,950</td><td>$64,039</td><td>$227,738</td><td>$24,595,724</td><td>N/A</td></tr><tr><td>2020</td><td>46</td><td>$112,500</td><td>$112,206</td><td>$211,523</td><td>$9,730,036</td><td>N/A</td></tr><tr><td>2021</td><td>114</td><td>$59,160</td><td>$67,235</td><td>$132,463</td><td>$15,100,763</td><td>N/A</td></tr><tr><td>2022</td><td>155</td><td>$94,500</td><td>$95,680</td><td>$233,812</td><td>$36,240,849</td><td>N/A</td></tr><tr><td>2023</td><td>166</td><td>$62,500</td><td>$73,473</td><td>$226,741</td><td>$37,639,027</td><td>N/A</td></tr><tr><td>2024</td><td>199</td><td>$60,480</td><td>$66,143</td><td>$282,128</td><td>$56,143,554</td><td>N/A</td></tr><tr><td>2025</td><td>149</td><td>$76,200</td><td>$68,690</td><td>$423,392</td><td>$63,085,479</td><td>N/A</td></tr><tr><td>2026</td><td>37</td><td>$234,950</td><td>$234,481</td><td>$581,905</td><td>$21,530,490</td><td>N/A</td></tr></tbody>
+    </table>
+    </div>
+    <h3 style="margin-top:24px;">Constituent Artists</h3>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Artist</th><th>Total Sales</th><th>Sales (12m)</th><th>Median (All)</th><th>Median (12m)</th><th>Mean (All)</th><th>Max</th></tr></thead>
+        <tbody><tr><td>F.N. Souza</td><td>587</td><td>110</td><td>$68,750</td><td>$44,450</td><td>$218,776</td><td>$5,922,000</td></tr><tr><td>M.F. Husain</td><td>358</td><td>87</td><td>$75,000</td><td>$144,000</td><td>$191,965</td><td>$13,750,000</td></tr><tr><td>S.H. Raza</td><td>259</td><td>74</td><td>$131,248</td><td>$138,600</td><td>$318,614</td><td>$4,700,000</td></tr><tr><td>Tyeb Mehta</td><td>115</td><td>14</td><td>$175,500</td><td>$191,280</td><td>$754,790</td><td>$5,596,000</td></tr></tbody>
+    </table>
+    </div>
+</div>
+
+<!-- 9. Full Star Index -->
+<div class="card" id="fullstar-index">
+    <h2>9. Full Star Index</h2>
+    <p class="subtitle">All artists with a sale &ge; $500K in the last 10 years &mdash; 26 artists</p>
+    <div class="chart-row">
+        <div class="chart-box"><canvas id="chart-fullstar-median"></canvas></div>
+        <div class="chart-box"><canvas id="chart-fullstar-value"></canvas></div>
+    </div>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Year</th><th># Sold</th><th>Median</th><th>Fair Value (Med)</th><th>Mean</th><th>Total Value</th><th>Rest Median</th></tr></thead>
+        <tbody><tr><td>1992</td><td>1</td><td>$112</td><td>$301</td><td>$112</td><td>$112</td><td>$15,889</td></tr><tr><td>1995</td><td>5</td><td>$9,493</td><td>$7,404</td><td>$6,951</td><td>$34,756</td><td>$16,250</td></tr><tr><td>1997</td><td>2</td><td>$14,459</td><td>$14,821</td><td>$14,459</td><td>$28,918</td><td>$13,750</td></tr><tr><td>1999</td><td>4</td><td>$10,589</td><td>$12,770</td><td>$10,224</td><td>$40,894</td><td>$19,440</td></tr><tr><td>2000</td><td>1</td><td>$15,275</td><td>$20,070</td><td>$15,275</td><td>$15,275</td><td>$9,867</td></tr><tr><td>2001</td><td>3</td><td>$10,575</td><td>$14,611</td><td>$13,317</td><td>$39,950</td><td>$10,506</td></tr><tr><td>2002</td><td>3</td><td>$107,550</td><td>$68,265</td><td>$144,671</td><td>$434,012</td><td>$16,200</td></tr><tr><td>2003</td><td>3</td><td>$119,500</td><td>$117,956</td><td>$96,556</td><td>$289,668</td><td>$11,000</td></tr><tr><td>2004</td><td>4</td><td>$94,799</td><td>$77,400</td><td>$89,635</td><td>$358,539</td><td>$12,342</td></tr><tr><td>2005</td><td>6</td><td>$114,000</td><td>$98,097</td><td>$375,173</td><td>$2,251,040</td><td>$18,000</td></tr><tr><td>2006</td><td>8</td><td>$340,800</td><td>$217,537</td><td>$356,700</td><td>$2,853,600</td><td>$21,240</td></tr><tr><td>2007</td><td>5</td><td>$457,000</td><td>$544,492</td><td>$497,000</td><td>$2,485,000</td><td>$41,910</td></tr><tr><td>2008</td><td>6</td><td>$312,550</td><td>$501,498</td><td>$451,952</td><td>$2,711,711</td><td>N/A</td></tr><tr><td>2009</td><td>9</td><td>$123,508</td><td>$166,499</td><td>$377,742</td><td>$3,399,675</td><td>N/A</td></tr><tr><td>2010</td><td>33</td><td>$146,500</td><td>$144,490</td><td>$266,082</td><td>$8,780,702</td><td>N/A</td></tr><tr><td>2011</td><td>14</td><td>$132,004</td><td>$177,282</td><td>$518,393</td><td>$7,257,504</td><td>N/A</td></tr><tr><td>2012</td><td>11</td><td>$122,500</td><td>$169,513</td><td>$462,661</td><td>$5,089,268</td><td>N/A</td></tr><tr><td>2013</td><td>17</td><td>$175,500</td><td>$172,999</td><td>$356,172</td><td>$6,054,918</td><td>N/A</td></tr><tr><td>2014</td><td>14</td><td>$178,450</td><td>$192,461</td><td>$634,506</td><td>$8,883,085</td><td>N/A</td></tr><tr><td>2015</td><td>63</td><td>$63,000</td><td>$52,581</td><td>$275,206</td><td>$17,337,975</td><td>N/A</td></tr><tr><td>2016</td><td>76</td><td>$33,167</td><td>$33,661</td><td>$92,414</td><td>$7,023,485</td><td>N/A</td></tr><tr><td>2017</td><td>70</td><td>$41,449</td><td>$38,350</td><td>$244,710</td><td>$17,129,694</td><td>N/A</td></tr><tr><td>2018</td><td>146</td><td>$58,125</td><td>$60,440</td><td>$228,195</td><td>$33,316,477</td><td>N/A</td></tr><tr><td>2019</td><td>184</td><td>$35,000</td><td>$30,181</td><td>$199,143</td><td>$36,642,335</td><td>N/A</td></tr><tr><td>2020</td><td>82</td><td>$62,500</td><td>$77,533</td><td>$220,044</td><td>$18,043,576</td><td>N/A</td></tr><tr><td>2021</td><td>210</td><td>$44,793</td><td>$39,495</td><td>$204,240</td><td>$42,890,381</td><td>N/A</td></tr><tr><td>2022</td><td>274</td><td>$53,960</td><td>$59,295</td><td>$233,277</td><td>$63,917,942</td><td>N/A</td></tr><tr><td>2023</td><td>278</td><td>$40,656</td><td>$36,084</td><td>$228,849</td><td>$63,620,061</td><td>N/A</td></tr><tr><td>2024</td><td>330</td><td>$51,860</td><td>$44,591</td><td>$231,156</td><td>$76,281,576</td><td>N/A</td></tr><tr><td>2025</td><td>244</td><td>$49,980</td><td>$43,350</td><td>$355,921</td><td>$86,844,677</td><td>N/A</td></tr><tr><td>2026</td><td>58</td><td>$203,200</td><td>$188,324</td><td>$538,450</td><td>$31,230,120</td><td>N/A</td></tr></tbody>
+    </table>
+    </div>
+    <h3 style="margin-top:24px;">Constituent Artists</h3>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Artist</th><th>Total Sales</th><th>Sales (12m)</th><th>Median (All)</th><th>Median (12m)</th><th>Mean (All)</th><th>Max</th></tr></thead>
+        <tbody><tr><td>M.F. Husain</td><td>358</td><td>87</td><td>$75,000</td><td>$144,000</td><td>$191,965</td><td>$13,750,000</td></tr><tr><td>F.N. Souza</td><td>587</td><td>110</td><td>$68,750</td><td>$44,450</td><td>$218,776</td><td>$5,922,000</td></tr><tr><td>V.S. Gaitonde</td><td>39</td><td>5</td><td>$113,400</td><td>$504,000</td><td>$968,976</td><td>$5,747,500</td></tr><tr><td>Tyeb Mehta</td><td>115</td><td>14</td><td>$175,500</td><td>$191,280</td><td>$754,790</td><td>$5,596,000</td></tr><tr><td>AMRITA SHER-GIL</td><td>17</td><td>1</td><td>$31,680</td><td>$42,480</td><td>$580,288</td><td>$5,103,000</td></tr><tr><td>S.H. Raza</td><td>259</td><td>74</td><td>$131,248</td><td>$138,600</td><td>$318,614</td><td>$4,700,000</td></tr><tr><td>SYED HAIDER RAZA</td><td>24</td><td>0</td><td>$67,500</td><td>N/A</td><td>$282,708</td><td>$4,452,500</td></tr><tr><td>JAGDISH SWAMINATHAN</td><td>53</td><td>12</td><td>$102,627</td><td>$227,950</td><td>$220,481</td><td>$4,000,000</td></tr><tr><td>Akbar Padamsee</td><td>56</td><td>13</td><td>$22,422</td><td>$16,992</td><td>$172,532</td><td>$3,120,000</td></tr><tr><td>RAJA RAVI VARMA</td><td>5</td><td>0</td><td>$2,302,300</td><td>N/A</td><td>$1,870,738</td><td>$2,754,000</td></tr><tr><td>GULAM MOHAMMED SHEIKH</td><td>5</td><td>1</td><td>$576,000</td><td>$576,000</td><td>$781,391</td><td>$2,541,000</td></tr><tr><td>GANESH PYNE</td><td>47</td><td>14</td><td>$30,000</td><td>$55,880</td><td>$200,117</td><td>$2,515,000</td></tr><tr><td>BHUPEN KHAKHAR</td><td>56</td><td>13</td><td>$19,125</td><td>$10,080</td><td>$234,945</td><td>$2,460,000</td></tr><tr><td>JEHANGIR SABAVALA</td><td>39</td><td>13</td><td>$365,000</td><td>$600,000</td><td>$456,319</td><td>$2,300,000</td></tr><tr><td>GULAMMOHAMMED SHEIKH (B. 1937)</td><td>13</td><td>7</td><td>$10,080</td><td>$4,788</td><td>$271,210</td><td>$2,040,000</td></tr><tr><td>MANJIT BAWA</td><td>58</td><td>10</td><td>$34,872</td><td>$38,280</td><td>$241,071</td><td>$1,984,000</td></tr><tr><td>Ram Kumar</td><td>145</td><td>37</td><td>$40,656</td><td>$56,700</td><td>$89,370</td><td>$1,143,000</td></tr><tr><td>K.G. RAMANUJAM</td><td>2</td><td>1</td><td>$542,250</td><td>$1,079,500</td><td>$542,250</td><td>$1,079,500</td></tr><tr><td>MAHADEV VISVANATH DHURANDHAR</td><td>11</td><td>0</td><td>$22,680</td><td>N/A</td><td>$128,128</td><td>$1,013,040</td></tr><tr><td>AKBAR PADAMSEE (B. 1928)</td><td>9</td><td>0</td><td>$250,000</td><td>N/A</td><td>$264,361</td><td>$912,500</td></tr><tr><td>ARPITA SINGH (B. 1937)</td><td>13</td><td>1</td><td>$32,760</td><td>$2,394</td><td>$140,973</td><td>$819,000</td></tr><tr><td>SAKTI BURMAN</td><td>25</td><td>6</td><td>$24,192</td><td>$53,820</td><td>$62,316</td><td>$814,200</td></tr><tr><td>SUDHIR PATWARDHAN (B. 1949)</td><td>8</td><td>1</td><td>$30,100</td><td>$756,000</td><td>$122,528</td><td>$756,000</td></tr><tr><td>RABINDRANATH TAGORE</td><td>6</td><td>0</td><td>$278,406</td><td>N/A</td><td>$320,099</td><td>$682,000</td></tr><tr><td>JAMINI ROY</td><td>203</td><td>43</td><td>$17,500</td><td>$25,400</td><td>$25,953</td><td>$579,600</td></tr><tr><td>ZAINUL ABEDIN</td><td>11</td><td>6</td><td>$187,500</td><td>$180,500</td><td>$228,591</td><td>$558,800</td></tr></tbody>
+    </table>
+    </div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+    Indian Art Market Analytics &nbsp;|&nbsp; Data: master.csv (5,933 lots) &amp; ml_ready.csv (5,267 lots)
+    &nbsp;|&nbsp; Models: 5 CatBoost + 2 XGBoost
+</footer>
+
+<script>
+Chart.defaults.color = '#aaa';
+Chart.defaults.borderColor = '#333';
+
+// 2. Market Overview Charts
+new Chart(document.getElementById('chart-yearly-lots'), {
+    type: 'bar',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [{
+            label: 'Lots Sold',
+            data: [1, 5, 2, 4, 1, 3, 3, 3, 4, 6, 8, 5, 6, 9, 33, 14, 11, 17, 14, 127, 157, 151, 272, 555, 331, 529, 760, 759, 782, 642, 93],
+            backgroundColor: '#e9456088',
+            borderColor: '#e94560',
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Auction Volume (Lots Sold) by Year', color: '#e0e0e0', font: { size: 14 } },
+            legend: { labels: { color: '#ccc' } },
+            tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + ' lots' } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa' }, grid: { color: '#222' } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chart-yearly-hammer'), {
+    type: 'bar',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [{
+            label: 'Total Hammer (USD)',
+            data: [111.76, 34756.09, 28917.9, 40894.0, 15275.0, 39950.0, 434012.0, 289668.0, 358538.7, 2251040.0, 2853600.0, 2485000.0, 2711711.0, 3399675.0, 8780701.5, 7257503.75, 5089267.5, 6054917.5, 8883085.0, 20094151.51, 9268427.69, 19225112.21, 37123976.02, 44102465.19, 28393843.38, 52860187.99, 76035523.65, 76532892.2, 91484928.0, 105524662.2, 34114290.0],
+            backgroundColor: '#0f346088',
+            borderColor: '#0f3460',
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Total Hammer Value (USD) by Year', color: '#e0e0e0', font: { size: 14 } },
+            legend: { labels: { color: '#ccc' } },
+            tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa', callback: v => '$' + (v/1e6).toFixed(1) + 'M' }, grid: { color: '#222' } }
+        }
+    }
+});
+
+// 3. Star artist charts
+
+    // Tyeb Mehta median
+    new Chart(document.getElementById('chart-median-Tyeb-Mehta'), {
+        type: 'line',
+        data: {
+            labels: [1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [1022.35, 14458.95, 10588.625, 15275.0, 10575.0, 107550.0, 119500.0, 101575.0, 1584000.0, 632000.0, 1105000.0, 952101.75, 123507.5, 44259.5, 602500.0, 152500.0, 179625.0, 521100.0, 1466635.0, 27500.0, 1632500.0, 1392500.0, 29875.0, 1110000.0, 575000.0, 327600.0, 20328.0, 52465.0, 104784.0, 3979000.0],
+                borderColor: '#e74c3c',
+                backgroundColor: '#e74c3c33',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Tyeb Mehta — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // Tyeb Mehta mean
+    new Chart(document.getElementById('chart-mean-Tyeb-Mehta'), {
+        type: 'line',
+        data: {
+            labels: [1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [1022.35, 14458.95, 10223.5, 15275.0, 13316.666666666666, 144670.66666666666, 96556.0, 90171.66666666667, 1584000.0, 632000.0, 1105000.0, 952101.75, 450129.64285714284, 471435.6666666667, 1202740.5, 575220.9375, 530901.5625, 1032047.0, 1466635.0, 526547.5, 1554965.6, 1451479.6875, 562075.0, 1110000.0, 575000.0, 1263218.0, 734795.0, 103741.66666666667, 828605.0, 3979000.0],
+                borderColor: '#e74c3c',
+                backgroundColor: '#e74c3c33',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Tyeb Mehta — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+    // F.N. Souza median
+    new Chart(document.getElementById('chart-median-FN-Souza'), {
+        type: 'line',
+        data: {
+            labels: [1992, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [111.76, 88023.7, 114000.0, 329600.0, 319000.0, 168550.0, 124383.75, 146500.0, 132003.75, 104500.0, 170021.25, 155575.0, 86062.5, 36317.1, 15625.0, 123000.0, 32500.0, 34266.0, 36710.0, 48826.89, 26000.0, 48260.0, 20160.0, 57150.0],
+                borderColor: '#3498db',
+                backgroundColor: '#3498db33',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'F.N. Souza — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // F.N. Souza mean
+    new Chart(document.getElementById('chart-mean-FN-Souza'), {
+        type: 'line',
+        data: {
+            labels: [1992, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [111.76, 88023.7, 133408.0, 317371.4285714286, 345000.0, 201876.875, 124383.75, 245546.48333333334, 155336.25, 162500.0, 200856.11111111112, 413650.0, 383156.08666666667, 95991.66875, 80285.445, 165726.23386363636, 113786.37277777778, 69991.0, 145113.475, 230430.3997142857, 172893.22105263156, 322676.65934065933, 327492.1725490196, 128088.57142857143],
+                borderColor: '#3498db',
+                backgroundColor: '#3498db33',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'F.N. Souza — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+    // M.F. Husain median
+    new Chart(document.getElementById('chart-median-MF-Husain'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [93750.0, 50000.0, 34003.2, 45000.0, 72202.76, 151232.4, 50000.0, 94500.0, 63000.0, 64800.0, 141600.0, 177800.0],
+                borderColor: '#2ecc71',
+                backgroundColor: '#2ecc7133',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'M.F. Husain — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // M.F. Husain mean
+    new Chart(document.getElementById('chart-mean-MF-Husain'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [106306.88888888889, 70631.42882352941, 74814.41818181818, 65683.96631578948, 125784.57739130434, 370212.0363636364, 68775.6782051282, 118478.26083333332, 165981.46440677968, 171801.75, 466054.56140350876, 353483.3333333333],
+                borderColor: '#2ecc71',
+                backgroundColor: '#2ecc7133',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'M.F. Husain — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+    // Ram Kumar median
+    new Chart(document.getElementById('chart-median-Ram-Kumar'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [11647.38, 26286.82, 34392.0, 36000.0, 13829.76, 50652.0, 60780.0, 66528.0, 32670.0, 31500.0, 27720.0, 228600.0],
+                borderColor: '#f39c12',
+                backgroundColor: '#f39c1233',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Ram Kumar — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // Ram Kumar mean
+    new Chart(document.getElementById('chart-mean-Ram-Kumar'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [11031.9225, 26286.82, 60328.32, 60077.985555555555, 33867.83571428571, 72374.05500000001, 85468.47166666666, 114842.15625, 102619.76923076923, 60572.57142857143, 129705.06666666667, 495300.0],
+                borderColor: '#f39c12',
+                backgroundColor: '#f39c1233',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Ram Kumar — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+    // Akbar Padamsee median
+    new Chart(document.getElementById('chart-median-Akbar-Padamsee'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [236000.0, 38985.7, 82548.555, 2040.0, 96667.5, 192960.0, 132000.0, 5140.8, 24684.0, 15840.0, 70000.0],
+                borderColor: '#9b59b6',
+                backgroundColor: '#9b59b633',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Akbar Padamsee — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // Akbar Padamsee mean
+    new Chart(document.getElementById('chart-mean-Akbar-Padamsee'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [236000.0, 38985.7, 84242.495, 64530.0, 111290.1425, 192940.0, 187022.85714285713, 12910.275, 782067.6, 76055.0, 251458.4],
+                borderColor: '#9b59b6',
+                backgroundColor: '#9b59b633',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Akbar Padamsee — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+    // S.H. Raza median
+    new Chart(document.getElementById('chart-median-SH-Raza'), {
+        type: 'line',
+        data: {
+            labels: [1995, 2011, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [10223.5, 1111.25, 46500.0, 82695.0, 33269.91, 86400.0, 198000.0, 62500.0, 97200.0, 132000.0, 176400.0, 138600.0, 94500.0, 666750.0],
+                borderColor: '#1abc9c',
+                backgroundColor: '#1abc9c33',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'S.H. Raza — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // S.H. Raza mean
+    new Chart(document.getElementById('chart-mean-SH-Raza'), {
+        type: 'line',
+        data: {
+            labels: [1995, 2011, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [8433.435, 1111.25, 329740.88, 83329.98000000001, 33447.41, 138596.43285714285, 492959.79333333333, 145191.024, 137731.6744, 253364.840625, 318160.7111111111, 359491.95652173914, 399679.63636363635, 716491.6666666666],
+                borderColor: '#1abc9c',
+                backgroundColor: '#1abc9c33',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'S.H. Raza — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+    // V.S. Gaitonde median
+    new Chart(document.getElementById('chart-median-VS-Gaitonde'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+            datasets: [{
+                label: 'Median Hammer Price',
+                data: [197000.0, 96000.0, 2102500.0, 463750.0, 64161.0, 650704.0, 940000.0, 1521600.0, 24000.0, 48350.0, 1101600.0],
+                borderColor: '#e67e22',
+                backgroundColor: '#e67e2233',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'V.S. Gaitonde — Median Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    // V.S. Gaitonde mean
+    new Chart(document.getElementById('chart-mean-VS-Gaitonde'), {
+        type: 'line',
+        data: {
+            labels: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+            datasets: [{
+                label: 'Mean Hammer Price',
+                data: [197000.0, 96000.0, 2102500.0, 463750.0, 659037.3875, 650704.0, 1563023.4616666667, 1357140.0, 1207168.4, 56275.0, 1180800.0],
+                borderColor: '#e67e22',
+                backgroundColor: '#e67e2233',
+                borderDash: [5, 5],
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'V.S. Gaitonde — Mean Price by Year', color: '#e0e0e0', font: { size: 14 } },
+                tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } },
+                legend: { labels: { color: '#ccc' } }
+            },
+            scales: {
+                x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+                y: { ticks: { color: '#aaa', callback: v => '$' + v.toLocaleString() }, grid: { color: '#333' } }
+            }
+        }
+    });
+    
+
+// 4. Price Distribution
+new Chart(document.getElementById('chart-hist-all'), {
+    type: 'bar',
+    data: {
+        labels: ["$1", "$2", "$3", "$6", "$10", "$18", "$32", "$56", "$100", "$178", "$316", "$562", "$1,000", "$1,778", "$3,162", "$5,623", "$10,000", "$17,783", "$31,623", "$56,234", "$100,000", "$177,828", "$316,228", "$562,341", "$1,000,000", "$1,778,279", "$3,162,278", "$5,623,413", "$10,000,000", "$17,782,794", "$31,622,777", "$56,234,133", "$100,000,000"],
+        datasets: [{
+            label: 'All Artists',
+            data: [0, 0, 0, 0, 0, 0, 1, 0, 2, 2, 11, 22, 66, 211, 474, 698, 872, 822, 604, 424, 370, 277, 191, 91, 65, 41, 19, 3, 1, 0, 0, 0, 0],
+            backgroundColor: '#e9456066',
+            borderColor: '#e94560',
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Hammer Price Distribution (All Artists, Log Scale Bins)', color: '#e0e0e0', font: { size: 14 } },
+            legend: { labels: { color: '#ccc' } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa', maxRotation: 60 }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa' }, grid: { color: '#222' } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chart-hist-stars'), {
+    type: 'bar',
+    data: {
+        labels: ["$1", "$2", "$3", "$6", "$10", "$18", "$32", "$56", "$100", "$178", "$316", "$562", "$1,000", "$1,778", "$3,162", "$5,623", "$10,000", "$17,783", "$31,623", "$56,234", "$100,000", "$177,828", "$316,228", "$562,341", "$1,000,000", "$1,778,279", "$3,162,278", "$5,623,413", "$10,000,000", "$17,782,794", "$31,622,777", "$56,234,133", "$100,000,000"],
+        datasets: [{
+        label: 'Tyeb Mehta',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 4, 9, 11, 17, 5, 9, 7, 6, 9, 17, 12, 6, 0, 0, 0, 0, 0, 0],
+        backgroundColor: '#e74c3c88',
+        borderColor: '#e74c3c',
+        borderWidth: 1,
+    },{
+        label: 'F.N. Souza',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 8, 62, 52, 63, 44, 48, 52, 81, 77, 61, 17, 9, 2, 6, 2, 0, 0, 0, 0, 0],
+        backgroundColor: '#3498db88',
+        borderColor: '#3498db',
+        borderWidth: 1,
+    },{
+        label: 'M.F. Husain',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 11, 19, 31, 39, 49, 53, 70, 41, 24, 7, 5, 3, 0, 0, 1, 0, 0, 0, 0],
+        backgroundColor: '#2ecc7188',
+        borderColor: '#2ecc71',
+        borderWidth: 1,
+    },{
+        label: 'Ram Kumar',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 13, 38, 9, 17, 21, 21, 9, 6, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        backgroundColor: '#f39c1288',
+        borderColor: '#f39c12',
+        borderWidth: 1,
+    },{
+        label: 'Akbar Padamsee',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 9, 6, 5, 3, 4, 3, 5, 6, 4, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        backgroundColor: '#9b59b688',
+        borderColor: '#9b59b6',
+        borderWidth: 1,
+    },{
+        label: 'S.H. Raza',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 4, 9, 28, 40, 36, 27, 37, 33, 19, 14, 6, 1, 0, 0, 0, 0, 0, 0],
+        backgroundColor: '#1abc9c88',
+        borderColor: '#1abc9c',
+        borderWidth: 1,
+    },{
+        label: 'V.S. Gaitonde',
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 7, 2, 4, 4, 3, 1, 2, 4, 4, 3, 1, 0, 0, 0, 0, 0],
+        backgroundColor: '#e67e2288',
+        borderColor: '#e67e22',
+        borderWidth: 1,
+    },]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Hammer Price Distribution by Star Artist (Log Scale Bins)', color: '#e0e0e0', font: { size: 14 } },
+            legend: { labels: { color: '#ccc' } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa', maxRotation: 60 }, grid: { color: '#222' }, stacked: false },
+            y: { ticks: { color: '#aaa' }, grid: { color: '#222' }, stacked: false }
+        }
+    }
+});
+
+// 10. CAGR & Price Index Charts
+new Chart(document.getElementById('chart-cagr-hedonic'), {
+    type: 'line',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [
+            { label: 'Core 4 (Top-Tier P75)', data: [100.0, 9801.1, 13002.8, 10291.2, 13667.7, 14193.4, 190162.0, 108208.7, 97401.8, 201592.7, 360057.3, 587866.9, 527022.2, 517627.1, 205965.9, 237115.2, 453203.3, 228838.6, 843146.0, 188181.1, 106254.5, 156585.5, 223693.6, 176722.4, 162374.7, 134216.2, 219846.1, 202934.9, 187097.4, 318181.8, 511363.6], borderColor: '#e94560', backgroundColor: '#e9456022', fill: true, tension: 0.3, borderWidth: 2.5 },
+            { label: 'Full Star (Top-Tier P75)', data: [100.0, 9801.1, 13002.8, 10291.2, 13667.7, 14193.4, 190162.0, 108208.7, 97401.8, 201592.7, 360057.3, 587866.9, 527022.2, 517627.1, 205965.9, 237115.2, 453203.3, 228838.6, 843146.0, 154905.6, 67589.8, 118823.3, 190139.6, 139808.5, 166974.6, 127371.2, 202129.6, 176494.3, 180386.5, 270579.8, 511363.6], borderColor: '#f39c12', fill: false, tension: 0.3, borderWidth: 2.5 },
+            { label: 'Full Market (Top-Tier P75)', data: [100.0, 9801.1, 13002.8, 10291.2, 13667.7, 14193.4, 190162.0, 108208.7, 97401.8, 201592.7, 360057.3, 587866.9, 527022.2, 517627.1, 205965.9, 237115.2, 453203.3, 228838.6, 843146.0, 98118.7, 44738.7, 50666.6, 78292.8, 31317.1, 43521.8, 50733.7, 49212.6, 45096.6, 57578.7, 73282.0, 352272.7], borderColor: '#888', borderDash: [5,5], fill: false, tension: 0.3, borderWidth: 1.5 },
+            { label: "Tyeb Mehta (P75)", data: [100.0, 1421.4, 1125.0, 1494.1, 1551.6, 20787.9, 11829.0, 11359.9, 154937.2, 61818.4, 108084.3, 107561.3, 73604.9, 67335.4, 245124.2, 96023.1, 46822.3, 205908.0, 164011.8, 75910.5, 159681.1, 177287.6, 55577.8, 108573.4, 73360.4, 32043.8, 4260.8, 18117.1, 198268.7, 389201.3], borderColor: "#e74c3c", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "F.N. Souza (P75)", data: [100.0, 78761.4, 102004.3, 324982.1, 453650.7, 247248.6, 118505.6, 202556.8, 160612.0, 176718.0, 228838.6, 169917.7, 178617.1, 173040.4, 83969.0, 223693.6, 145400.9, 127225.8, 142269.1, 270579.8, 107104.5, 180386.5, 86305.5, 173295.5], borderColor: "#3498db", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "M.F. Husain (P75)", data: [100.0, 56.8, 73.4, 68.6, 85.2, 247.4, 73.4, 143.2, 137.3, 134.3, 269.4, 336.7], borderColor: "#2ecc71", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "Ram Kumar (P75)", data: [100.0, 287.0, 691.4, 707.6, 393.8, 474.1, 875.8, 782.8, 1171.7, 849.1, 2019.7, 5776.9], borderColor: "#f39c12", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "Akbar Padamsee (P75)", data: [100.0, 23.4, 55.4, 27.2, 71.4, 119.3, 69.9, 5.2, 318.3, 12.4, 147.4], borderColor: "#9b59b6", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "S.H. Raza (P75)", data: [100.0, 9.7, 3074.3, 1141.1, 309.0, 1529.0, 4369.0, 1577.3, 1630.2, 2410.1, 3912.6, 3204.4, 4053.4, 7508.6], borderColor: "#1abc9c", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "V.S. Gaitonde (P75)", data: [100.0, 48.7, 1572.3, 346.1, 213.9, 488.9, 1004.9, 1134.5, 115.7, 36.0, 950.6], borderColor: "#e67e22", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Top-Tier Price Index (75th Percentile) — Base Year = 100', color: '#e0e0e0', font: { size: 14 } },
+            subtitle: { display: true, text: 'Tracks quality work — not dragged down by small/minor pieces', color: '#888', font: { size: 11 } },
+            tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1); } } },
+            legend: { labels: { color: '#ccc', usePointStyle: true } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa' }, grid: { color: '#333' }, title: { display: true, text: 'Index (base=100)', color: '#aaa' } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chart-cagr-simple'), {
+    type: 'line',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [
+            { label: 'Core 4 (Hedonic)', data: [100.0, 251.9, 263.3, 238.6, 205.3, 206.7, 384.4, 258.0, 245.9, 409.9, 441.9, 222.3, 180.4, 221.1, 341.4, 229.9, 209.6, 308.7, 258.3, 277.0, 231.0, 253.0, 237.2, 243.0, 251.7, 240.2, 253.4, 279.9, 253.1, 273.9, 302.8], borderColor: '#e94560', backgroundColor: '#e9456022', fill: true, tension: 0.3, borderWidth: 2.5 },
+            { label: 'Full Star (Hedonic)', data: [100.0, 251.9, 263.3, 238.6, 205.3, 206.7, 384.4, 258.0, 245.9, 409.9, 441.9, 222.3, 180.4, 221.1, 341.4, 229.9, 209.6, 308.7, 258.3, 271.8, 240.8, 253.5, 236.3, 244.1, 254.6, 245.7, 252.0, 276.8, 246.6, 257.2, 311.8], borderColor: '#f39c12', fill: false, tension: 0.3, borderWidth: 2.5 },
+            { label: 'Full Market (Hedonic)', data: [100.0, 251.9, 263.3, 238.6, 205.3, 206.7, 384.4, 258.0, 245.9, 409.9, 441.9, 222.3, 180.4, 221.1, 341.4, 229.9, 209.6, 308.7, 258.3, 265.4, 244.7, 259.8, 245.6, 247.7, 248.2, 251.0, 253.8, 269.7, 246.6, 272.4, 304.2], borderColor: '#888', borderDash: [5,5], fill: false, tension: 0.3, borderWidth: 1.5 },
+            { label: "Tyeb Mehta (Hedonic)", data: [100.0, 104.5, 94.7, 81.5, 82.0, 152.6, 102.4, 92.4, 199.0, 80.8, 111.3, 120.6, 87.7, 135.3, 118.2, 93.9, 148.7, 91.1, 201.7, 88.5, 115.6, 84.6, 89.7, 86.6, 96.1, 112.8, 83.2, 91.8, 89.0, 120.9], borderColor: "#e74c3c", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "F.N. Souza (Hedonic)", data: [100.0, 546.1, 385.6, 458.1, 215.9, 170.1, 226.1, 348.2, 195.1, 208.9, 268.5, 259.5, 286.6, 262.6, 235.9, 241.7, 231.9, 256.5, 243.9, 255.2, 280.7, 253.1, 246.0, 245.5], borderColor: "#3498db", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "M.F. Husain (Hedonic)", data: [100.0, 98.3, 106.7, 95.0, 100.1, 125.5, 93.6, 95.0, 100.2, 104.5, 117.3, 109.9], borderColor: "#2ecc71", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "Ram Kumar (Hedonic)", data: [100.0, 89.3, 99.4, 96.6, 97.8, 96.6, 94.1, 108.3, 116.3, 83.4, 113.7, 130.9], borderColor: "#f39c12", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "Akbar Padamsee (Hedonic)", data: [100.0, 65.2, 72.4, 59.6, 66.2, 77.4, 85.4, 70.9, 82.0, 65.3, 72.6], borderColor: "#9b59b6", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "S.H. Raza (Hedonic)", data: [100.0, 52.8, 80.6, 85.0, 114.8, 90.8, 108.2, 88.3, 91.9, 96.3, 112.0, 94.1, 110.1, 159.5], borderColor: "#1abc9c", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true },{ label: "V.S. Gaitonde (Hedonic)", data: [100.0, 23.9, 28.5, 18.6, 29.3, 21.3, 26.5, 21.1, 26.1, 28.8, 47.3], borderColor: "#e67e22", fill: false, tension: 0.3, borderWidth: 1.5, hidden: true }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Hedonic (Quality-Adjusted) Price Index — Base Year = 100', color: '#e0e0e0', font: { size: 14 } },
+            subtitle: { display: true, text: 'Model normalizes for size, medium, provenance → isolates pure price appreciation', color: '#888', font: { size: 11 } },
+            tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1); } } },
+            legend: { labels: { color: '#ccc', usePointStyle: true } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa' }, grid: { color: '#333' }, title: { display: true, text: 'Index (base=100)', color: '#aaa' } }
+        }
+    }
+});
+
+// 8. Core 4 Index Charts
+new Chart(document.getElementById('chart-core4-median'), {
+    type: 'line',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [
+            { label: 'Core 4 Median (Actual)', data: [112.0, 9493.0, 14459.0, 10589.0, 15275.0, 10575.0, 107550.0, 119500.0, 94799.0, 114000.0, 340800.0, 457000.0, 312550.0, 123508.0, 146500.0, 132004.0, 122500.0, 175500.0, 178450.0, 86781.0, 41660.0, 37800.0, 85700.0, 68950.0, 112500.0, 59160.0, 94500.0, 62500.0, 60480.0, 76200.0, 234950.0], borderColor: '#e94560', backgroundColor: '#e9456033', fill: true, tension: 0.3, borderWidth: 2 },
+            { label: 'Core 4 Fair Value (Model)', data: [301.0, 7404.0, 14821.0, 12770.0, 20070.0, 14611.0, 68265.0, 117956.0, 77400.0, 98097.0, 217537.0, 544492.0, 501498.0, 166499.0, 144490.0, 177282.0, 169513.0, 172999.0, 192461.0, 82646.0, 53034.0, 37511.0, 93718.0, 64039.0, 112206.0, 67235.0, 95680.0, 73473.0, 66143.0, 68690.0, 234481.0], borderColor: '#00e5ff', borderDash: [8,4], fill: false, tension: 0.3, borderWidth: 2, pointStyle: 'rectRot', pointRadius: 5 },
+            { label: 'Rest of Market Median', data: [18960.0, 17370.0, 18750.0, 22629.0, 10625.0, 12084.0, 17820.0, 13624.0, 14880.0, 19000.0, 21420.0, 52070.0], borderColor: '#666', borderDash: [3,3], fill: false, tension: 0.3, borderWidth: 1 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Core 4 — Actual Median vs Model Fair Value', color: '#e0e0e0', font: { size: 14 } },
+            tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString(); } } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa', callback: function(v) { return '$' + (v/1000).toFixed(0) + 'K'; } }, grid: { color: '#222' } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chart-core4-value'), {
+    type: 'bar',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [
+            { label: 'Core 4 Total Value', data: [112.0, 34756.0, 28918.0, 40894.0, 15275.0, 39950.0, 434012.0, 289668.0, 358539.0, 2251040.0, 2853600.0, 2485000.0, 2711711.0, 3399675.0, 8780702.0, 7257504.0, 5089268.0, 6054918.0, 8883085.0, 15554210.0, 4732893.0, 9982696.0, 21121962.0, 24595724.0, 9730036.0, 15100763.0, 36240849.0, 37639027.0, 56143554.0, 63085479.0, 21530490.0], backgroundColor: '#e9456088', borderColor: '#e94560', borderWidth: 1 },
+            { label: '# Lots Sold', data: [1, 5, 2, 4, 1, 3, 3, 3, 4, 6, 8, 5, 6, 9, 33, 14, 11, 17, 14, 42, 41, 35, 78, 108, 46, 114, 155, 166, 199, 149, 37], type: 'line', borderColor: '#3498db', yAxisID: 'y1', tension: 0.3 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Core 4 — Total Hammer Value & Volume', color: '#e0e0e0', font: { size: 14 } },
+            tooltip: { callbacks: { label: function(ctx) { if(ctx.dataset.type==='line') return ctx.dataset.label + ': ' + ctx.parsed.y; return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString(); } } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa', callback: function(v) { return '$' + (v/1e6).toFixed(1) + 'M'; } }, grid: { color: '#222' }, position: 'left' },
+            y1: { ticks: { color: '#3498db' }, grid: { display: false }, position: 'right' }
+        }
+    }
+});
+
+// 9. Full Star Index Charts
+new Chart(document.getElementById('chart-fullstar-median'), {
+    type: 'line',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [
+            { label: 'Star Index Median (Actual)', data: [112.0, 9493.0, 14459.0, 10589.0, 15275.0, 10575.0, 107550.0, 119500.0, 94799.0, 114000.0, 340800.0, 457000.0, 312550.0, 123508.0, 146500.0, 132004.0, 122500.0, 175500.0, 178450.0, 63000.0, 33167.0, 41449.0, 58125.0, 35000.0, 62500.0, 44793.0, 53960.0, 40656.0, 51860.0, 49980.0, 203200.0], borderColor: '#f39c12', backgroundColor: '#f39c1233', fill: true, tension: 0.3, borderWidth: 2 },
+            { label: 'Star Index Fair Value (Model)', data: [301.0, 7404.0, 14821.0, 12770.0, 20070.0, 14611.0, 68265.0, 117956.0, 77400.0, 98097.0, 217537.0, 544492.0, 501498.0, 166499.0, 144490.0, 177282.0, 169513.0, 172999.0, 192461.0, 52581.0, 33661.0, 38350.0, 60440.0, 30181.0, 77533.0, 39495.0, 59295.0, 36084.0, 44591.0, 43350.0, 188324.0], borderColor: '#00e5ff', borderDash: [8,4], fill: false, tension: 0.3, borderWidth: 2, pointStyle: 'rectRot', pointRadius: 5 },
+            { label: 'Rest of Market Median', data: [15889.0, 16250.0, 13750.0, 19440.0, 9867.0, 10506.0, 16200.0, 11000.0, 12342.0, 18000.0, 21240.0, 41910.0], borderColor: '#666', borderDash: [3,3], fill: false, tension: 0.3, borderWidth: 1 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Full Star Index — Actual Median vs Model Fair Value', color: '#e0e0e0', font: { size: 14 } },
+            tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString(); } } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa', callback: function(v) { return '$' + (v/1000).toFixed(0) + 'K'; } }, grid: { color: '#222' } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chart-fullstar-value'), {
+    type: 'bar',
+    data: {
+        labels: [1992, 1995, 1997, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        datasets: [
+            { label: 'Star Index Total Value', data: [112.0, 34756.0, 28918.0, 40894.0, 15275.0, 39950.0, 434012.0, 289668.0, 358539.0, 2251040.0, 2853600.0, 2485000.0, 2711711.0, 3399675.0, 8780702.0, 7257504.0, 5089268.0, 6054918.0, 8883085.0, 17337975.0, 7023485.0, 17129694.0, 33316477.0, 36642335.0, 18043576.0, 42890381.0, 63917942.0, 63620061.0, 76281576.0, 86844677.0, 31230120.0], backgroundColor: '#f39c1288', borderColor: '#f39c12', borderWidth: 1 },
+            { label: '# Lots Sold', data: [1, 5, 2, 4, 1, 3, 3, 3, 4, 6, 8, 5, 6, 9, 33, 14, 11, 17, 14, 63, 76, 70, 146, 184, 82, 210, 274, 278, 330, 244, 58], type: 'line', borderColor: '#3498db', yAxisID: 'y1', tension: 0.3 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Full Star Index — Total Hammer Value & Volume', color: '#e0e0e0', font: { size: 14 } },
+            tooltip: { callbacks: { label: function(ctx) { if(ctx.dataset.type==='line') return ctx.dataset.label + ': ' + ctx.parsed.y; return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString(); } } }
+        },
+        scales: {
+            x: { ticks: { color: '#aaa' }, grid: { color: '#222' } },
+            y: { ticks: { color: '#aaa', callback: function(v) { return '$' + (v/1e6).toFixed(1) + 'M'; } }, grid: { color: '#222' }, position: 'left' },
+            y1: { ticks: { color: '#3498db' }, grid: { display: false }, position: 'right' }
+        }
+    }
+});
+
+</script>
+</body>
+</html>

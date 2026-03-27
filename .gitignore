@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Logs
+logs/
+
+# Progress files (resumable scraper state)
+data/raw/*_progress.ndjson
+
+# Raw scrape data (large, reproducible via scrapers)
+data/raw/lots_christies.csv
+data/raw/lots_sothebys.csv
+data/raw/lots_saffronart.csv
+data/raw/lots.csv
+data/raw/auctions*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Env
+.env
+catboost_info/
+.claude/
+*.ipynb

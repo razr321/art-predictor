@@ -1,0 +1,84 @@
+{
+  "feature_cols": [
+    "artist_prior_lots_total",
+    "artist_prior_lots_sold",
+    "artist_sell_through_rate",
+    "artist_avg_price",
+    "artist_median_price",
+    "artist_max_price",
+    "artist_min_price",
+    "artist_price_std",
+    "artist_price_trend",
+    "artist_avg_estimate_accuracy",
+    "artist_years_in_market",
+    "artist_days_since_last_sale",
+    "artist_desirability_score",
+    "height_cm",
+    "width_cm",
+    "surface_area_cm2",
+    "year_created",
+    "artwork_age",
+    "artist_age_at_creation",
+    "artist_deceased",
+    "is_signed",
+    "is_dated",
+    "provenance_count",
+    "literature_count",
+    "exhibition_count",
+    "has_provenance",
+    "has_literature",
+    "has_exhibitions",
+    "estimate_midpoint",
+    "estimate_spread",
+    "log_estimate_mid",
+    "is_live_auction",
+    "is_spring_sale",
+    "is_fall_sale",
+    "auction_year",
+    "market_index",
+    "medium_category",
+    "artist_name_clean"
+  ],
+  "cat_cols": [
+    "medium_category",
+    "artist_name_clean"
+  ],
+  "cat_indices": [
+    36,
+    37
+  ],
+  "target": "log_hammer_price",
+  "catboost_models": [
+    "model_1.cbm",
+    "model_2.cbm",
+    "model_3.cbm",
+    "model_4.cbm",
+    "model_5.cbm"
+  ],
+  "xgboost_models": [
+    "xgb_model_1.json",
+    "xgb_model_2.json"
+  ],
+  "cb_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "xgb_seeds": [
+    42,
+    43
+  ],
+  "metrics": {
+    "rmse_log": 0.5088,
+    "r2_log": 0.8978,
+    "mae_usd": 91390.4,
+    "mape_pct": 35.93,
+    "median_ae_usd": 9428.45,
+    "test_size": 527,
+    "train_size": 4213,
+    "n_catboost": 5,
+    "n_xgboost": 2
+  }
+}
