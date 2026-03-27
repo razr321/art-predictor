@@ -71,11 +71,11 @@
     43
   ],
   "metrics": {
-    "rmse_log": 0.5088,
-    "r2_log": 0.8978,
-    "mae_usd": 91390.4,
-    "mape_pct": 35.93,
-    "median_ae_usd": 9428.45,
+    "rmse_log": 0.5108,
+    "r2_log": 0.897,
+    "mae_usd": 92320.49,
+    "mape_pct": 35.87,
+    "median_ae_usd": 8737.92,
     "test_size": 527,
     "train_size": 4213,
     "n_catboost": 5,

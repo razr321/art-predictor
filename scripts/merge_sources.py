@@ -9,6 +9,7 @@ Output:
   data/raw/lots.csv  (combined, deduplicated)
 """
 
+import re
 import sys
 from pathlib import Path
 
@@ -33,6 +34,169 @@ ARTIST_FILES = [
     ("lots_souza_clean.csv", "artist_scrape"),
     ("lots_raza_clean.csv", "artist_scrape"),
 ]
+
+
+# ── Artist name normalization ─────────────────────────────────────────────────
+
+# Canonical names for artists with known variants.
+# Key = canonical (Title Case), Values = all known raw variants (case-insensitive match).
+CANONICAL_NAMES = {
+    "Francis Newton Souza": ["FRANCIS NEWTON SOUZA", "F N SOUZA", "F. N. SOUZA"],
+    "Maqbool Fida Husain": ["MAQBOOL FIDA HUSAIN", "M F HUSAIN", "M. F. HUSAIN"],
+    "Sayed Haider Raza": ["SAYED HAIDER RAZA", "S H RAZA", "S. H. RAZA"],
+    "Tyeb Mehta": ["TYEB MEHTA"],
+    "Vasudeo S. Gaitonde": ["VASUDEO S. GAITONDE", "V S GAITONDE", "V. S. GAITONDE"],
+    "Ram Kumar": ["RAM KUMAR", "RAM KUMAR (B. 1924)", "RAM KUMAR (B.1924)"],
+    "Akbar Padamsee": ["AKBAR PADAMSEE"],
+    "Jamini Roy": ["JAMINI ROY"],
+    "Krishen Khanna": ["KRISHEN KHANNA"],
+    "Manjit Bawa": ["MANJIT BAWA"],
+    "Bhupen Khakhar": ["BHUPEN KHAKHAR"],
+    "Jagdish Swaminathan": ["JAGDISH SWAMINATHAN"],
+    "Jehangir Sabavala": ["JEHANGIR SABAVALA"],
+    "Ganesh Pyne": ["GANESH PYNE"],
+    "K.G. Subramanyan": ["K G SUBRAMANYAN", "K. G. SUBRAMANYAN", "K.G. SUBRAMANYAN"],
+    "B. Prabha": ["B PRABHA", "B. PRABHA"],
+    "Satish Gujral": ["SATISH GUJRAL"],
+    "Jogen Chowdhury": ["JOGEN CHOWDHURY"],
+    "Sohan Qadri": ["SOHAN QADRI"],
+    "Avinash Chandra": ["AVINASH CHANDRA"],
+    "Badri Narayan": ["BADRI NARAYAN"],
+    "George Keyt": ["GEORGE KEYT"],
+    "Abdur Rahman Chughtai": ["ABDUR RAHMAN CHUGHTAI"],
+    "Zarina": ["ZARINA"],
+    "Gulam Rasool Santosh": ["GULAM RASOOL SANTOSH"],
+    "Bikash Bhattacharjee": ["BIKASH BHATTACHARJEE"],
+    "Sakti Burman": ["SAKTI BURMAN"],
+    "Laxman Pai": ["LAXMAN PAI"],
+    "Thota Vaikuntam": ["THOTA VAIKUNTAM"],
+    "Shanti Dave": ["SHANTI DAVE"],
+    "Krishnaji Howlaji Ara": ["KRISHNAJI HOWLAJI ARA"],
+    "Kattingeri Krishna Hebbar": ["KATTINGERI KRISHNA HEBBAR"],
+    "Anwar Jalal Shemza": ["ANWAR JALAL SHEMZA"],
+    "Nasreen Mohamedi": ["NASREEN MOHAMEDI"],
+    "Bal Chhabda": ["BAL CHHABDA"],
+    "Walter Langhammer": ["WALTER LANGHAMMER"],
+    "Prabhakar Barwe": ["PRABHAKAR BARWE"],
+    "Ganesh Haloi": ["GANESH HALOI"],
+    "Narayan Shridhar Bendre": ["NARAYAN SHRIDHAR BENDRE"],
+    "Laxman Shrestha": ["LAXMAN SHRESTHA"],
+    "Rameshwar Broota": ["RAMESHWAR BROOTA"],
+    "Himmat Shah": ["HIMMAT SHAH"],
+    "K. Laxma Goud": ["K LAXMA GOUD", "K. LAXMA GOUD"],
+    "Anjolie Ela Menon": ["ANJOLIE ELA MENON"],
+    "Paresh Maity": ["PARESH MAITY"],
+    "Senaka Senanayake": ["SENAKA SENANAYAKE"],
+    "Hari Ambadas Gade": ["HARI AMBADAS GADE"],
+    "Zainul Abedin": ["ZAINUL ABEDIN"],
+    "Krishna Reddy": ["KRISHNA REDDY"],
+    "Biren De": ["BIREN DE"],
+    "Meera Mukherjee": ["MEERA MUKHERJEE"],
+    "Somnath Hore": ["SOMNATH HORE"],
+    "Sailoz Mookherjea": ["SAILOZ MOOKHERJEA"],
+    "Nicholas Roerich": ["NICHOLAS ROERICH"],
+    "Madhvi Parekh": ["MADHVI PAREKH"],
+    "Subodh Gupta": ["SUBODH GUPTA"],
+    "Atul Dodiya": ["ATUL DODIYA"],
+    "Gaganendranath Tagore": ["GAGANENDRANATH TAGORE"],
+    "Rabindranath Tagore": ["RABINDRANATH TAGORE"],
+    "Paritosh Sen": ["PARITOSH SEN"],
+    "Mahadev Visvanath Dhurandhar": ["MAHADEV VISVANATH DHURANDHAR"],
+    "Sankho Chaudhuri": ["SANKHO CHAUDHURI"],
+    "Jagannath Panda": ["JAGANNATH PANDA"],
+    "Lancelot Ribeiro": ["LANCELOT RIBEIRO"],
+    "Haku Shah": ["HAKU SHAH"],
+    "Rajendra Dhawan": ["RAJENDRA DHAWAN"],
+    "Shyamal Dutta Ray": ["SHYAMAL DUTTA RAY"],
+    "Mohan Samant": ["MOHAN SAMANT"],
+    "Lalu Prasad Shaw": ["LALU PRASAD SHAW"],
+    "J. Sultan Ali": ["J SULTAN ALI", "J. SULTAN ALI"],
+    "B. Vithal": ["B VITHAL", "B. VITHAL"],
+    "K.M. Adimoolam": ["K M ADIMOOLAM", "K.M. ADIMOOLAM"],
+    "M. Sivanesan": ["M SIVANESAN", "M. SIVANESAN"],
+    "K.C.S. Paniker": ["K C S PANIKER", "K.C.S. PANIKER", "K. C. S. PANIKER"],
+    "K.S. Radhakrishnan": ["K S RADHAKRISHNAN", "K.S. RADHAKRISHNAN"],
+    "A. Ramachandran": ["A RAMACHANDRAN", "A. RAMACHANDRAN"],
+    "G. Ravinder Reddy": ["G RAVINDER REDDY", "G. RAVINDER REDDY"],
+    "Kanwal Krishna": ["KANWAL KRISHNA", "KRISHNA KANWAL"],
+    "Arpana Caur": ["ARPANA CAUR (B. 1954)", "ARPANA CAUR (B.1954)", "ARPANA CAUR"],
+    "Jyoti Bhatt": ["JYOTI BHATT (B. 1934)", "JYOTI BHATT (B.1934)", "JYOTI BHATT"],
+    "T.V. Santhosh": ["T.V. SANTHOSH (B. 1968)", "T. V. SANTHOSH (B. 1968)"],
+    "N.N. Rimzon": ["N.N. RIMZON (B. 1957)", "N.N. Rimzon (B. 1957)"],
+    "Prodosh Das Gupta": ["PRODOSH DAS GUPTA"],
+    "Rashid Choudhury": ["RASHID CHOUDHURY"],
+    "Mohammad Kibria": ["MOHAMMAD KIBRIA"],
+    "Ahmed Parvez": ["AHMED PARVEZ"],
+    "Abdulrahim Apabhai Almelkar": ["ABDULRAHIM APABHAI ALMELKAR"],
+    "Ambadas Khobragade": ["AMBADAS KHOBRAGADE"],
+    "Arup Das": ["ARUP DAS"],
+    "Raja Ravi Varma": ["RAJA RAVI VARMA"],
+    "Amrita Sher-Gil": ["AMRITA SHER-GIL"],
+    "Gulam Mohammed Sheikh": ["GULAM MOHAMMED SHEIKH"],
+    "Sheela Gowda": ["SHEELA GOWDA"],
+}
+
+# Build reverse lookup: uppercase variant → canonical name
+_VARIANT_TO_CANONICAL = {}
+for canonical, variants in CANONICAL_NAMES.items():
+    _VARIANT_TO_CANONICAL[canonical.upper()] = canonical
+    for v in variants:
+        _VARIANT_TO_CANONICAL[v.upper()] = canonical
+
+
+def _strip_birth_year(name: str) -> str:
+    """Remove '(B. 1954)' or '(1913-2011)' suffixes."""
+    return re.sub(r"\s*\((?:B\.?\s*)?\d{4}(?:\s*[-–]\s*\d{4})?\)\s*$", "", name, flags=re.I).strip()
+
+
+def _to_title_case(name: str) -> str:
+    """Convert 'FRANCIS NEWTON SOUZA' → 'Francis Newton Souza', preserving initials."""
+    parts = name.split()
+    result = []
+    for p in parts:
+        # Keep single letters or initials like "K.G." as-is but capitalize
+        if len(p) <= 3 and p.replace(".", "").isalpha():
+            result.append(p.upper() if len(p) == 1 else p[0].upper() + p[1:].lower())
+        else:
+            result.append(p.capitalize())
+    return " ".join(result)
+
+
+def _normalize_artist_names(df: pd.DataFrame) -> pd.DataFrame:
+    """Normalize artist_name to canonical Title Case names."""
+    if "artist_name" not in df.columns:
+        return df
+
+    original_unique = df["artist_name"].nunique()
+
+    def normalize(name):
+        if pd.isna(name) or not str(name).strip():
+            return name
+        name = str(name).strip()
+
+        # 1. Try exact match in variant lookup (case-insensitive)
+        upper = name.upper()
+        if upper in _VARIANT_TO_CANONICAL:
+            return _VARIANT_TO_CANONICAL[upper]
+
+        # 2. Try after stripping birth year suffix
+        stripped = _strip_birth_year(name)
+        upper_stripped = stripped.upper()
+        if upper_stripped in _VARIANT_TO_CANONICAL:
+            return _VARIANT_TO_CANONICAL[upper_stripped]
+
+        # 3. Auto-normalize: if ALL CAPS, convert to Title Case
+        if name == name.upper() and len(name) > 3:
+            stripped = _strip_birth_year(name)
+            return _to_title_case(stripped)
+
+        return name
+
+    df["artist_name"] = df["artist_name"].apply(normalize)
+    new_unique = df["artist_name"].nunique()
+    logger.info(f"Normalized artist names: {original_unique} → {new_unique} unique ({original_unique - new_unique} merged)")
+
+    return df
 
 
 def main():
@@ -95,6 +259,9 @@ def main():
     df = pd.concat(frames, ignore_index=True)
     df = df.drop_duplicates(subset=["lot_id"])
     df = df.sort_values(["auction_date", "lot_number"], ascending=[False, True])
+
+    # Normalize artist names
+    df = _normalize_artist_names(df)
 
     # Save
     df.to_csv(OUTPUT_FILE, index=False)
