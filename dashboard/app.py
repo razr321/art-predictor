@@ -814,10 +814,11 @@ def page_backtest():
         import plotly.graph_objects as go
         from plotly.subplots import make_subplots
         fig = make_subplots(specs=[[{"secondary_y": True}]])
-        fig.add_trace(go.Bar(x=yr_df["year"], y=yr_df["n"], name="# Lots", marker_color="#26c6da88"), secondary_y=False)
-        fig.add_trace(go.Scatter(x=yr_df["year"], y=yr_df["median_err"], name="Model Median Error", line=dict(color="#00bfa5", width=2.5), mode="lines+markers"), secondary_y=True)
+        years_list = yr_df["year"].tolist()
+        fig.add_trace(go.Bar(x=years_list, y=yr_df["n"].tolist(), name="# Lots", marker_color="rgba(38,198,218,0.5)"), secondary_y=False)
+        fig.add_trace(go.Scatter(x=years_list, y=yr_df["median_err"].tolist(), name="Model Median Error", line=dict(color="#00bfa5", width=2.5), mode="lines+markers"), secondary_y=True)
         if "est_median_err" in yr_df.columns:
-            fig.add_trace(go.Scatter(x=yr_df["year"], y=yr_df["est_median_err"], name="Estimate Median Error", line=dict(color="#ffb74d", width=2, dash="dash"), mode="lines+markers"), secondary_y=True)
+            fig.add_trace(go.Scatter(x=years_list, y=yr_df["est_median_err"].tolist(), name="Estimate Median Error", line=dict(color="#ffb74d", width=2, dash="dash"), mode="lines+markers"), secondary_y=True)
         fig.update_layout(plot_bgcolor="#0c0c1a", paper_bgcolor="#1e1e2e", font=dict(color="#8899aa"), height=400,
                          legend=dict(bgcolor="rgba(0,0,0,0)"), margin=dict(l=60, r=60, t=30, b=40))
         fig.update_xaxes(gridcolor="#2a2a3e")
