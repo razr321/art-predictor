@@ -133,6 +133,7 @@ PAGES = [
     "Artist Deep Dive",
     "Index Performance",
     "Model Performance",
+    "Backtest",
 ]
 
 with st.sidebar:
@@ -741,6 +742,115 @@ def _show_model_architecture(metrics: dict) -> None:
 
 
 # ===========================================================================
+# PAGE 6 -- Backtest
+# ===========================================================================
+
+def page_backtest():
+    page_header("Backtest", "Model predictions vs actual hammer prices across all auctions")
+
+    backtest_path = PROJECT_ROOT / "data" / "processed" / "backtest_full.json"
+    if not backtest_path.exists():
+        st.warning("No backtest data found. Run `python scripts/run_backtest.py` first.")
+        return
+
+    import json as _json
+    with open(backtest_path) as f:
+        bt = _json.load(f)
+
+    overall = bt.get("overall", {})
+    test_set = bt.get("test_set", {})
+    by_year = bt.get("by_year", [])
+    by_source = bt.get("by_source", [])
+    by_artist = bt.get("by_artist", [])
+
+    # ---- KPI row: test set (out-of-sample) ----
+    section_header("Out-of-Sample Performance (Test Set)")
+    k1, k2, k3, k4, k5 = st.columns(5)
+    with k1:
+        st.markdown(kpi_card("Test Lots", f"{test_set.get('n', 0):,}"), unsafe_allow_html=True)
+    with k2:
+        st.markdown(kpi_card("Median Error", f"{test_set.get('median_err', 0):.1f}%", color="#ffb74d"), unsafe_allow_html=True)
+    with k3:
+        st.markdown(kpi_card("Within 10%", f"{test_set.get('within_10', 0)}/{test_set.get('n', 0)}"), unsafe_allow_html=True)
+    with k4:
+        st.markdown(kpi_card("Within 25%", f"{test_set.get('within_25', 0)}/{test_set.get('n', 0)}", color="#00bfa5"), unsafe_allow_html=True)
+    with k5:
+        st.markdown(kpi_card("Within 50%", f"{test_set.get('within_50', 0)}/{test_set.get('n', 0)}", color="#66bb6a"), unsafe_allow_html=True)
+
+    st.markdown("")
+
+    # ---- Model vs Estimates comparison ----
+    section_header("Model vs Auction House Estimates")
+    col_m, col_vs, col_e = st.columns([2, 1, 2])
+    with col_m:
+        st.markdown(
+            f'<div style="text-align:center;padding:1rem;">'
+            f'<div style="font-size:2.5rem;font-weight:700;color:#00bfa5;">{test_set.get("within_50", 0)}/{test_set.get("n", 0)}</div>'
+            f'<div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">Model within 50%</div>'
+            f'<div style="color:#ffb74d;font-size:1.1rem;margin-top:8px;">{test_set.get("median_err", 0):.1f}% median error</div>'
+            f'</div>', unsafe_allow_html=True)
+    with col_vs:
+        st.markdown('<div style="text-align:center;padding:2rem;font-size:1.5rem;color:#8899aa;font-weight:700;">VS</div>', unsafe_allow_html=True)
+    with col_e:
+        est_w50 = test_set.get("est_within_50", 0)
+        est_med = test_set.get("est_median_err", 0)
+        st.markdown(
+            f'<div style="text-align:center;padding:1rem;">'
+            f'<div style="font-size:2.5rem;font-weight:700;color:#ffb74d;">{est_w50}/{test_set.get("n", 0)}</div>'
+            f'<div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">Estimates within 50%</div>'
+            f'<div style="color:#ffb74d;font-size:1.1rem;margin-top:8px;">{est_med:.1f}% median error</div>'
+            f'</div>', unsafe_allow_html=True)
+
+    st.markdown("")
+
+    # ---- By Year ----
+    section_header("Performance by Year")
+    if by_year:
+        yr_df = pd.DataFrame(by_year)
+        yr_df = yr_df.sort_values("year")
+
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        fig.add_trace(go.Bar(x=yr_df["year"], y=yr_df["n"], name="# Lots", marker_color="#26c6da88"), secondary_y=False)
+        fig.add_trace(go.Scatter(x=yr_df["year"], y=yr_df["median_err"], name="Model Median Error", line=dict(color="#00bfa5", width=2.5), mode="lines+markers"), secondary_y=True)
+        if "est_median_err" in yr_df.columns:
+            fig.add_trace(go.Scatter(x=yr_df["year"], y=yr_df["est_median_err"], name="Estimate Median Error", line=dict(color="#ffb74d", width=2, dash="dash"), mode="lines+markers"), secondary_y=True)
+        fig.update_layout(plot_bgcolor="#0c0c1a", paper_bgcolor="#1e1e2e", font=dict(color="#8899aa"), height=400,
+                         legend=dict(bgcolor="rgba(0,0,0,0)"), margin=dict(l=60, r=60, t=30, b=40))
+        fig.update_xaxes(gridcolor="#2a2a3e")
+        fig.update_yaxes(title_text="# Lots", gridcolor="#2a2a3e", secondary_y=False)
+        fig.update_yaxes(title_text="Median Error %", gridcolor="#2a2a3e", secondary_y=True)
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.dataframe(yr_df, use_container_width=True, hide_index=True)
+
+    # ---- By Source ----
+    section_header("Performance by Auction House")
+    if by_source:
+        src_df = pd.DataFrame(by_source)
+        st.dataframe(src_df, use_container_width=True, hide_index=True)
+
+    # ---- By Star Artist ----
+    section_header("Star Artist Performance")
+    if by_artist:
+        art_df = pd.DataFrame(by_artist).sort_values("median_err")
+        st.dataframe(art_df, use_container_width=True, hide_index=True)
+
+    # ---- Full dataset summary ----
+    with st.expander("Full Dataset (In-Sample + Test)"):
+        o = bt.get("overall", {})
+        st.markdown(f"""
+        - **Total lots:** {o.get('n', 0):,}
+        - **Median error:** {o.get('median_err', 0):.1f}%
+        - **Within 10%:** {o.get('within_10', 0)} ({o.get('within_10', 0)/max(o.get('n', 1), 1)*100:.0f}%)
+        - **Within 25%:** {o.get('within_25', 0)} ({o.get('within_25', 0)/max(o.get('n', 1), 1)*100:.0f}%)
+        - **Within 50%:** {o.get('within_50', 0)} ({o.get('within_50', 0)/max(o.get('n', 1), 1)*100:.0f}%)
+        - *Note: In-sample performance is optimistic — the model has seen these lots during training.*
+        """)
+
+
+# ===========================================================================
 # Page dispatch
 # ===========================================================================
 
@@ -754,3 +864,5 @@ elif page == "Index Performance":
     page_index_performance()
 elif page == "Model Performance":
     page_model_performance()
+elif page == "Backtest":
+    page_backtest()

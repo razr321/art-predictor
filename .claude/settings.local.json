@@ -39,7 +39,12 @@
       "Bash(git rm:*)",
       "Bash(git branch:*)",
       "Bash(git commit:*)",
-      "Bash(gh repo:*)"
+      "Bash(gh repo:*)",
+      "Bash(pkill -f chromedriver)",
+      "Bash(pkill -f streamlit)",
+      "Bash(pkill -9 -f chrome)",
+      "Bash(rm -rf /Users/sidkumar/.wdm/drivers/chromedriver/mac64/146.0.7680.165/)",
+      "Bash(git push:*)"
     ]
   }
 }

@@ -1,0 +1,622 @@
+{
+  "auction": "Saffronart Spring Live 2026",
+  "results": [
+    {
+      "lot": "1",
+      "artist": "Plaque Of A Mother Goddess",
+      "title": "",
+      "actual": 25806,
+      "predicted": 32115,
+      "est_mid": 26885,
+      "error_pct": 24.4,
+      "direction": "OVER"
+    },
+    {
+      "lot": "2",
+      "artist": "An Important Double-sided Figure",
+      "title": "",
+      "actual": 43871,
+      "predicted": 53844,
+      "est_mid": 43012,
+      "error_pct": 22.7,
+      "direction": "OVER"
+    },
+    {
+      "lot": "3",
+      "artist": "Stele Of Vishnu",
+      "title": "",
+      "actual": 70968,
+      "predicted": 78203,
+      "est_mid": 64518,
+      "error_pct": 10.2,
+      "direction": "OVER"
+    },
+    {
+      "lot": "4",
+      "artist": "Devi",
+      "title": "",
+      "actual": 45161,
+      "predicted": 62551,
+      "est_mid": 53768,
+      "error_pct": 38.5,
+      "direction": "OVER"
+    },
+    {
+      "lot": "5",
+      "artist": "A Highly Important Sculpture Of Buddha",
+      "title": "",
+      "actual": 412903,
+      "predicted": 476105,
+      "est_mid": 430110,
+      "error_pct": 15.3,
+      "direction": "OVER"
+    },
+    {
+      "lot": "6",
+      "artist": "Non-exportable Registered Antiquity",
+      "title": "",
+      "actual": 5419,
+      "predicted": 6963,
+      "est_mid": 5380,
+      "error_pct": 28.5,
+      "direction": "OVER"
+    },
+    {
+      "lot": "7",
+      "artist": "Page From A Kavipriya Series By The Poet Keshavdas",
+      "title": "",
+      "actual": 12258,
+      "predicted": 12574,
+      "est_mid": 9680,
+      "error_pct": 2.6,
+      "direction": "OVER"
+    },
+    {
+      "lot": "8",
+      "artist": "Jamini Roy",
+      "title": "Toy Horse",
+      "actual": 10323,
+      "predicted": 13949,
+      "est_mid": 6455,
+      "error_pct": 35.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "9",
+      "artist": "Jamini Roy",
+      "title": "Untitled",
+      "actual": 16774,
+      "predicted": 27602,
+      "est_mid": 14518,
+      "error_pct": 64.6,
+      "direction": "OVER"
+    },
+    {
+      "lot": "10",
+      "artist": "Jamini Roy",
+      "title": "Untitled",
+      "actual": 36129,
+      "predicted": 54108,
+      "est_mid": 32260,
+      "error_pct": 49.8,
+      "direction": "OVER"
+    },
+    {
+      "lot": "11",
+      "artist": "Nandalal Bose",
+      "title": "Untitled",
+      "actual": 7097,
+      "predicted": 8970,
+      "est_mid": 4305,
+      "error_pct": 26.4,
+      "direction": "OVER"
+    },
+    {
+      "lot": "12",
+      "artist": "Abanindranath Tagore",
+      "title": "Untitled (Temple on Hill Top)",
+      "actual": 41290,
+      "predicted": 38829,
+      "est_mid": 18820,
+      "error_pct": 6.0,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "13",
+      "artist": "Raja Ravi Varma",
+      "title": "Yashoda and Krishna",
+      "actual": 17978495,
+      "predicted": 2454150,
+      "est_mid": 10752692,
+      "error_pct": 86.3,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "14",
+      "artist": "Francis Newton Souza",
+      "title": "Untitled (Study for Mystic Rep",
+      "actual": 19355,
+      "predicted": 16579,
+      "est_mid": 6455,
+      "error_pct": 14.3,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "15",
+      "artist": "Francis Newton Souza",
+      "title": "Untitled (Cardinal)",
+      "actual": 19355,
+      "predicted": 14288,
+      "est_mid": 5380,
+      "error_pct": 26.2,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "16",
+      "artist": "Francis Newton Souza",
+      "title": "Landscape",
+      "actual": 24516,
+      "predicted": 30611,
+      "est_mid": 13442,
+      "error_pct": 24.9,
+      "direction": "OVER"
+    },
+    {
+      "lot": "17",
+      "artist": "Francis Newton Souza",
+      "title": "Untitled",
+      "actual": 387097,
+      "predicted": 532957,
+      "est_mid": 322582,
+      "error_pct": 37.7,
+      "direction": "OVER"
+    },
+    {
+      "lot": "18",
+      "artist": "Francis Newton Souza",
+      "title": "Goan Peasants in the Market",
+      "actual": 516129,
+      "predicted": 239177,
+      "est_mid": 134412,
+      "error_pct": 53.7,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "19",
+      "artist": "Manjit Bawa",
+      "title": "Untitled",
+      "actual": 283871,
+      "predicted": 118631,
+      "est_mid": 64518,
+      "error_pct": 58.2,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "20",
+      "artist": "Vasudeo S. Gaitonde",
+      "title": "Untitled",
+      "actual": 554839,
+      "predicted": 287099,
+      "est_mid": 188175,
+      "error_pct": 48.3,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "21",
+      "artist": "Shanti Dave",
+      "title": "The Group",
+      "actual": 109677,
+      "predicted": 68569,
+      "est_mid": 37638,
+      "error_pct": 37.5,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "22",
+      "artist": "Sayed Haider Raza",
+      "title": "Bindu",
+      "actual": 45161,
+      "predicted": 42169,
+      "est_mid": 18820,
+      "error_pct": 6.6,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "23",
+      "artist": "Sayed Haider Raza",
+      "title": "Village",
+      "actual": 219355,
+      "predicted": 331277,
+      "est_mid": 188175,
+      "error_pct": 51.0,
+      "direction": "OVER"
+    },
+    {
+      "lot": "24",
+      "artist": "Maqbool Fida Husain",
+      "title": "Untitled",
+      "actual": 232258,
+      "predicted": 369402,
+      "est_mid": 225808,
+      "error_pct": 59.0,
+      "direction": "OVER"
+    },
+    {
+      "lot": "25",
+      "artist": "Maqbool Fida Husain",
+      "title": "Untitled",
+      "actual": 541935,
+      "predicted": 938238,
+      "est_mid": 537638,
+      "error_pct": 73.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "26",
+      "artist": "Ram Kumar",
+      "title": "Untitled",
+      "actual": 38710,
+      "predicted": 27687,
+      "est_mid": 13442,
+      "error_pct": 28.5,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "27",
+      "artist": "Jagdish Swaminathan",
+      "title": "Untitled",
+      "actual": 258065,
+      "predicted": 186716,
+      "est_mid": 107530,
+      "error_pct": 27.6,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "28",
+      "artist": "K H Ara",
+      "title": "Untitled",
+      "actual": 90323,
+      "predicted": 27062,
+      "est_mid": 13442,
+      "error_pct": 70.0,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "29",
+      "artist": "B. Prabha",
+      "title": "Untitled",
+      "actual": 45161,
+      "predicted": 42747,
+      "est_mid": 21508,
+      "error_pct": 5.3,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "30",
+      "artist": "B. Prabha",
+      "title": "Untitled",
+      "actual": 49032,
+      "predicted": 37492,
+      "est_mid": 18820,
+      "error_pct": 23.5,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "31",
+      "artist": "Sadanand Bakre",
+      "title": "Untitled",
+      "actual": 67097,
+      "predicted": 67149,
+      "est_mid": 37638,
+      "error_pct": 0.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "32",
+      "artist": "Madhvi Parekh",
+      "title": "Jungle God",
+      "actual": 38710,
+      "predicted": 74737,
+      "est_mid": 37638,
+      "error_pct": 93.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "33",
+      "artist": "Bikash Bhattacharjee",
+      "title": "Untitled",
+      "actual": 96774,
+      "predicted": 131874,
+      "est_mid": 75272,
+      "error_pct": 36.3,
+      "direction": "OVER"
+    },
+    {
+      "lot": "34",
+      "artist": "Himmat Shah",
+      "title": "Untitled",
+      "actual": 41290,
+      "predicted": 32213,
+      "est_mid": 18820,
+      "error_pct": 22.0,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "35",
+      "artist": "Sadanand Bakre",
+      "title": "Untitled",
+      "actual": 49032,
+      "predicted": 77209,
+      "est_mid": 43012,
+      "error_pct": 57.5,
+      "direction": "OVER"
+    },
+    {
+      "lot": "36",
+      "artist": "Piraji Sagara",
+      "title": "Untitled",
+      "actual": 38710,
+      "predicted": 24580,
+      "est_mid": 13442,
+      "error_pct": 36.5,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "37",
+      "artist": "Somnath Hore",
+      "title": "Hen in a Nest",
+      "actual": 41290,
+      "predicted": 82356,
+      "est_mid": 43012,
+      "error_pct": 99.5,
+      "direction": "OVER"
+    },
+    {
+      "lot": "38",
+      "artist": "Latika Katt",
+      "title": "Fence",
+      "actual": 49032,
+      "predicted": 57833,
+      "est_mid": 48390,
+      "error_pct": 18.0,
+      "direction": "OVER"
+    },
+    {
+      "lot": "39",
+      "artist": "A. Ramachandran",
+      "title": "Girl with Alphabets and Number",
+      "actual": 129032,
+      "predicted": 192345,
+      "est_mid": 107530,
+      "error_pct": 49.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "40",
+      "artist": "Maqbool Fida Husain",
+      "title": "Untitled (Horse and Rider)",
+      "actual": 96774,
+      "predicted": 100294,
+      "est_mid": 53768,
+      "error_pct": 3.6,
+      "direction": "OVER"
+    },
+    {
+      "lot": "41",
+      "artist": "Maqbool Fida Husain",
+      "title": "Untitled (Benares)",
+      "actual": 1677419,
+      "predicted": 1712213,
+      "est_mid": 1344088,
+      "error_pct": 2.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "42",
+      "artist": "Maqbool Fida Husain",
+      "title": "Panchatantra",
+      "actual": 709677,
+      "predicted": 938238,
+      "est_mid": 537638,
+      "error_pct": 32.2,
+      "direction": "OVER"
+    },
+    {
+      "lot": "43",
+      "artist": "Badri Narayan",
+      "title": "Untitled",
+      "actual": 20645,
+      "predicted": 11422,
+      "est_mid": 6455,
+      "error_pct": 44.7,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "44",
+      "artist": "Ganesh Pyne",
+      "title": "Woman and the Tree",
+      "actual": 45161,
+      "predicted": 22661,
+      "est_mid": 8605,
+      "error_pct": 49.8,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "45",
+      "artist": "Francis Newton Souza",
+      "title": "Portrait of a Human",
+      "actual": 167742,
+      "predicted": 227570,
+      "est_mid": 107530,
+      "error_pct": 35.7,
+      "direction": "OVER"
+    },
+    {
+      "lot": "46",
+      "artist": "A. Ramachandran",
+      "title": "Study from Rajasthan",
+      "actual": 45161,
+      "predicted": 36989,
+      "est_mid": 18820,
+      "error_pct": 18.1,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "47",
+      "artist": "K.G. Subramanyan",
+      "title": "Untitled",
+      "actual": 45161,
+      "predicted": 31630,
+      "est_mid": 18820,
+      "error_pct": 30.0,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "48",
+      "artist": "Akbar Padamsee",
+      "title": "Untitled (Nude)",
+      "actual": 696774,
+      "predicted": 812442,
+      "est_mid": 537638,
+      "error_pct": 16.6,
+      "direction": "OVER"
+    },
+    {
+      "lot": "49",
+      "artist": "Edwin Lord Weeks",
+      "title": "Two Nautch Girls",
+      "actual": 516129,
+      "predicted": 1067387,
+      "est_mid": 537638,
+      "error_pct": 106.8,
+      "direction": "OVER"
+    },
+    {
+      "lot": "50",
+      "artist": "Jyoti Bhatt",
+      "title": "Untitled",
+      "actual": 70968,
+      "predicted": 50190,
+      "est_mid": 32260,
+      "error_pct": 29.3,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "51",
+      "artist": "Prabhakar Barwe",
+      "title": "Untitled",
+      "actual": 193548,
+      "predicted": 249469,
+      "est_mid": 188175,
+      "error_pct": 28.9,
+      "direction": "OVER"
+    },
+    {
+      "lot": "52",
+      "artist": "Sakti Burman",
+      "title": "Untitled",
+      "actual": 361290,
+      "predicted": 519415,
+      "est_mid": 376348,
+      "error_pct": 43.8,
+      "direction": "OVER"
+    },
+    {
+      "lot": "53",
+      "artist": "N S Bendre",
+      "title": "Untitled",
+      "actual": 77419,
+      "predicted": 109209,
+      "est_mid": 64518,
+      "error_pct": 41.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "54",
+      "artist": "Sohan Qadri",
+      "title": "Untitled",
+      "actual": 45161,
+      "predicted": 59157,
+      "est_mid": 32260,
+      "error_pct": 31.0,
+      "direction": "OVER"
+    },
+    {
+      "lot": "55",
+      "artist": "B. Prabha",
+      "title": "Untitled",
+      "actual": 45161,
+      "predicted": 85244,
+      "est_mid": 43012,
+      "error_pct": 88.8,
+      "direction": "OVER"
+    },
+    {
+      "lot": "56",
+      "artist": "Sayed Haider Raza",
+      "title": "Untitled",
+      "actual": 54194,
+      "predicted": 71612,
+      "est_mid": 32260,
+      "error_pct": 32.1,
+      "direction": "OVER"
+    },
+    {
+      "lot": "57",
+      "artist": "A. Ramachandran",
+      "title": "Kaleidoscope",
+      "actual": 245161,
+      "predicted": 284019,
+      "est_mid": 188175,
+      "error_pct": 15.8,
+      "direction": "OVER"
+    },
+    {
+      "lot": "58",
+      "artist": "K. Laxma Goud",
+      "title": "Untitled",
+      "actual": 16774,
+      "predicted": 7130,
+      "est_mid": 4305,
+      "error_pct": 57.5,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "59",
+      "artist": "Shiavax Chavda",
+      "title": "Youth",
+      "actual": 30968,
+      "predicted": 15448,
+      "est_mid": 10755,
+      "error_pct": 50.1,
+      "direction": "UNDER"
+    },
+    {
+      "lot": "60",
+      "artist": "Ganesh Pyne",
+      "title": "Untitled",
+      "actual": 154839,
+      "predicted": 209284,
+      "est_mid": 134412,
+      "error_pct": 35.2,
+      "direction": "OVER"
+    },
+    {
+      "lot": "61",
+      "artist": "Ganesh Haloi",
+      "title": "Untitled",
+      "actual": 30968,
+      "predicted": 45055,
+      "est_mid": 26885,
+      "error_pct": 45.5,
+      "direction": "OVER"
+    }
+  ],
+  "summary": {
+    "n": 61,
+    "median_err": 35.1,
+    "within_10": 7,
+    "within_25": 19,
+    "within_50": 46
+  }
+}

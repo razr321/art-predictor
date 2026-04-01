@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backtest: Saffronart Spring Live 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0c0c1a; color:#e4eef5; font-family:'Inter',sans-serif; padding:2rem; }
+.container { max-width:1400px; margin:0 auto; }
+h1 { font-size:2rem; margin-bottom:0.3rem; }
+h2 { font-size:1.3rem; margin:2rem 0 1rem; color:#e4eef5; }
+.subtitle { color:#8899aa; font-size:0.95rem; margin-bottom:2rem; }
+.card { background:#1e1e2e; border:1px solid #2a2a3e; border-radius:14px; padding:1.5rem; margin-bottom:1.5rem; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:1rem; margin-bottom:2rem; }
+.kpi { background:#1e1e2e; border:1px solid #2a2a3e; border-radius:14px; padding:1.2rem; text-align:center; }
+.kpi .label { color:#8899aa; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.5px; }
+.kpi .value { font-size:1.5rem; font-weight:700; margin-top:6px; }
+.green { color:#66bb6a; }
+.teal { color:#00bfa5; }
+.amber { color:#ffb74d; }
+.red { color:#ef5350; }
+.cyan { color:#26c6da; }
+table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+th { background:#2a2a3e; color:#8899aa; text-transform:uppercase; font-size:0.7rem; letter-spacing:0.5px; padding:10px 8px; text-align:left; position:sticky; top:0; }
+td { padding:8px; border-bottom:1px solid #2a2a3e; }
+tr:hover { background:#2a2a3e44; }
+.chart-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.chart-box { background:#1e1e2e; border:1px solid #2a2a3e; border-radius:14px; padding:1rem; }
+.vs-box { display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; align-items:center; margin:2rem 0; }
+.vs-side { text-align:center; }
+.vs-side .big { font-size:2.5rem; font-weight:700; }
+.vs-side .small { font-size:0.8rem; color:#8899aa; margin-top:4px; }
+.vs-center { font-size:1.5rem; color:#8899aa; font-weight:700; }
+.legend { display:flex; gap:1.5rem; margin:1rem 0; font-size:0.8rem; color:#8899aa; }
+.legend span { display:inline-flex; align-items:center; gap:4px; }
+.legend .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Backtest Report</h1>
+<p class="subtitle">Saffronart Spring Live Auction 2026 &mdash; Model Predictions vs Actual Hammer Prices vs Auction House Estimates</p>
+
+<div class="kpi-grid">
+    <div class="kpi"><div class="label">Lots Sold</div><div class="value teal">61</div></div>
+    <div class="kpi"><div class="label">Model Median Error</div><div class="value amber">35.1%</div></div>
+    <div class="kpi"><div class="label">Estimate Median Error</div><div class="value amber">28.6%</div></div>
+    <div class="kpi"><div class="label">Model Within 25%</div><div class="value teal">19/61 (31%)</div></div>
+    <div class="kpi"><div class="label">Model Within 50%</div><div class="value green">46/61 (75%)</div></div>
+    <div class="kpi"><div class="label">Model Wins</div><div class="value cyan">33/61</div></div>
+</div>
+
+<div class="vs-box">
+    <div class="vs-side">
+        <div class="big teal">46/61</div>
+        <div class="small">Model within 50%</div>
+        <div style="font-size:1.2rem;margin-top:8px;color:#ffb74d;">35.1% median error</div>
+    </div>
+    <div class="vs-center">VS</div>
+    <div class="vs-side">
+        <div class="big amber">39/61</div>
+        <div class="small">Estimates within 50%</div>
+        <div style="font-size:1.2rem;margin-top:8px;color:#ffb74d;">28.6% median error</div>
+    </div>
+</div>
+
+<div class="chart-row">
+    <div class="chart-box"><canvas id="chart-scatter"></canvas></div>
+    <div class="chart-box"><canvas id="chart-error-dist"></canvas></div>
+</div>
+
+<div class="card" style="margin-top:1.5rem;">
+    <h2>Lot-by-Lot Results</h2>
+    <div class="legend">
+        <span><span class="dot" style="background:#66bb6a;"></span> &le;10% error</span>
+        <span><span class="dot" style="background:#00bfa5;"></span> 10-25%</span>
+        <span><span class="dot" style="background:#ffb74d;"></span> 25-50%</span>
+        <span><span class="dot" style="background:#ef5350;"></span> &gt;50%</span>
+        <span>▲ Over-predicted &nbsp; ▼ Under-predicted</span>
+        <span><span style="background:#00bfa5;color:#000;padding:1px 4px;border-radius:3px;font-size:0.65rem;">MODEL</span> = closer</span>
+    </div>
+    <div style="max-height:600px;overflow-y:auto;">
+    <table>
+        <thead><tr><th>Lot</th><th>Artist</th><th>Title</th><th style="text-align:right;">Actual</th><th style="text-align:right;">Model</th><th style="text-align:right;">Est Mid</th><th style="text-align:right;">Error</th><th>Dir</th><th>Closer</th></tr></thead>
+        <tbody><tr>
+            <td>1</td>
+            <td>Plaque Of A Mother Goddess</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$25,806</td>
+            <td style="text-align:right;">$32,115</td>
+            <td style="text-align:right;">$26,885</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">24.4%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>2</td>
+            <td>An Important Double-sided Figure</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$43,871</td>
+            <td style="text-align:right;">$53,844</td>
+            <td style="text-align:right;">$43,012</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">22.7%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>3</td>
+            <td>Stele Of Vishnu</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$70,968</td>
+            <td style="text-align:right;">$78,203</td>
+            <td style="text-align:right;">$64,518</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">10.2%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>4</td>
+            <td>Devi</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$62,551</td>
+            <td style="text-align:right;">$53,768</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">38.5%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>5</td>
+            <td>A Highly Important Sculpture Of Buddha</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$412,903</td>
+            <td style="text-align:right;">$476,105</td>
+            <td style="text-align:right;">$430,110</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">15.3%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>6</td>
+            <td>Non-exportable Registered Antiquity</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$5,419</td>
+            <td style="text-align:right;">$6,963</td>
+            <td style="text-align:right;">$5,380</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">28.5%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>7</td>
+            <td>Page From A Kavipriya Series By The Poet Keshavdas</td>
+            <td style="font-style:italic;color:#8899aa;"></td>
+            <td style="text-align:right;">$12,258</td>
+            <td style="text-align:right;">$12,574</td>
+            <td style="text-align:right;">$9,680</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">2.6%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>8</td>
+            <td>Jamini Roy</td>
+            <td style="font-style:italic;color:#8899aa;">Toy Horse</td>
+            <td style="text-align:right;">$10,323</td>
+            <td style="text-align:right;">$13,949</td>
+            <td style="text-align:right;">$6,455</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">35.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>9</td>
+            <td>Jamini Roy</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$16,774</td>
+            <td style="text-align:right;">$27,602</td>
+            <td style="text-align:right;">$14,518</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">64.6%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>10</td>
+            <td>Jamini Roy</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$36,129</td>
+            <td style="text-align:right;">$54,108</td>
+            <td style="text-align:right;">$32,260</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">49.8%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>11</td>
+            <td>Nandalal Bose</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$7,097</td>
+            <td style="text-align:right;">$8,970</td>
+            <td style="text-align:right;">$4,305</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">26.4%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>12</td>
+            <td>Abanindranath Tagore</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled (Temple on Hill Top)</td>
+            <td style="text-align:right;">$41,290</td>
+            <td style="text-align:right;">$38,829</td>
+            <td style="text-align:right;">$18,820</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">6.0%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>13</td>
+            <td>Raja Ravi Varma</td>
+            <td style="font-style:italic;color:#8899aa;">Yashoda and Krishna</td>
+            <td style="text-align:right;">$17,978,495</td>
+            <td style="text-align:right;">$2,454,150</td>
+            <td style="text-align:right;">$10,752,692</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">86.3%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>14</td>
+            <td>Francis Newton Souza</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled (Study for Mystic Rep</td>
+            <td style="text-align:right;">$19,355</td>
+            <td style="text-align:right;">$16,579</td>
+            <td style="text-align:right;">$6,455</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">14.3%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>15</td>
+            <td>Francis Newton Souza</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled (Cardinal)</td>
+            <td style="text-align:right;">$19,355</td>
+            <td style="text-align:right;">$14,288</td>
+            <td style="text-align:right;">$5,380</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">26.2%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>16</td>
+            <td>Francis Newton Souza</td>
+            <td style="font-style:italic;color:#8899aa;">Landscape</td>
+            <td style="text-align:right;">$24,516</td>
+            <td style="text-align:right;">$30,611</td>
+            <td style="text-align:right;">$13,442</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">24.9%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>17</td>
+            <td>Francis Newton Souza</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$387,097</td>
+            <td style="text-align:right;">$532,957</td>
+            <td style="text-align:right;">$322,582</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">37.7%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>18</td>
+            <td>Francis Newton Souza</td>
+            <td style="font-style:italic;color:#8899aa;">Goan Peasants in the Market</td>
+            <td style="text-align:right;">$516,129</td>
+            <td style="text-align:right;">$239,177</td>
+            <td style="text-align:right;">$134,412</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">53.7%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>19</td>
+            <td>Manjit Bawa</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$283,871</td>
+            <td style="text-align:right;">$118,631</td>
+            <td style="text-align:right;">$64,518</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">58.2%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>20</td>
+            <td>Vasudeo S. Gaitonde</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$554,839</td>
+            <td style="text-align:right;">$287,099</td>
+            <td style="text-align:right;">$188,175</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">48.3%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>21</td>
+            <td>Shanti Dave</td>
+            <td style="font-style:italic;color:#8899aa;">The Group</td>
+            <td style="text-align:right;">$109,677</td>
+            <td style="text-align:right;">$68,569</td>
+            <td style="text-align:right;">$37,638</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">37.5%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>22</td>
+            <td>Sayed Haider Raza</td>
+            <td style="font-style:italic;color:#8899aa;">Bindu</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$42,169</td>
+            <td style="text-align:right;">$18,820</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">6.6%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>23</td>
+            <td>Sayed Haider Raza</td>
+            <td style="font-style:italic;color:#8899aa;">Village</td>
+            <td style="text-align:right;">$219,355</td>
+            <td style="text-align:right;">$331,277</td>
+            <td style="text-align:right;">$188,175</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">51.0%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>24</td>
+            <td>Maqbool Fida Husain</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$232,258</td>
+            <td style="text-align:right;">$369,402</td>
+            <td style="text-align:right;">$225,808</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">59.0%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>25</td>
+            <td>Maqbool Fida Husain</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$541,935</td>
+            <td style="text-align:right;">$938,238</td>
+            <td style="text-align:right;">$537,638</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">73.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>26</td>
+            <td>Ram Kumar</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$38,710</td>
+            <td style="text-align:right;">$27,687</td>
+            <td style="text-align:right;">$13,442</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">28.5%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>27</td>
+            <td>Jagdish Swaminathan</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$258,065</td>
+            <td style="text-align:right;">$186,716</td>
+            <td style="text-align:right;">$107,530</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">27.6%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>28</td>
+            <td>K H Ara</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$90,323</td>
+            <td style="text-align:right;">$27,062</td>
+            <td style="text-align:right;">$13,442</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">70.0%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>29</td>
+            <td>B. Prabha</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$42,747</td>
+            <td style="text-align:right;">$21,508</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">5.3%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>30</td>
+            <td>B. Prabha</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$49,032</td>
+            <td style="text-align:right;">$37,492</td>
+            <td style="text-align:right;">$18,820</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">23.5%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>31</td>
+            <td>Sadanand Bakre</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$67,097</td>
+            <td style="text-align:right;">$67,149</td>
+            <td style="text-align:right;">$37,638</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">0.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>32</td>
+            <td>Madhvi Parekh</td>
+            <td style="font-style:italic;color:#8899aa;">Jungle God</td>
+            <td style="text-align:right;">$38,710</td>
+            <td style="text-align:right;">$74,737</td>
+            <td style="text-align:right;">$37,638</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">93.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>33</td>
+            <td>Bikash Bhattacharjee</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$96,774</td>
+            <td style="text-align:right;">$131,874</td>
+            <td style="text-align:right;">$75,272</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">36.3%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>34</td>
+            <td>Himmat Shah</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$41,290</td>
+            <td style="text-align:right;">$32,213</td>
+            <td style="text-align:right;">$18,820</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">22.0%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>35</td>
+            <td>Sadanand Bakre</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$49,032</td>
+            <td style="text-align:right;">$77,209</td>
+            <td style="text-align:right;">$43,012</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">57.5%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>36</td>
+            <td>Piraji Sagara</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$38,710</td>
+            <td style="text-align:right;">$24,580</td>
+            <td style="text-align:right;">$13,442</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">36.5%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>37</td>
+            <td>Somnath Hore</td>
+            <td style="font-style:italic;color:#8899aa;">Hen in a Nest</td>
+            <td style="text-align:right;">$41,290</td>
+            <td style="text-align:right;">$82,356</td>
+            <td style="text-align:right;">$43,012</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">99.5%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>38</td>
+            <td>Latika Katt</td>
+            <td style="font-style:italic;color:#8899aa;">Fence</td>
+            <td style="text-align:right;">$49,032</td>
+            <td style="text-align:right;">$57,833</td>
+            <td style="text-align:right;">$48,390</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">18.0%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>39</td>
+            <td>A. Ramachandran</td>
+            <td style="font-style:italic;color:#8899aa;">Girl with Alphabets and Number</td>
+            <td style="text-align:right;">$129,032</td>
+            <td style="text-align:right;">$192,345</td>
+            <td style="text-align:right;">$107,530</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">49.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>40</td>
+            <td>Maqbool Fida Husain</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled (Horse and Rider)</td>
+            <td style="text-align:right;">$96,774</td>
+            <td style="text-align:right;">$100,294</td>
+            <td style="text-align:right;">$53,768</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">3.6%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>41</td>
+            <td>Maqbool Fida Husain</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled (Benares)</td>
+            <td style="text-align:right;">$1,677,419</td>
+            <td style="text-align:right;">$1,712,213</td>
+            <td style="text-align:right;">$1,344,088</td>
+            <td style="text-align:right;color:#66bb6a;font-weight:600;">2.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>42</td>
+            <td>Maqbool Fida Husain</td>
+            <td style="font-style:italic;color:#8899aa;">Panchatantra</td>
+            <td style="text-align:right;">$709,677</td>
+            <td style="text-align:right;">$938,238</td>
+            <td style="text-align:right;">$537,638</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">32.2%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>43</td>
+            <td>Badri Narayan</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$20,645</td>
+            <td style="text-align:right;">$11,422</td>
+            <td style="text-align:right;">$6,455</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">44.7%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>44</td>
+            <td>Ganesh Pyne</td>
+            <td style="font-style:italic;color:#8899aa;">Woman and the Tree</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$22,661</td>
+            <td style="text-align:right;">$8,605</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">49.8%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>45</td>
+            <td>Francis Newton Souza</td>
+            <td style="font-style:italic;color:#8899aa;">Portrait of a Human</td>
+            <td style="text-align:right;">$167,742</td>
+            <td style="text-align:right;">$227,570</td>
+            <td style="text-align:right;">$107,530</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">35.7%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>46</td>
+            <td>A. Ramachandran</td>
+            <td style="font-style:italic;color:#8899aa;">Study from Rajasthan</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$36,989</td>
+            <td style="text-align:right;">$18,820</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">18.1%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>47</td>
+            <td>K.G. Subramanyan</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$31,630</td>
+            <td style="text-align:right;">$18,820</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">30.0%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>48</td>
+            <td>Akbar Padamsee</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled (Nude)</td>
+            <td style="text-align:right;">$696,774</td>
+            <td style="text-align:right;">$812,442</td>
+            <td style="text-align:right;">$537,638</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">16.6%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>49</td>
+            <td>Edwin Lord Weeks</td>
+            <td style="font-style:italic;color:#8899aa;">Two Nautch Girls</td>
+            <td style="text-align:right;">$516,129</td>
+            <td style="text-align:right;">$1,067,387</td>
+            <td style="text-align:right;">$537,638</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">106.8%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>50</td>
+            <td>Jyoti Bhatt</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$70,968</td>
+            <td style="text-align:right;">$50,190</td>
+            <td style="text-align:right;">$32,260</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">29.3%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>51</td>
+            <td>Prabhakar Barwe</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$193,548</td>
+            <td style="text-align:right;">$249,469</td>
+            <td style="text-align:right;">$188,175</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">28.9%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>52</td>
+            <td>Sakti Burman</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$361,290</td>
+            <td style="text-align:right;">$519,415</td>
+            <td style="text-align:right;">$376,348</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">43.8%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>53</td>
+            <td>N S Bendre</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$77,419</td>
+            <td style="text-align:right;">$109,209</td>
+            <td style="text-align:right;">$64,518</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">41.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>54</td>
+            <td>Sohan Qadri</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$59,157</td>
+            <td style="text-align:right;">$32,260</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">31.0%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>55</td>
+            <td>B. Prabha</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$45,161</td>
+            <td style="text-align:right;">$85,244</td>
+            <td style="text-align:right;">$43,012</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">88.8%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>56</td>
+            <td>Sayed Haider Raza</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$54,194</td>
+            <td style="text-align:right;">$71,612</td>
+            <td style="text-align:right;">$32,260</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">32.1%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>57</td>
+            <td>A. Ramachandran</td>
+            <td style="font-style:italic;color:#8899aa;">Kaleidoscope</td>
+            <td style="text-align:right;">$245,161</td>
+            <td style="text-align:right;">$284,019</td>
+            <td style="text-align:right;">$188,175</td>
+            <td style="text-align:right;color:#00bfa5;font-weight:600;">15.8%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>58</td>
+            <td>K. Laxma Goud</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$16,774</td>
+            <td style="text-align:right;">$7,130</td>
+            <td style="text-align:right;">$4,305</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">57.5%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>59</td>
+            <td>Shiavax Chavda</td>
+            <td style="font-style:italic;color:#8899aa;">Youth</td>
+            <td style="text-align:right;">$30,968</td>
+            <td style="text-align:right;">$15,448</td>
+            <td style="text-align:right;">$10,755</td>
+            <td style="text-align:right;color:#ef5350;font-weight:600;">50.1%</td>
+            <td style="text-align:center;color:#66bb6a;">▼</td>
+            <td style="text-align:center;"><span style="background:#00bfa5;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">MODEL</span></td>
+        </tr><tr>
+            <td>60</td>
+            <td>Ganesh Pyne</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$154,839</td>
+            <td style="text-align:right;">$209,284</td>
+            <td style="text-align:right;">$134,412</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">35.2%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr><tr>
+            <td>61</td>
+            <td>Ganesh Haloi</td>
+            <td style="font-style:italic;color:#8899aa;">Untitled</td>
+            <td style="text-align:right;">$30,968</td>
+            <td style="text-align:right;">$45,055</td>
+            <td style="text-align:right;">$26,885</td>
+            <td style="text-align:right;color:#ffb74d;font-weight:600;">45.5%</td>
+            <td style="text-align:center;color:#ef5350;">▲</td>
+            <td style="text-align:center;"><span style="background:#ffb74d;color:#000;padding:2px 6px;border-radius:4px;font-size:0.7rem;">EST</span></td>
+        </tr></tbody>
+    </table>
+    </div>
+</div>
+
+</div>
+
+<script>
+// Scatter: Predicted vs Actual
+const lots = [{"lot": "1", "artist": "Plaque Of A Mother Goddess", "title": "", "actual": 25806, "predicted": 32115, "est_mid": 26885, "error_pct": 24.4, "direction": "OVER"}, {"lot": "2", "artist": "An Important Double-sided Figure", "title": "", "actual": 43871, "predicted": 53844, "est_mid": 43012, "error_pct": 22.7, "direction": "OVER"}, {"lot": "3", "artist": "Stele Of Vishnu", "title": "", "actual": 70968, "predicted": 78203, "est_mid": 64518, "error_pct": 10.2, "direction": "OVER"}, {"lot": "4", "artist": "Devi", "title": "", "actual": 45161, "predicted": 62551, "est_mid": 53768, "error_pct": 38.5, "direction": "OVER"}, {"lot": "5", "artist": "A Highly Important Sculpture Of Buddha", "title": "", "actual": 412903, "predicted": 476105, "est_mid": 430110, "error_pct": 15.3, "direction": "OVER"}, {"lot": "6", "artist": "Non-exportable Registered Antiquity", "title": "", "actual": 5419, "predicted": 6963, "est_mid": 5380, "error_pct": 28.5, "direction": "OVER"}, {"lot": "7", "artist": "Page From A Kavipriya Series By The Poet Keshavdas", "title": "", "actual": 12258, "predicted": 12574, "est_mid": 9680, "error_pct": 2.6, "direction": "OVER"}, {"lot": "8", "artist": "Jamini Roy", "title": "Toy Horse", "actual": 10323, "predicted": 13949, "est_mid": 6455, "error_pct": 35.1, "direction": "OVER"}, {"lot": "9", "artist": "Jamini Roy", "title": "Untitled", "actual": 16774, "predicted": 27602, "est_mid": 14518, "error_pct": 64.6, "direction": "OVER"}, {"lot": "10", "artist": "Jamini Roy", "title": "Untitled", "actual": 36129, "predicted": 54108, "est_mid": 32260, "error_pct": 49.8, "direction": "OVER"}, {"lot": "11", "artist": "Nandalal Bose", "title": "Untitled", "actual": 7097, "predicted": 8970, "est_mid": 4305, "error_pct": 26.4, "direction": "OVER"}, {"lot": "12", "artist": "Abanindranath Tagore", "title": "Untitled (Temple on Hill Top)", "actual": 41290, "predicted": 38829, "est_mid": 18820, "error_pct": 6.0, "direction": "UNDER"}, {"lot": "13", "artist": "Raja Ravi Varma", "title": "Yashoda and Krishna", "actual": 17978495, "predicted": 2454150, "est_mid": 10752692, "error_pct": 86.3, "direction": "UNDER"}, {"lot": "14", "artist": "Francis Newton Souza", "title": "Untitled (Study for Mystic Rep", "actual": 19355, "predicted": 16579, "est_mid": 6455, "error_pct": 14.3, "direction": "UNDER"}, {"lot": "15", "artist": "Francis Newton Souza", "title": "Untitled (Cardinal)", "actual": 19355, "predicted": 14288, "est_mid": 5380, "error_pct": 26.2, "direction": "UNDER"}, {"lot": "16", "artist": "Francis Newton Souza", "title": "Landscape", "actual": 24516, "predicted": 30611, "est_mid": 13442, "error_pct": 24.9, "direction": "OVER"}, {"lot": "17", "artist": "Francis Newton Souza", "title": "Untitled", "actual": 387097, "predicted": 532957, "est_mid": 322582, "error_pct": 37.7, "direction": "OVER"}, {"lot": "18", "artist": "Francis Newton Souza", "title": "Goan Peasants in the Market", "actual": 516129, "predicted": 239177, "est_mid": 134412, "error_pct": 53.7, "direction": "UNDER"}, {"lot": "19", "artist": "Manjit Bawa", "title": "Untitled", "actual": 283871, "predicted": 118631, "est_mid": 64518, "error_pct": 58.2, "direction": "UNDER"}, {"lot": "20", "artist": "Vasudeo S. Gaitonde", "title": "Untitled", "actual": 554839, "predicted": 287099, "est_mid": 188175, "error_pct": 48.3, "direction": "UNDER"}, {"lot": "21", "artist": "Shanti Dave", "title": "The Group", "actual": 109677, "predicted": 68569, "est_mid": 37638, "error_pct": 37.5, "direction": "UNDER"}, {"lot": "22", "artist": "Sayed Haider Raza", "title": "Bindu", "actual": 45161, "predicted": 42169, "est_mid": 18820, "error_pct": 6.6, "direction": "UNDER"}, {"lot": "23", "artist": "Sayed Haider Raza", "title": "Village", "actual": 219355, "predicted": 331277, "est_mid": 188175, "error_pct": 51.0, "direction": "OVER"}, {"lot": "24", "artist": "Maqbool Fida Husain", "title": "Untitled", "actual": 232258, "predicted": 369402, "est_mid": 225808, "error_pct": 59.0, "direction": "OVER"}, {"lot": "25", "artist": "Maqbool Fida Husain", "title": "Untitled", "actual": 541935, "predicted": 938238, "est_mid": 537638, "error_pct": 73.1, "direction": "OVER"}, {"lot": "26", "artist": "Ram Kumar", "title": "Untitled", "actual": 38710, "predicted": 27687, "est_mid": 13442, "error_pct": 28.5, "direction": "UNDER"}, {"lot": "27", "artist": "Jagdish Swaminathan", "title": "Untitled", "actual": 258065, "predicted": 186716, "est_mid": 107530, "error_pct": 27.6, "direction": "UNDER"}, {"lot": "28", "artist": "K H Ara", "title": "Untitled", "actual": 90323, "predicted": 27062, "est_mid": 13442, "error_pct": 70.0, "direction": "UNDER"}, {"lot": "29", "artist": "B. Prabha", "title": "Untitled", "actual": 45161, "predicted": 42747, "est_mid": 21508, "error_pct": 5.3, "direction": "UNDER"}, {"lot": "30", "artist": "B. Prabha", "title": "Untitled", "actual": 49032, "predicted": 37492, "est_mid": 18820, "error_pct": 23.5, "direction": "UNDER"}, {"lot": "31", "artist": "Sadanand Bakre", "title": "Untitled", "actual": 67097, "predicted": 67149, "est_mid": 37638, "error_pct": 0.1, "direction": "OVER"}, {"lot": "32", "artist": "Madhvi Parekh", "title": "Jungle God", "actual": 38710, "predicted": 74737, "est_mid": 37638, "error_pct": 93.1, "direction": "OVER"}, {"lot": "33", "artist": "Bikash Bhattacharjee", "title": "Untitled", "actual": 96774, "predicted": 131874, "est_mid": 75272, "error_pct": 36.3, "direction": "OVER"}, {"lot": "34", "artist": "Himmat Shah", "title": "Untitled", "actual": 41290, "predicted": 32213, "est_mid": 18820, "error_pct": 22.0, "direction": "UNDER"}, {"lot": "35", "artist": "Sadanand Bakre", "title": "Untitled", "actual": 49032, "predicted": 77209, "est_mid": 43012, "error_pct": 57.5, "direction": "OVER"}, {"lot": "36", "artist": "Piraji Sagara", "title": "Untitled", "actual": 38710, "predicted": 24580, "est_mid": 13442, "error_pct": 36.5, "direction": "UNDER"}, {"lot": "37", "artist": "Somnath Hore", "title": "Hen in a Nest", "actual": 41290, "predicted": 82356, "est_mid": 43012, "error_pct": 99.5, "direction": "OVER"}, {"lot": "38", "artist": "Latika Katt", "title": "Fence", "actual": 49032, "predicted": 57833, "est_mid": 48390, "error_pct": 18.0, "direction": "OVER"}, {"lot": "39", "artist": "A. Ramachandran", "title": "Girl with Alphabets and Number", "actual": 129032, "predicted": 192345, "est_mid": 107530, "error_pct": 49.1, "direction": "OVER"}, {"lot": "40", "artist": "Maqbool Fida Husain", "title": "Untitled (Horse and Rider)", "actual": 96774, "predicted": 100294, "est_mid": 53768, "error_pct": 3.6, "direction": "OVER"}, {"lot": "41", "artist": "Maqbool Fida Husain", "title": "Untitled (Benares)", "actual": 1677419, "predicted": 1712213, "est_mid": 1344088, "error_pct": 2.1, "direction": "OVER"}, {"lot": "42", "artist": "Maqbool Fida Husain", "title": "Panchatantra", "actual": 709677, "predicted": 938238, "est_mid": 537638, "error_pct": 32.2, "direction": "OVER"}, {"lot": "43", "artist": "Badri Narayan", "title": "Untitled", "actual": 20645, "predicted": 11422, "est_mid": 6455, "error_pct": 44.7, "direction": "UNDER"}, {"lot": "44", "artist": "Ganesh Pyne", "title": "Woman and the Tree", "actual": 45161, "predicted": 22661, "est_mid": 8605, "error_pct": 49.8, "direction": "UNDER"}, {"lot": "45", "artist": "Francis Newton Souza", "title": "Portrait of a Human", "actual": 167742, "predicted": 227570, "est_mid": 107530, "error_pct": 35.7, "direction": "OVER"}, {"lot": "46", "artist": "A. Ramachandran", "title": "Study from Rajasthan", "actual": 45161, "predicted": 36989, "est_mid": 18820, "error_pct": 18.1, "direction": "UNDER"}, {"lot": "47", "artist": "K.G. Subramanyan", "title": "Untitled", "actual": 45161, "predicted": 31630, "est_mid": 18820, "error_pct": 30.0, "direction": "UNDER"}, {"lot": "48", "artist": "Akbar Padamsee", "title": "Untitled (Nude)", "actual": 696774, "predicted": 812442, "est_mid": 537638, "error_pct": 16.6, "direction": "OVER"}, {"lot": "49", "artist": "Edwin Lord Weeks", "title": "Two Nautch Girls", "actual": 516129, "predicted": 1067387, "est_mid": 537638, "error_pct": 106.8, "direction": "OVER"}, {"lot": "50", "artist": "Jyoti Bhatt", "title": "Untitled", "actual": 70968, "predicted": 50190, "est_mid": 32260, "error_pct": 29.3, "direction": "UNDER"}, {"lot": "51", "artist": "Prabhakar Barwe", "title": "Untitled", "actual": 193548, "predicted": 249469, "est_mid": 188175, "error_pct": 28.9, "direction": "OVER"}, {"lot": "52", "artist": "Sakti Burman", "title": "Untitled", "actual": 361290, "predicted": 519415, "est_mid": 376348, "error_pct": 43.8, "direction": "OVER"}, {"lot": "53", "artist": "N S Bendre", "title": "Untitled", "actual": 77419, "predicted": 109209, "est_mid": 64518, "error_pct": 41.1, "direction": "OVER"}, {"lot": "54", "artist": "Sohan Qadri", "title": "Untitled", "actual": 45161, "predicted": 59157, "est_mid": 32260, "error_pct": 31.0, "direction": "OVER"}, {"lot": "55", "artist": "B. Prabha", "title": "Untitled", "actual": 45161, "predicted": 85244, "est_mid": 43012, "error_pct": 88.8, "direction": "OVER"}, {"lot": "56", "artist": "Sayed Haider Raza", "title": "Untitled", "actual": 54194, "predicted": 71612, "est_mid": 32260, "error_pct": 32.1, "direction": "OVER"}, {"lot": "57", "artist": "A. Ramachandran", "title": "Kaleidoscope", "actual": 245161, "predicted": 284019, "est_mid": 188175, "error_pct": 15.8, "direction": "OVER"}, {"lot": "58", "artist": "K. Laxma Goud", "title": "Untitled", "actual": 16774, "predicted": 7130, "est_mid": 4305, "error_pct": 57.5, "direction": "UNDER"}, {"lot": "59", "artist": "Shiavax Chavda", "title": "Youth", "actual": 30968, "predicted": 15448, "est_mid": 10755, "error_pct": 50.1, "direction": "UNDER"}, {"lot": "60", "artist": "Ganesh Pyne", "title": "Untitled", "actual": 154839, "predicted": 209284, "est_mid": 134412, "error_pct": 35.2, "direction": "OVER"}, {"lot": "61", "artist": "Ganesh Haloi", "title": "Untitled", "actual": 30968, "predicted": 45055, "est_mid": 26885, "error_pct": 45.5, "direction": "OVER"}];
+new Chart(document.getElementById('chart-scatter'), {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Model Prediction',
+            data: lots.map(r => ({x: r.actual, y: r.predicted})),
+            backgroundColor: lots.map(r => r.error_pct <= 25 ? '#00bfa5' : r.error_pct <= 50 ? '#ffb74d' : '#ef5350'),
+            pointRadius: 6,
+        }, {
+            label: 'Estimate',
+            data: lots.filter(r => r.est_mid).map(r => ({x: r.actual, y: r.est_mid})),
+            backgroundColor: '#8899aa44',
+            borderColor: '#8899aa',
+            pointRadius: 4,
+            pointStyle: 'triangle',
+        }, {
+            label: 'Perfect',
+            data: [{x: 0, y: 0}, {x: 18000000, y: 18000000}],
+            type: 'line',
+            borderColor: '#ffffff33',
+            borderDash: [5, 5],
+            pointRadius: 0,
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Predicted vs Actual (log scale)', color: '#e4eef5', font: { size: 14 } },
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString() + ' (actual: $' + ctx.parsed.x.toLocaleString() + ')' } }
+        },
+        scales: {
+            x: { type: 'logarithmic', title: { display: true, text: 'Actual ($)', color: '#8899aa' }, ticks: { color: '#8899aa', callback: v => '$' + (v>=1e6 ? (v/1e6).toFixed(1)+'M' : v>=1e3 ? (v/1e3).toFixed(0)+'K' : v) }, grid: { color: '#2a2a3e' } },
+            y: { type: 'logarithmic', title: { display: true, text: 'Predicted ($)', color: '#8899aa' }, ticks: { color: '#8899aa', callback: v => '$' + (v>=1e6 ? (v/1e6).toFixed(1)+'M' : v>=1e3 ? (v/1e3).toFixed(0)+'K' : v) }, grid: { color: '#2a2a3e' } }
+        }
+    }
+});
+
+// Error distribution
+const modelErrs = lots.map(r => r.error_pct);
+const bins = ['0-10%', '10-25%', '25-50%', '50-100%', '100%+'];
+const modelCounts = [
+    modelErrs.filter(e => e <= 10).length,
+    modelErrs.filter(e => e > 10 && e <= 25).length,
+    modelErrs.filter(e => e > 25 && e <= 50).length,
+    modelErrs.filter(e => e > 50 && e <= 100).length,
+    modelErrs.filter(e => e > 100).length,
+];
+const estErrs = lots.filter(r => r.est_mid).map(r => Math.abs(r.est_mid - r.actual) / r.actual * 100);
+const estCounts = [
+    estErrs.filter(e => e <= 10).length,
+    estErrs.filter(e => e > 10 && e <= 25).length,
+    estErrs.filter(e => e > 25 && e <= 50).length,
+    estErrs.filter(e => e > 50 && e <= 100).length,
+    estErrs.filter(e => e > 100).length,
+];
+
+new Chart(document.getElementById('chart-error-dist'), {
+    type: 'bar',
+    data: {
+        labels: bins,
+        datasets: [
+            { label: 'Model', data: modelCounts, backgroundColor: '#00bfa588', borderColor: '#00bfa5', borderWidth: 1 },
+            { label: 'Estimates', data: estCounts, backgroundColor: '#ffb74d88', borderColor: '#ffb74d', borderWidth: 1 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Error Distribution: Model vs Estimates', color: '#e4eef5', font: { size: 14 } },
+            legend: { labels: { color: '#8899aa' } }
+        },
+        scales: {
+            x: { ticks: { color: '#8899aa' }, grid: { color: '#2a2a3e' } },
+            y: { ticks: { color: '#8899aa' }, grid: { color: '#2a2a3e' }, title: { display: true, text: '# Lots', color: '#8899aa' } }
+        }
+    }
+});
+</script>
+</body>
+</html>
