@@ -44,7 +44,9 @@
       "Bash(pkill -f streamlit)",
       "Bash(pkill -9 -f chrome)",
       "Bash(rm -rf /Users/sidkumar/.wdm/drivers/chromedriver/mac64/146.0.7680.165/)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebFetch(domain:auctions.pundoles.com)",
+      "Bash(pkill -f \"scrape_lots_pundoles\")"
     ]
   }
 }

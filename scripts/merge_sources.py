@@ -23,6 +23,7 @@ logger = setup_logger(__name__, "merge_sources.log")
 CHRISTIES_FILE = DATA_RAW / "lots_christies.csv"
 SOTHEBYS_FILE = DATA_RAW / "lots_sothebys.csv"
 SAFFRONART_FILE = DATA_RAW / "lots_saffronart.csv"
+PUNDOLES_FILE = DATA_RAW / "lots_pundoles.csv"
 OUTPUT_FILE = DATA_RAW / "lots.csv"
 
 # Also support the original lots.csv as Christie's source
@@ -238,6 +239,15 @@ def main():
         logger.info(f"Saffronart: {len(df_sa)} lots from {SAFFRONART_FILE.name}")
     else:
         logger.warning("No Saffronart data found")
+
+    # Pundole's
+    if PUNDOLES_FILE.exists():
+        df_p = pd.read_csv(PUNDOLES_FILE)
+        df_p["source"] = "pundoles"
+        frames.append(df_p)
+        logger.info(f"Pundole's: {len(df_p)} lots from {PUNDOLES_FILE.name}")
+    else:
+        logger.warning("No Pundole's data found")
 
     # Individual artist datasets
     for fname, source_label in ARTIST_FILES:
