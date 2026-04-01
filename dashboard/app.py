@@ -838,7 +838,7 @@ def page_backtest():
     # ---- By Star Artist ----
     section_header("Star Artist Performance")
     if by_artist:
-        art_df = pd.DataFrame(by_artist).sort_values("median_err")
+        art_df = pd.DataFrame(by_artist).sort_values("median_pct_err")
         st.dataframe(art_df, use_container_width=True, hide_index=True)
 
     # ---- Full dataset summary ----
