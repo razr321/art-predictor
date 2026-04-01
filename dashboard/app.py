@@ -807,6 +807,8 @@ def page_backtest():
     section_header("Performance by Year")
     if by_year:
         yr_df = pd.DataFrame(by_year)
+        yr_df["year"] = yr_df["year"].astype(int)
+        yr_df["n"] = yr_df["n"].astype(int)
         yr_df = yr_df.sort_values("year")
 
         import plotly.graph_objects as go
