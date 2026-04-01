@@ -765,17 +765,18 @@ def page_backtest():
 
     # ---- KPI row: test set (out-of-sample) ----
     section_header("Out-of-Sample Performance (Test Set)")
+    n = test_set.get("n", 0)
     k1, k2, k3, k4, k5 = st.columns(5)
     with k1:
-        st.markdown(kpi_card("Test Lots", f"{test_set.get('n', 0):,}"), unsafe_allow_html=True)
+        st.markdown(kpi_card("Test Lots", f"{n:,}"), unsafe_allow_html=True)
     with k2:
-        st.markdown(kpi_card("Median Error", f"{test_set.get('median_err', 0):.1f}%", color="#ffb74d"), unsafe_allow_html=True)
+        st.markdown(kpi_card("Median Error", f"{test_set.get('median_pct_err', 0):.1f}%", color="#ffb74d"), unsafe_allow_html=True)
     with k3:
-        st.markdown(kpi_card("Within 10%", f"{test_set.get('within_10', 0)}/{test_set.get('n', 0)}"), unsafe_allow_html=True)
+        st.markdown(kpi_card("Within 10%", f"{test_set.get('within_10', 0)}/{n}"), unsafe_allow_html=True)
     with k4:
-        st.markdown(kpi_card("Within 25%", f"{test_set.get('within_25', 0)}/{test_set.get('n', 0)}", color="#00bfa5"), unsafe_allow_html=True)
+        st.markdown(kpi_card("Within 25%", f"{test_set.get('within_25', 0)}/{n}", color="#00bfa5"), unsafe_allow_html=True)
     with k5:
-        st.markdown(kpi_card("Within 50%", f"{test_set.get('within_50', 0)}/{test_set.get('n', 0)}", color="#66bb6a"), unsafe_allow_html=True)
+        st.markdown(kpi_card("Within 50%", f"{test_set.get('within_50', 0)}/{n}", color="#66bb6a"), unsafe_allow_html=True)
 
     st.markdown("")
 
@@ -787,13 +788,13 @@ def page_backtest():
             f'<div style="text-align:center;padding:1rem;">'
             f'<div style="font-size:2.5rem;font-weight:700;color:#00bfa5;">{test_set.get("within_50", 0)}/{test_set.get("n", 0)}</div>'
             f'<div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">Model within 50%</div>'
-            f'<div style="color:#ffb74d;font-size:1.1rem;margin-top:8px;">{test_set.get("median_err", 0):.1f}% median error</div>'
+            f'<div style="color:#ffb74d;font-size:1.1rem;margin-top:8px;">{test_set.get("median_pct_err", 0):.1f}% median error</div>'
             f'</div>', unsafe_allow_html=True)
     with col_vs:
         st.markdown('<div style="text-align:center;padding:2rem;font-size:1.5rem;color:#8899aa;font-weight:700;">VS</div>', unsafe_allow_html=True)
     with col_e:
         est_w50 = test_set.get("est_within_50", 0)
-        est_med = test_set.get("est_median_err", 0)
+        est_med = test_set.get("est_median_pct_err", 0)
         st.markdown(
             f'<div style="text-align:center;padding:1rem;">'
             f'<div style="font-size:2.5rem;font-weight:700;color:#ffb74d;">{est_w50}/{test_set.get("n", 0)}</div>'
@@ -816,9 +817,9 @@ def page_backtest():
         fig = make_subplots(specs=[[{"secondary_y": True}]])
         years_list = yr_df["year"].tolist()
         fig.add_trace(go.Bar(x=years_list, y=yr_df["n"].tolist(), name="# Lots", marker_color="rgba(38,198,218,0.5)"), secondary_y=False)
-        fig.add_trace(go.Scatter(x=years_list, y=yr_df["median_err"].tolist(), name="Model Median Error", line=dict(color="#00bfa5", width=2.5), mode="lines+markers"), secondary_y=True)
-        if "est_median_err" in yr_df.columns:
-            fig.add_trace(go.Scatter(x=years_list, y=yr_df["est_median_err"].tolist(), name="Estimate Median Error", line=dict(color="#ffb74d", width=2, dash="dash"), mode="lines+markers"), secondary_y=True)
+        fig.add_trace(go.Scatter(x=years_list, y=yr_df["median_pct_err"].tolist(), name="Model Median Error", line=dict(color="#00bfa5", width=2.5), mode="lines+markers"), secondary_y=True)
+        if "est_median_pct_err" in yr_df.columns:
+            fig.add_trace(go.Scatter(x=years_list, y=yr_df["est_median_pct_err"].tolist(), name="Estimate Median Error", line=dict(color="#ffb74d", width=2, dash="dash"), mode="lines+markers"), secondary_y=True)
         fig.update_layout(plot_bgcolor="#0c0c1a", paper_bgcolor="#1e1e2e", font=dict(color="#8899aa"), height=400,
                          legend=dict(bgcolor="rgba(0,0,0,0)"), margin=dict(l=60, r=60, t=30, b=40))
         fig.update_xaxes(gridcolor="#2a2a3e")
@@ -843,12 +844,13 @@ def page_backtest():
     # ---- Full dataset summary ----
     with st.expander("Full Dataset (In-Sample + Test)"):
         o = bt.get("overall", {})
+        on = max(o.get('n', 1), 1)
         st.markdown(f"""
         - **Total lots:** {o.get('n', 0):,}
-        - **Median error:** {o.get('median_err', 0):.1f}%
-        - **Within 10%:** {o.get('within_10', 0)} ({o.get('within_10', 0)/max(o.get('n', 1), 1)*100:.0f}%)
-        - **Within 25%:** {o.get('within_25', 0)} ({o.get('within_25', 0)/max(o.get('n', 1), 1)*100:.0f}%)
-        - **Within 50%:** {o.get('within_50', 0)} ({o.get('within_50', 0)/max(o.get('n', 1), 1)*100:.0f}%)
+        - **Median error:** {o.get('median_pct_err', 0):.1f}%
+        - **Within 10%:** {o.get('within_10', 0)} ({o.get('within_10', 0)/on*100:.0f}%)
+        - **Within 25%:** {o.get('within_25', 0)} ({o.get('within_25', 0)/on*100:.0f}%)
+        - **Within 50%:** {o.get('within_50', 0)} ({o.get('within_50', 0)/on*100:.0f}%)
         - *Note: In-sample performance is optimistic — the model has seen these lots during training.*
         """)
 
