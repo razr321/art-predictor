@@ -24,6 +24,7 @@ CHRISTIES_FILE = DATA_RAW / "lots_christies.csv"
 SOTHEBYS_FILE = DATA_RAW / "lots_sothebys.csv"
 SAFFRONART_FILE = DATA_RAW / "lots_saffronart.csv"
 PUNDOLES_FILE = DATA_RAW / "lots_pundoles.csv"
+BONHAMS_FILE = DATA_RAW / "lots_bonhams.csv"
 OUTPUT_FILE = DATA_RAW / "lots.csv"
 
 # Also support the original lots.csv as Christie's source
@@ -248,6 +249,15 @@ def main():
         logger.info(f"Pundole's: {len(df_p)} lots from {PUNDOLES_FILE.name}")
     else:
         logger.warning("No Pundole's data found")
+
+    # Bonhams
+    if BONHAMS_FILE.exists():
+        df_b = pd.read_csv(BONHAMS_FILE)
+        df_b["source"] = "bonhams"
+        frames.append(df_b)
+        logger.info(f"Bonhams: {len(df_b)} lots from {BONHAMS_FILE.name}")
+    else:
+        logger.warning("No Bonhams data found")
 
     # Individual artist datasets
     for fname, source_label in ARTIST_FILES:

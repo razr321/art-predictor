@@ -47,7 +47,8 @@
       "Bash(git push:*)",
       "WebFetch(domain:auctions.pundoles.com)",
       "Bash(pkill -f \"scrape_lots_pundoles\")",
-      "Bash(grep -v \"Warning\\\\|Loading\\\\|CLIP\\\\|Key\\\\|---\\\\|Notes\\\\|UNEXPECTED\\\\|^$\")"
+      "Bash(grep -v \"Warning\\\\|Loading\\\\|CLIP\\\\|Key\\\\|---\\\\|Notes\\\\|UNEXPECTED\\\\|^$\")",
+      "WebFetch(domain:www.bonhams.com)"
     ]
   }
 }
