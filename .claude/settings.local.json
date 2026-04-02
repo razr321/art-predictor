@@ -46,7 +46,8 @@
       "Bash(rm -rf /Users/sidkumar/.wdm/drivers/chromedriver/mac64/146.0.7680.165/)",
       "Bash(git push:*)",
       "WebFetch(domain:auctions.pundoles.com)",
-      "Bash(pkill -f \"scrape_lots_pundoles\")"
+      "Bash(pkill -f \"scrape_lots_pundoles\")",
+      "Bash(grep -v \"Warning\\\\|Loading\\\\|CLIP\\\\|Key\\\\|---\\\\|Notes\\\\|UNEXPECTED\\\\|^$\")"
     ]
   }
 }

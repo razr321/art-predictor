@@ -36,16 +36,30 @@
     "is_fall_sale",
     "auction_year",
     "market_index",
+    "color_richness",
+    "brightness",
+    "subject_score",
+    "palette_score",
+    "style_score",
     "medium_category",
-    "artist_name_clean"
+    "artist_name_clean",
+    "subject",
+    "palette",
+    "style"
   ],
   "cat_cols": [
     "medium_category",
-    "artist_name_clean"
+    "artist_name_clean",
+    "subject",
+    "palette",
+    "style"
   ],
   "cat_indices": [
-    36,
-    37
+    41,
+    42,
+    43,
+    44,
+    45
   ],
   "target": "log_hammer_price",
   "catboost_models": [
@@ -71,11 +85,11 @@
     43
   ],
   "metrics": {
-    "rmse_log": 0.9515,
-    "r2_log": 0.747,
-    "mae_usd": 115966.08,
-    "mape_pct": 47.78,
-    "median_ae_usd": 12720.74,
+    "rmse_log": 0.9053,
+    "r2_log": 0.7709,
+    "mae_usd": 110461.49,
+    "mape_pct": 47.21,
+    "median_ae_usd": 12320.21,
     "test_size": 557,
     "train_size": 4448,
     "n_catboost": 5,

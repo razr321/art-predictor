@@ -285,6 +285,21 @@ def create_ml_ready(df: pd.DataFrame) -> pd.DataFrame:
     sold = df[df["is_sold"] & df["hammer_price_usd"].notna() & (df["hammer_price_usd"] > 0)].copy()
     sold["log_hammer_price"] = np.log(sold["hammer_price_usd"])
 
+    # Merge image features if available
+    image_features_file = DATA_PROCESSED / "image_features.csv"
+    if image_features_file.exists():
+        img_feats = pd.read_csv(image_features_file)
+        # Drop the large clip_embedding column
+        if "clip_embedding" in img_feats.columns:
+            img_feats = img_feats.drop(columns=["clip_embedding"])
+        img_feats["lot_id"] = img_feats["lot_id"].astype(str)
+        sold["lot_id"] = sold["lot_id"].astype(str)
+        sold = sold.merge(img_feats, on="lot_id", how="left")
+        n_with_img = sold["subject"].notna().sum()
+        logger.info(f"Merged image features: {n_with_img}/{len(sold)} lots have image data")
+    else:
+        logger.info("No image features found — skipping (run models/extract_image_features.py)")
+
     logger.info(f"ML-ready: {len(sold)} sold lots with valid prices")
 
     # Feature columns
@@ -328,10 +343,16 @@ def create_ml_ready(df: pd.DataFrame) -> pd.DataFrame:
         "auction_year",
         # Market
         "market_index",
+        # Image features (from CLIP + color analysis)
+        "color_richness",
+        "brightness",
+        "subject_score",
+        "palette_score",
+        "style_score",
     ]
 
     # Categorical features (for CatBoost native handling)
-    cat_features = ["medium_category", "artist_name_clean"]
+    cat_features = ["medium_category", "artist_name_clean", "subject", "palette", "style"]
 
     # Keep only available columns
     available_numeric = [c for c in numeric_features if c in sold.columns]
