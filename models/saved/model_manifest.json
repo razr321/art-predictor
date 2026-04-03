@@ -44,6 +44,12 @@
     "artist_price_per_cm2",
     "artist_recent_lots_12m",
     "artist_premium_trend",
+    "auction_house_prestige",
+    "provenance_quality",
+    "artist_rarity",
+    "comp_price",
+    "log_comp_price",
+    "comp_recency_days",
     "color_richness",
     "brightness",
     "subject_score",
@@ -53,21 +59,27 @@
     "artist_name_clean",
     "subject",
     "palette",
-    "style"
+    "style",
+    "title_subject",
+    "creation_period"
   ],
   "cat_cols": [
     "medium_category",
     "artist_name_clean",
     "subject",
     "palette",
-    "style"
+    "style",
+    "title_subject",
+    "creation_period"
   ],
   "cat_indices": [
-    49,
-    50,
-    51,
-    52,
-    53
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61
   ],
   "target": "log_hammer_price",
   "catboost_models": [
@@ -93,11 +105,11 @@
     43
   ],
   "metrics": {
-    "rmse_log": 0.9269,
-    "r2_log": 0.7822,
-    "mae_usd": 93234.1,
-    "mape_pct": 51.1,
-    "median_ae_usd": 12365.74,
+    "rmse_log": 0.9083,
+    "r2_log": 0.7824,
+    "mae_usd": 83428.43,
+    "mape_pct": 55.59,
+    "median_ae_usd": 10145.01,
     "test_size": 582,
     "train_size": 4656,
     "n_catboost": 5,

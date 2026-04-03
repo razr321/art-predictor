@@ -309,7 +309,165 @@ def compute_lot_features(df: pd.DataFrame) -> pd.DataFrame:
     df["is_spring_sale"] = df["auction_month"].isin([3, 4, 5]).astype(int)
     df["is_fall_sale"] = df["auction_month"].isin([9, 10, 11]).astype(int)
 
+    # --- Auction house prestige (major houses get higher prices) ---
+    prestige_map = {"christies": 3, "sothebys": 3, "bonhams": 2,
+                    "pundoles": 1, "saffronart": 1, "astaguru": 1, "artist_scrape": 0}
+    df["auction_house_prestige"] = df["source"].map(prestige_map).fillna(0).astype(int)
+
+    # --- Title-based subject (works even when no image) ---
+    def extract_title_subject(title):
+        if pd.isna(title):
+            return "unknown"
+        t = str(title).lower()
+        if "untitled" in t and len(t) < 12:
+            return "untitled"
+        for subj, keywords in [
+            ("horse", ["horse", "equestrian", "gallop"]),
+            ("nude", ["nude", "naked"]),
+            ("landscape", ["landscape", "village", "cityscape", "city"]),
+            ("portrait", ["portrait", "head", "face", "self-portrait"]),
+            ("woman", ["woman", "girl", "mother", "lady", "bride"]),
+            ("abstract", ["abstract", "composition", "bindu", "untitled ("]),
+            ("still_life", ["still life", "flower", "vase", "fruit"]),
+            ("animal", ["bull", "cow", "bird", "cat", "dog", "fish", "animal"]),
+            ("religious", ["krishna", "shiva", "ganesha", "buddha", "christ", "goddess"]),
+            ("figure", ["figure", "dancer", "musician", "seated", "standing"]),
+        ]:
+            if any(kw in t for kw in keywords):
+                return subj
+        return "other"
+
+    df["title_subject"] = df["title"].apply(extract_title_subject)
+
+    # --- Provenance quality score ---
+    def score_provenance(prov_text):
+        if pd.isna(prov_text) or not str(prov_text).strip():
+            return 0
+        p = str(prov_text).lower()
+        score = 0
+        if "museum" in p or "national gallery" in p or "tate" in p:
+            score += 4
+        if "gallery" in p or "galerie" in p:
+            score += 2
+        if "exhibited" in p or "exhibition" in p:
+            score += 2
+        if "published" in p or "illustrated" in p:
+            score += 1
+        if "collection" in p:
+            score += 1
+        if "acquired directly" in p or "from the artist" in p:
+            score += 3
+        if "estate" in p or "family" in p:
+            score += 2
+        return score
+
+    df["provenance_quality"] = df["provenance_text"].apply(score_provenance)
+
+    # --- Creation period (artist-relative) ---
+    df["creation_period"] = "unknown"
+    has_years = df["year_created"].notna() & df["artist_birth_year"].notna()
+    age_at_creation = df.loc[has_years, "year_created"] - df.loc[has_years, "artist_birth_year"]
+    df.loc[has_years & (age_at_creation < 30), "creation_period"] = "early"
+    df.loc[has_years & (age_at_creation >= 30) & (age_at_creation < 50), "creation_period"] = "mid_career"
+    df.loc[has_years & (age_at_creation >= 50) & (age_at_creation < 70), "creation_period"] = "late"
+    df.loc[has_years & (age_at_creation >= 70), "creation_period"] = "very_late"
+
+    # --- Rarity score (how often this artist appears at auction per year) ---
+    if "artist_prior_lots_total" in df.columns and "artist_years_in_market" in df.columns:
+        years_active = df["artist_years_in_market"].replace(0, 1)
+        df["artist_rarity"] = df["artist_prior_lots_total"] / years_active
+        # Invert: fewer lots per year = more rare = higher score
+        df["artist_rarity"] = 1.0 / (df["artist_rarity"] + 0.1)
+
     logger.info("  Done: lot-level features")
+    return df
+
+
+def compute_comparable_sales(df: pd.DataFrame) -> pd.DataFrame:
+    """For each lot, find the most similar prior sale by the same artist.
+
+    This mimics what appraisers do: 'a similar Souza oil, 60x45cm, sold for $X.'
+    Uses only PRIOR data to avoid leakage.
+    """
+    logger.info("Computing comparable sales features...")
+
+    df = df.sort_values("auction_date").reset_index(drop=True)
+
+    comp_price = np.full(len(df), np.nan)
+    comp_ratio = np.full(len(df), np.nan)  # current estimate / comp price
+    comp_recency_days = np.full(len(df), np.nan)
+
+    # Group by artist for efficiency
+    for artist, group in df.groupby("artist_name_clean"):
+        group = group.sort_values("auction_date")
+        idxs = group.index.tolist()
+
+        # Track prior sold lots for this artist
+        prior_sold = []  # list of (idx, price, area, year_created, date, medium)
+
+        for pos, idx in enumerate(idxs):
+            row = df.loc[idx]
+
+            if prior_sold:
+                # Find best comparable: minimize distance in (size, year, medium)
+                current_area = row.get("surface_area_cm2")
+                current_year = row.get("year_created")
+                current_medium = row.get("medium_category", "")
+                current_date = row.get("auction_date")
+
+                best_score = float("inf")
+                best_price = None
+                best_date = None
+
+                for p_idx, p_price, p_area, p_year, p_date, p_medium in prior_sold:
+                    score = 0
+                    # Size similarity (log ratio, lower = more similar)
+                    if pd.notna(current_area) and pd.notna(p_area) and p_area > 0 and current_area > 0:
+                        score += abs(np.log(current_area / p_area)) * 2
+                    else:
+                        score += 2  # penalty for missing size
+
+                    # Year similarity
+                    if pd.notna(current_year) and pd.notna(p_year):
+                        score += abs(current_year - p_year) / 10
+                    else:
+                        score += 1
+
+                    # Medium match bonus
+                    if current_medium and p_medium and current_medium == p_medium:
+                        score -= 0.5  # bonus for same medium
+
+                    # Recency bonus (prefer recent comps)
+                    if pd.notna(current_date) and pd.notna(p_date):
+                        days_ago = (current_date - p_date).days
+                        score += days_ago / 3650  # slight penalty for old comps
+
+                    if score < best_score:
+                        best_score = score
+                        best_price = p_price
+                        best_date = p_date
+
+                if best_price is not None:
+                    comp_price[idx] = best_price
+                    if pd.notna(current_date) and pd.notna(best_date):
+                        comp_recency_days[idx] = (current_date - best_date).days
+
+            # Add this lot to prior sold if it sold
+            if row.get("is_sold") and pd.notna(row.get("hammer_price_usd")) and row["hammer_price_usd"] > 0:
+                prior_sold.append((
+                    idx, row["hammer_price_usd"],
+                    row.get("surface_area_cm2"),
+                    row.get("year_created"),
+                    row.get("auction_date"),
+                    row.get("medium_category", ""),
+                ))
+
+    df["comp_price"] = comp_price
+    df["log_comp_price"] = np.log1p(comp_price)
+    df["comp_recency_days"] = comp_recency_days
+
+    n_with_comp = np.isfinite(comp_price).sum()
+    logger.info(f"  Done: comparable sales ({n_with_comp}/{len(df)} lots have comps)")
     return df
 
 
@@ -420,6 +578,14 @@ def create_ml_ready(df: pd.DataFrame) -> pd.DataFrame:
         "artist_price_per_cm2",
         "artist_recent_lots_12m",
         "artist_premium_trend",
+        # Derived lot features
+        "auction_house_prestige",
+        "provenance_quality",
+        "artist_rarity",
+        # Comparable sales
+        "comp_price",
+        "log_comp_price",
+        "comp_recency_days",
         # Image features (from CLIP + color analysis)
         "color_richness",
         "brightness",
@@ -429,7 +595,8 @@ def create_ml_ready(df: pd.DataFrame) -> pd.DataFrame:
     ]
 
     # Categorical features (for CatBoost native handling)
-    cat_features = ["medium_category", "artist_name_clean", "subject", "palette", "style"]
+    cat_features = ["medium_category", "artist_name_clean", "subject", "palette", "style",
+                     "title_subject", "creation_period"]
 
     # Keep only available columns
     available_numeric = [c for c in numeric_features if c in sold.columns]
@@ -468,6 +635,7 @@ def main():
     # Engineer features
     df = compute_artist_rolling_features(df)
     df = compute_lot_features(df)
+    df = compute_comparable_sales(df)
     df = compute_market_features(df)
 
     # Save master

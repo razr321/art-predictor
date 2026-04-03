@@ -66,7 +66,7 @@ def load_data():
     # Identify feature columns
     target_col = "log_hammer_price"
     meta_cols = ["auction_date", "hammer_price_usd", "artist_name", "title", "lot_id"]
-    cat_cols = ["medium_category", "artist_name_clean", "subject", "palette", "style"]
+    cat_cols = ["medium_category", "artist_name_clean", "subject", "palette", "style", "title_subject", "creation_period"]
     feature_cols = [c for c in df.columns if c not in [target_col] + meta_cols]
 
     # Chronological split: train 80%, val 10%, test 10%

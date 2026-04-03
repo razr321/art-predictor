@@ -40,6 +40,12 @@
     "artist_price_per_cm2",
     "artist_recent_lots_12m",
     "artist_premium_trend",
+    "auction_house_prestige",
+    "provenance_quality",
+    "artist_rarity",
+    "comp_price",
+    "log_comp_price",
+    "comp_recency_days",
     "color_richness",
     "brightness",
     "subject_score",
@@ -49,21 +55,27 @@
     "artist_name_clean",
     "subject",
     "palette",
-    "style"
+    "style",
+    "title_subject",
+    "creation_period"
   ],
   "cat_cols": [
     "medium_category",
     "artist_name_clean",
     "subject",
     "palette",
-    "style"
+    "style",
+    "title_subject",
+    "creation_period"
   ],
   "cat_indices": [
-    45,
-    46,
-    47,
-    48,
-    49
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57
   ],
   "excluded_features": [
     "estimate_midpoint",
@@ -73,13 +85,13 @@
   ],
   "target": "log_hammer_price",
   "metrics": {
-    "rmse_log": 1.5711,
-    "r2_log": 0.3743,
-    "mae_usd": 139041.18,
-    "mape_pct": 95.65,
-    "median_ae_usd": 18944.51,
-    "within_25_pct": 15.5,
-    "within_50_pct": 35.2,
+    "rmse_log": 1.4315,
+    "r2_log": 0.4594,
+    "mae_usd": 121957.13,
+    "mape_pct": 94.85,
+    "median_ae_usd": 14291.59,
+    "within_25_pct": 17.9,
+    "within_50_pct": 39.0,
     "test_size": 582
   }
 }
