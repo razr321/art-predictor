@@ -85,13 +85,13 @@
     43
   ],
   "metrics": {
-    "rmse_log": 1.182,
-    "r2_log": 0.6465,
-    "mae_usd": 99912.3,
-    "mape_pct": 133.66,
-    "median_ae_usd": 11526.15,
-    "test_size": 573,
-    "train_size": 4584,
+    "rmse_log": 0.9439,
+    "r2_log": 0.7742,
+    "mae_usd": 97037.65,
+    "mape_pct": 55.28,
+    "median_ae_usd": 12746.16,
+    "test_size": 582,
+    "train_size": 4656,
     "n_catboost": 5,
     "n_xgboost": 2
   }

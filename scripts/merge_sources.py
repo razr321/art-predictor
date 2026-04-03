@@ -25,6 +25,7 @@ SOTHEBYS_FILE = DATA_RAW / "lots_sothebys.csv"
 SAFFRONART_FILE = DATA_RAW / "lots_saffronart.csv"
 PUNDOLES_FILE = DATA_RAW / "lots_pundoles.csv"
 BONHAMS_FILE = DATA_RAW / "lots_bonhams.csv"
+ASTAGURU_FILE = DATA_RAW / "lots_astaguru.csv"
 OUTPUT_FILE = DATA_RAW / "lots.csv"
 
 # Also support the original lots.csv as Christie's source
@@ -258,6 +259,15 @@ def main():
         logger.info(f"Bonhams: {len(df_b)} lots from {BONHAMS_FILE.name}")
     else:
         logger.warning("No Bonhams data found")
+
+    # AstaGuru
+    if ASTAGURU_FILE.exists():
+        df_ag = pd.read_csv(ASTAGURU_FILE)
+        df_ag["source"] = "astaguru"
+        frames.append(df_ag)
+        logger.info(f"AstaGuru: {len(df_ag)} lots from {ASTAGURU_FILE.name}")
+    else:
+        logger.warning("No AstaGuru data found")
 
     # Individual artist datasets
     for fname, source_label in ARTIST_FILES:

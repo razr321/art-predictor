@@ -455,24 +455,41 @@ def scrape_lot_detail(driver: webdriver.Chrome, auction_id: int, lot_number: int
 
     page_source = driver.page_source
 
-    # --- Extract estimate from page text ---
-    # Pattern: "£20,000 - £30,000" or "£20,000 - 30,000"
-    est_match = re.search(
-        r"[Ee]stimate[:\s]*£\s*([\d,]+)\s*[-–]\s*£?\s*([\d,]+)",
-        page_text,
+    # --- Extract estimate from page source JSON data ---
+    # The page embeds per-lot estimates as dEstimateLow / dEstimateHigh in
+    # the main lot JavaScript object.  The "highlights" carousel also
+    # contains estimate data for OTHER lots, so we must target the main
+    # lot object specifically.  The main lot object has the pattern:
+    #   "brand":"bonhams","dEstimateHigh":NNN,"dEstimateLow":NNN
+    # We use "brand" as an anchor to avoid matching highlights entries.
+    est_main = re.search(
+        r'"brand"\s*:\s*"[^"]*"\s*,\s*"dEstimateHigh"\s*:\s*(\d+(?:\.\d+)?)'
+        r'\s*,\s*"dEstimateLow"\s*:\s*(\d+(?:\.\d+)?)',
+        page_source,
     )
-    if est_match:
-        result["estimate_low_gbp"] = _parse_gbp_amount(est_match.group(1))
-        result["estimate_high_gbp"] = _parse_gbp_amount(est_match.group(2))
+    if est_main:
+        result["estimate_high_gbp"] = float(est_main.group(1))
+        result["estimate_low_gbp"] = float(est_main.group(2))
     else:
-        # Try broader pattern without "Estimate" label
-        est_match = re.search(
-            r"£\s*([\d,]+)\s*[-–]\s*£\s*([\d,]+)",
-            page_text,
+        # Fallback: look for the lot-specific object using iSaleLotNo anchor
+        est_lot = re.search(
+            r'"iSaleLotNo"\s*:\s*' + str(lot_number)
+            + r'\b.*?"dEstimateHigh"\s*:\s*(\d+(?:\.\d+)?)'
+            + r'\s*,\s*"dEstimateLow"\s*:\s*(\d+(?:\.\d+)?)',
+            page_source,
         )
-        if est_match:
-            result["estimate_low_gbp"] = _parse_gbp_amount(est_match.group(1))
-            result["estimate_high_gbp"] = _parse_gbp_amount(est_match.group(2))
+        if est_lot:
+            result["estimate_high_gbp"] = float(est_lot.group(1))
+            result["estimate_low_gbp"] = float(est_lot.group(2))
+        else:
+            # Final fallback: try visible page text with "Estimate" label
+            est_match = re.search(
+                r"[Ee]stimate[:\s]*£\s*([\d,]+)\s*[-–]\s*£?\s*([\d,]+)",
+                page_text,
+            )
+            if est_match:
+                result["estimate_low_gbp"] = _parse_gbp_amount(est_match.group(1))
+                result["estimate_high_gbp"] = _parse_gbp_amount(est_match.group(2))
 
     # --- Hammer price from page text ---
     hammer_match = re.search(
