@@ -81,6 +81,15 @@ def compute_artist_rolling_features(df: pd.DataFrame) -> pd.DataFrame:
         "artist_years_in_market": [],
         "artist_days_since_last_sale": [],
         "artist_desirability_score": [],
+        # New time-series features
+        "artist_recent_avg_price": [],       # avg of last 5 sales
+        "artist_recent_median_price": [],    # median of last 5 sales
+        "artist_recent_max_price": [],       # max of last 5 sales
+        "artist_momentum": [],               # recent avg / all-time avg (>1 = trending up)
+        "artist_price_velocity": [],         # slope of last 10 sales (log scale)
+        "artist_price_per_cm2": [],          # avg price per sq cm (rolling)
+        "artist_recent_lots_12m": [],        # lots sold in last 12 months (supply heat)
+        "artist_premium_trend": [],          # avg (hammer/estimate) over last 10 sales
     }
 
     # Group by artist, iterate chronologically
@@ -92,6 +101,8 @@ def compute_artist_rolling_features(df: pd.DataFrame) -> pd.DataFrame:
         estimate_ratios = []
         first_date = None
         last_sold_date = None
+        dates_so_far = []
+        prices_per_cm2 = []
 
         for idx, row in group.iterrows():
             if first_date is None:
@@ -165,12 +176,69 @@ def compute_artist_rolling_features(df: pd.DataFrame) -> pd.DataFrame:
                 else:
                     artist_features["artist_desirability_score"].append(np.nan)
 
+            # --- New time-series features ---
+            if total_count == 0:
+                for key in ["artist_recent_avg_price", "artist_recent_median_price",
+                            "artist_recent_max_price", "artist_momentum",
+                            "artist_price_velocity", "artist_price_per_cm2",
+                            "artist_recent_lots_12m", "artist_premium_trend"]:
+                    artist_features[key].append(np.nan)
+            else:
+                # Recent prices (last 5 sales)
+                recent_5 = prices_so_far[-5:] if prices_so_far else []
+                if recent_5:
+                    artist_features["artist_recent_avg_price"].append(np.mean(recent_5))
+                    artist_features["artist_recent_median_price"].append(np.median(recent_5))
+                    artist_features["artist_recent_max_price"].append(max(recent_5))
+                    # Momentum: recent avg / all-time avg (>1 = prices rising)
+                    all_avg = np.mean(prices_so_far) if prices_so_far else 1
+                    artist_features["artist_momentum"].append(np.mean(recent_5) / all_avg if all_avg > 0 else 1.0)
+                else:
+                    for key in ["artist_recent_avg_price", "artist_recent_median_price",
+                                "artist_recent_max_price", "artist_momentum"]:
+                        artist_features[key].append(np.nan)
+
+                # Price velocity: slope of last 10 sales (log scale)
+                recent_10 = prices_so_far[-10:] if prices_so_far else []
+                if len(recent_10) >= 3:
+                    log_p = np.log(np.array(recent_10) + 1)
+                    x = np.arange(len(log_p))
+                    slope = np.polyfit(x, log_p, 1)[0]
+                    artist_features["artist_price_velocity"].append(slope)
+                else:
+                    artist_features["artist_price_velocity"].append(np.nan)
+
+                # Price per sq cm (rolling average)
+                if prices_per_cm2:
+                    artist_features["artist_price_per_cm2"].append(np.median(prices_per_cm2))
+                else:
+                    artist_features["artist_price_per_cm2"].append(np.nan)
+
+                # Lots in last 12 months (supply heat)
+                if dates_so_far and pd.notna(row["auction_date"]):
+                    cutoff = row["auction_date"] - pd.DateOffset(months=12)
+                    recent_count = sum(1 for d in dates_so_far if pd.notna(d) and d >= cutoff)
+                    artist_features["artist_recent_lots_12m"].append(recent_count)
+                else:
+                    artist_features["artist_recent_lots_12m"].append(0)
+
+                # Premium trend: avg(hammer/estimate_mid) for last 10 sales
+                recent_ratios = estimate_ratios[-10:] if estimate_ratios else []
+                if recent_ratios:
+                    artist_features["artist_premium_trend"].append(np.mean(recent_ratios))
+                else:
+                    artist_features["artist_premium_trend"].append(np.nan)
+
             # Update running stats with THIS lot's data (for next lot)
             total_count += 1
             if row["is_sold"] and pd.notna(row["hammer_price_usd"]) and row["hammer_price_usd"] > 0:
                 sold_count += 1
                 prices_so_far.append(row["hammer_price_usd"])
                 last_sold_date = row["auction_date"]
+                dates_so_far.append(row["auction_date"])
+                # Track price per sq cm
+                if pd.notna(row.get("surface_area_cm2")) and row["surface_area_cm2"] > 0:
+                    prices_per_cm2.append(row["hammer_price_usd"] / row["surface_area_cm2"])
 
                 # Estimate accuracy: hammer / estimate_midpoint
                 est_mid = None
@@ -343,6 +411,15 @@ def create_ml_ready(df: pd.DataFrame) -> pd.DataFrame:
         "auction_year",
         # Market
         "market_index",
+        # Time-series / momentum features
+        "artist_recent_avg_price",
+        "artist_recent_median_price",
+        "artist_recent_max_price",
+        "artist_momentum",
+        "artist_price_velocity",
+        "artist_price_per_cm2",
+        "artist_recent_lots_12m",
+        "artist_premium_trend",
         # Image features (from CLIP + color analysis)
         "color_richness",
         "brightness",
