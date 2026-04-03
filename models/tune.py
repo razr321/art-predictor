@@ -33,7 +33,7 @@ ML_READY_FILE = DATA_PROCESSED / "ml_ready.csv"
 def load_data():
     """Same chronological split as train.py."""
     df = pd.read_csv(ML_READY_FILE)
-    df["auction_date"] = pd.to_datetime(df["auction_date"])
+    df["auction_date"] = pd.to_datetime(df["auction_date"], errors="coerce", format="mixed", utc=True).dt.tz_localize(None)
     df = df.sort_values("auction_date").reset_index(drop=True)
 
     target_col = "log_hammer_price"

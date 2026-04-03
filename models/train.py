@@ -58,7 +58,7 @@ XGB_PARAMS = {
 def load_data():
     """Load ML-ready data and split chronologically."""
     df = pd.read_csv(ML_READY_FILE)
-    df["auction_date"] = pd.to_datetime(df["auction_date"])
+    df["auction_date"] = pd.to_datetime(df["auction_date"], errors="coerce", format="mixed", utc=True).dt.tz_localize(None)
     df = df.sort_values("auction_date").reset_index(drop=True)
 
     logger.info(f"Loaded {len(df)} rows")

@@ -384,89 +384,126 @@ def compute_lot_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def compute_comparable_sales(df: pd.DataFrame) -> pd.DataFrame:
-    """For each lot, find the most similar prior sale by the same artist.
+    """For each lot, find similar prior sales by the same artist and compute
+    weighted comp features.
 
-    This mimics what appraisers do: 'a similar Souza oil, 60x45cm, sold for $X.'
-    Uses only PRIOR data to avoid leakage.
+    Uses top-5 comps with distance-weighted average, heavy recency weighting,
+    size-adjusted prices, and separate same-medium track.
     """
     logger.info("Computing comparable sales features...")
 
     df = df.sort_values("auction_date").reset_index(drop=True)
 
-    comp_price = np.full(len(df), np.nan)
-    comp_ratio = np.full(len(df), np.nan)  # current estimate / comp price
+    N_COMPS = 5  # use top-5 comparable sales
+    comp_price_weighted = np.full(len(df), np.nan)
+    comp_price_best = np.full(len(df), np.nan)
+    comp_price_same_medium = np.full(len(df), np.nan)
+    comp_price_size_adj = np.full(len(df), np.nan)
     comp_recency_days = np.full(len(df), np.nan)
+    comp_count = np.full(len(df), 0.0)
+    comp_spread = np.full(len(df), np.nan)  # std of comp prices (uncertainty)
 
-    # Group by artist for efficiency
     for artist, group in df.groupby("artist_name_clean"):
         group = group.sort_values("auction_date")
         idxs = group.index.tolist()
-
-        # Track prior sold lots for this artist
-        prior_sold = []  # list of (idx, price, area, year_created, date, medium)
+        prior_sold = []  # (price, area, year_created, date, medium, price_per_cm2)
 
         for pos, idx in enumerate(idxs):
             row = df.loc[idx]
+            current_area = row.get("surface_area_cm2")
+            current_year = row.get("year_created")
+            current_medium = row.get("medium_category", "")
+            current_date = row.get("auction_date")
 
             if prior_sold:
-                # Find best comparable: minimize distance in (size, year, medium)
-                current_area = row.get("surface_area_cm2")
-                current_year = row.get("year_created")
-                current_medium = row.get("medium_category", "")
-                current_date = row.get("auction_date")
+                scored = []
+                for p in prior_sold:
+                    p_price, p_area, p_year, p_date, p_medium, p_ppcm2 = p
 
-                best_score = float("inf")
-                best_price = None
-                best_date = None
+                    # Compute similarity score (lower = more similar)
+                    sim = 0.0
 
-                for p_idx, p_price, p_area, p_year, p_date, p_medium in prior_sold:
-                    score = 0
-                    # Size similarity (log ratio, lower = more similar)
+                    # Size similarity (log ratio) — most important
                     if pd.notna(current_area) and pd.notna(p_area) and p_area > 0 and current_area > 0:
-                        score += abs(np.log(current_area / p_area)) * 2
+                        sim += abs(np.log(current_area / p_area)) * 3
                     else:
-                        score += 2  # penalty for missing size
+                        sim += 3
 
                     # Year similarity
                     if pd.notna(current_year) and pd.notna(p_year):
-                        score += abs(current_year - p_year) / 10
+                        sim += abs(current_year - p_year) / 8
                     else:
-                        score += 1
+                        sim += 1.5
 
-                    # Medium match bonus
-                    if current_medium and p_medium and current_medium == p_medium:
-                        score -= 0.5  # bonus for same medium
+                    # Medium match — strong bonus
+                    medium_match = (current_medium and p_medium and current_medium == p_medium)
+                    if medium_match:
+                        sim -= 1.0
 
-                    # Recency bonus (prefer recent comps)
+                    # Recency — heavy weighting (recent comps much more valuable)
                     if pd.notna(current_date) and pd.notna(p_date):
-                        days_ago = (current_date - p_date).days
-                        score += days_ago / 3650  # slight penalty for old comps
+                        days_ago = max((current_date - p_date).days, 1)
+                        sim += np.log1p(days_ago / 365) * 1.5  # log decay
+                    else:
+                        sim += 3
 
-                    if score < best_score:
-                        best_score = score
-                        best_price = p_price
-                        best_date = p_date
+                    scored.append((sim, p_price, p_area, p_date, medium_match, p_ppcm2))
 
-                if best_price is not None:
-                    comp_price[idx] = best_price
+                scored.sort(key=lambda x: x[0])
+                top_n = scored[:N_COMPS]
+
+                if top_n:
+                    # Distance-weighted average (inverse distance weighting)
+                    scores = np.array([s[0] for s in top_n])
+                    prices = np.array([s[1] for s in top_n])
+                    weights = 1.0 / (scores + 0.1)  # avoid div by zero
+                    weights /= weights.sum()
+
+                    comp_price_weighted[idx] = np.dot(weights, prices)
+                    comp_price_best[idx] = top_n[0][1]
+                    comp_count[idx] = len(top_n)
+
+                    if len(prices) > 1:
+                        comp_spread[idx] = np.std(np.log1p(prices))
+
+                    # Best comp date for recency
+                    best_date = top_n[0][3]
                     if pd.notna(current_date) and pd.notna(best_date):
                         comp_recency_days[idx] = (current_date - best_date).days
 
-            # Add this lot to prior sold if it sold
+                    # Same-medium comp (best comp that matches medium)
+                    same_med = [s for s in top_n if s[4]]
+                    if same_med:
+                        comp_price_same_medium[idx] = same_med[0][1]
+
+                    # Size-adjusted comp: use best comp's price/cm² × current area
+                    best_ppcm2 = top_n[0][5]
+                    if pd.notna(best_ppcm2) and pd.notna(current_area) and current_area > 0:
+                        comp_price_size_adj[idx] = best_ppcm2 * current_area
+
+            # Add to priors
             if row.get("is_sold") and pd.notna(row.get("hammer_price_usd")) and row["hammer_price_usd"] > 0:
+                ppcm2 = None
+                if pd.notna(current_area) and current_area > 0:
+                    ppcm2 = row["hammer_price_usd"] / current_area
                 prior_sold.append((
-                    idx, row["hammer_price_usd"],
-                    row.get("surface_area_cm2"),
-                    row.get("year_created"),
-                    row.get("auction_date"),
-                    row.get("medium_category", ""),
+                    row["hammer_price_usd"], current_area, current_year,
+                    current_date, current_medium, ppcm2,
                 ))
 
-    df["comp_price"] = comp_price
-    df["log_comp_price"] = np.log1p(comp_price)
+    df["comp_price"] = comp_price_weighted
+    df["comp_price_best"] = comp_price_best
+    df["comp_price_same_medium"] = comp_price_same_medium
+    df["comp_price_size_adj"] = comp_price_size_adj
+    df["log_comp_price"] = np.log1p(comp_price_weighted)
+    df["log_comp_best"] = np.log1p(comp_price_best)
+    df["log_comp_same_med"] = np.log1p(comp_price_same_medium)
+    df["log_comp_size_adj"] = np.log1p(comp_price_size_adj)
     df["comp_recency_days"] = comp_recency_days
+    df["comp_count"] = comp_count
+    df["comp_spread"] = comp_spread
 
-    n_with_comp = np.isfinite(comp_price).sum()
+    n_with_comp = np.isfinite(comp_price_weighted).sum()
     logger.info(f"  Done: comparable sales ({n_with_comp}/{len(df)} lots have comps)")
     return df
 
@@ -582,10 +619,18 @@ def create_ml_ready(df: pd.DataFrame) -> pd.DataFrame:
         "auction_house_prestige",
         "provenance_quality",
         "artist_rarity",
-        # Comparable sales
+        # Comparable sales (weighted top-5)
         "comp_price",
+        "comp_price_best",
+        "comp_price_same_medium",
+        "comp_price_size_adj",
         "log_comp_price",
+        "log_comp_best",
+        "log_comp_same_med",
+        "log_comp_size_adj",
         "comp_recency_days",
+        "comp_count",
+        "comp_spread",
         # Image features (from CLIP + color analysis)
         "color_richness",
         "brightness",
